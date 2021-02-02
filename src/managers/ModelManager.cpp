@@ -1,29 +1,27 @@
 #include "ModelManager.h"
-#include "../models/Model.cpp"
-#include <map>
 
-class ModelManager {
-    private:
-    static ModelManager* _instance;
-    std::map<int, std::vector<Model>> _models;
-    glm::vec3 _zoom;
 
-    ModelManager() {
-        _zoom = glm::vec3(1, 1, 1);
+namespace Project {
+ModelManager::ModelManager() {
+    _zoom = glm::vec3(1, 1, 1);
+}
+
+void ModelManager::addModel(int id, Model model) {
+    auto search = _models.find(id);
+    if (search == _models.end()) {
+        auto it = _models.begin();
+        _models.insert(it, std::pair<int, std::vector<Model>>(id, std::vector<Model>()));
     }
+    
+    auto list = search->second;
+    list.insert(list.end(), model);
+}
 
-    public:
-    static ModelManager* getInstance() {
-        if (!_instance)
-            _instance = new ModelManager();
-        return _instance;
-    }
+std::vector<Model> ModelManager::getModels(int id) {
+    return _models.at(id);
+}
 
-    std::vector<Model> ModelManager::getModels(int id) {
-        return _models.at(id);
-    }
-
-    glm::vec3 ModelManager::getZoom() {
-        return _zoom;
-    }
-};
+glm::vec3 ModelManager::getZoom() {
+    return _zoom;
+}
+}

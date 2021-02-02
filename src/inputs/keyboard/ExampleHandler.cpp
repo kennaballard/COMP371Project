@@ -1,5 +1,6 @@
-#include "../InputHandler.cpp"
+#include "../InputHandler.h"
 
+namespace Project {
 /**
  * This handles the keyboard key Example.
  * This code will be executed whenever the key is pressed.
@@ -13,3 +14,4 @@ class ExampleHandler : public InputHandler {
         // Move camera, rotate camera, etc.
     }
 };
+}

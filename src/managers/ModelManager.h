@@ -1,5 +1,10 @@
-#include "../models/Model.h"
+#ifndef ModelManagerH
+#define ModelManagerH
 
+#include "../models/Model.h"
+#include <map>
+
+namespace Project {
 /**
  * Stores & manages models to use throughout the codebase.
  * This will also return a list of models, sorted in ascending
@@ -10,7 +15,12 @@
  * but due to the size of the project this will be a singleton.
  **/
 class ModelManager {
+    private:
+    std::map<int, std::vector<Model>> _models;
+    glm::vec3 _zoom;
+
     public:
+    ModelManager();
     /**
      * Adds a model to store to the manager.
      * 
@@ -31,3 +41,5 @@ class ModelManager {
      **/
     glm::vec3 getZoom();
 };
+}
+#endif

@@ -1,3 +1,7 @@
+#ifndef InputHandlerH
+#define InputHandlerH
+
+namespace Project {
 class InputHandler {
     public:
     /**
@@ -9,3 +13,5 @@ class InputHandler {
      **/
     virtual void handle();
 };
+}
+#endif
