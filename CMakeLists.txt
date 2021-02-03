@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.10)
 
 project(Lab_1)
 
@@ -21,11 +21,14 @@ include(BuildGLM)
 # lab01
 set(EXEC lab01)
 
-file(GLOB SRC src/*.cpp)
+set(SRC src/*.cpp)
+set(SRC src/lab01.cpp)
 
 add_executable(${EXEC} ${SRC})
 
 target_link_libraries(${EXEC} OpenGL::GL GLEW glfw glm)
+
+target_include_directories(${EXEC} PUBLIC include)
 
 list(APPEND BIN ${EXEC})
 # end lab01

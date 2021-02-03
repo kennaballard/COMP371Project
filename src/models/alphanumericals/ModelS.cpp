@@ -1,6 +1,5 @@
 #include "../Model.cpp"
 
-namespace Project {
 /**
  * This model is for the letter S.
  * 
@@ -25,4 +24,3 @@ class ModelS : public Model {
         return -1;
     }
 };
-}

@@ -1,9 +1,3 @@
-#ifndef InputManagerH
-#define InputManagerH
-#include "../inputs/InputHandler.h"
-#include <map>
-
-namespace Project {
 /**
  * This handles keyboard and mouse inputs. Any other user input
  * will also be handled through if ever needed.
@@ -16,13 +10,9 @@ namespace Project {
  **/
 class InputManager {
     private:
-    std::map<int, InputHandler> _keyboard;
-    std::map<int, InputHandler> _mouse;
+    InputManager();
 
     public:
-    InputManager();
     void handleKeyboard(int keyCode);
     void handleMouse(int mouseCode);
 };
-}
-#endif
