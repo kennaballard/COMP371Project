@@ -4,7 +4,7 @@
 
 namespace Project {
     /**
-     * Models each have their own shader program and vertex buffer object.
+     * Models each have their own shader program and buffer object.
      * While that is slower than placing them all together, it facilitates
      * drawing several objects that have no relation to each other.
      **/

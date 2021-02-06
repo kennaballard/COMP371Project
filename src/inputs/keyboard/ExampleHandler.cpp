@@ -1,4 +1,4 @@
-#include "../InputHandler.h"
+#include "../InputHandler.cpp"
 
 /**
  * This handles the keyboard key Example.
