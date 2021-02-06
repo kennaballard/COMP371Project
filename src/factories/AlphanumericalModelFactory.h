@@ -1,8 +1,6 @@
-#ifndef AlphanumericalModelFactory
-#ifndef ModelH
-#define AlphanumericalModelFactory
-#include <string>
+#pragma once
 #include "../models/Model.h"
+#include <string>
 
 namespace Project {
     /**
@@ -17,10 +15,7 @@ namespace Project {
     class AlphanumbericalModelFactory {
         public:
         AlphanumbericalModelFactory();
-        Model* createModelFor(char ch);
+        Model* createModelFor(char ch, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
         Model* createModelFor(std::string chars);
     };
 }
-
-#endif
-#endif

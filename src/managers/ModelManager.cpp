@@ -1,27 +1,24 @@
 #include "ModelManager.h"
 
 
-namespace Project {
-ModelManager::ModelManager() {
+Project::ModelManager::ModelManager() {
     _zoom = glm::vec3(1, 1, 1);
 }
 
-void ModelManager::addModel(int id, Model model) {
+void Project::ModelManager::addModel(int id, Project::Model* model) {
     auto search = _models.find(id);
     if (search == _models.end()) {
-        auto it = _models.begin();
-        _models.insert(it, std::pair<int, std::vector<Model>>(id, std::vector<Model>()));
+        search = _models.insert(std::make_pair(id, std::vector<Project::Model*>())).first;
     }
     
     auto list = search->second;
-    list.insert(list.end(), model);
+    list.insert(list.begin(), model);
 }
 
-std::vector<Model> ModelManager::getModels(int id) {
+std::vector<Project::Model*> Project::ModelManager::getModels(int id) {
     return _models.at(id);
 }
 
-glm::vec3 ModelManager::getZoom() {
+glm::vec3 Project::ModelManager::getZoom() {
     return _zoom;
-}
 }
