@@ -1,4 +1,6 @@
 build/*
+out/build/*
 .vscode/*
+.vs/*
 dist/*
 SELFNOTES.md
