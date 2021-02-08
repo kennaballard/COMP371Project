@@ -7,7 +7,7 @@
  * drawing several objects that have no relation to each other.
  * 
  * Models have child models that will be drawn after the parent model
- * is drawn. Children will keep the .. of the parent model.
+ * is drawn. Children will keep the transformations of the parent model.
  **/
 
 Project::Model::Model(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
@@ -16,20 +16,32 @@ Project::Model::Model(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
     _scale = scale;
 }
 
-void Project::Model::Draw(DrawContext context) {
-    // TODO: scale (+zoom), translate, rotate
+void Project::Model::draw(DrawContext context) {
+    // TODO: apply scale, translate, rotate here
     int shaderProgram = getShaderProgram();
     int vbo = getVertexBufferObject();
     glUseProgram(shaderProgram);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    DrawModel(context);
+    drawModel(context);
 
+    context.push(_position, _rotation, _scale);
     for (Project::Model* child : _children) {
-        (*child).Draw(context);
+        //(*child).update(context);
+        (*child).draw(context);
     }
-    // TODO: undo scale (+zoom), rotate, translate
+    Project::TransformationContext transformations = context.pop();
+    // TODO: undo scale (+zoom), rotate, translate.
+    // Data in variable transformations.
 }
 
-void Project::Model::SetScaling(glm::vec3 scale) {
-    _scale = scale;
+void Project::Model::rotate(glm::vec3 rotation) {
+    _rotation += rotation;
+}
+
+void Project::Model::scale(glm::vec3 scale) {
+    _scale *= scale;
+}
+
+void Project::Model::translate(glm::vec3 translation) {
+    _position += translation;
 }

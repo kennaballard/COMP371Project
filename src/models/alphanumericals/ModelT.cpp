@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Model.h"
+#include "Model.cpp"
 
 /**
  * Models each have their own shader program and vertex buffer object.
@@ -19,8 +19,12 @@ class ModelT : public Project::Model {
      * Draws the model with the assumption that the scale is 1:1
      * and the model is "standing" (parallel to the Y-axis).
      **/
-    void DrawModel(Project::DrawContext context) {
+    void drawModel(Project::DrawContext context) {
         glDrawArrays(GL_TRIANGLES, 0, 3);
+    }
+
+    void updateModel(Project::DrawContext context) {
+
     }
 
     public:
@@ -125,7 +129,8 @@ class ModelT : public Project::Model {
     private:
     const char* Model::getVertexShaderSource()
     {
-        // TODO - Read from a .glsl file instead.
+        // TODO: Read from a .glsl file instead.
+        // TODO: Lazy load it into a class variable
         return
         "#version 330 core\n"
         "layout (location = 0) in vec3 aPos;"
@@ -142,6 +147,7 @@ class ModelT : public Project::Model {
     const char* Model::getFragmentShaderSource()
     {
         // TODO - Read from a .glsl file instead.
+        // TODO: Lazy load it into a class variable
         return
         "#version 330 core\n"
         "in vec3 vertexColor;"

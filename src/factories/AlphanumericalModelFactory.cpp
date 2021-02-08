@@ -20,8 +20,6 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
         case 'T':
             return new ModelT(position, rotation, scale);
     }
-    //return new ModelS();
-
     return NULL;
 }
 

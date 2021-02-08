@@ -54,8 +54,6 @@ int main(int argc, char*argv[])
     auto manager = Project::ModelManager();
     Project::AlphanumbericalModelFactory factory = Project::AlphanumbericalModelFactory();
     manager.addModel(0, factory.createModelFor('T'));
-    auto m = factory.createModelFor('T');
-    //manager.addModel(0, factory.createModelFor('S'));
 
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -68,12 +66,11 @@ int main(int argc, char*argv[])
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Keep track of models to draw.
-        std::vector<Project::Model*> models = manager.getModels(0);
+        std::vector<Project::Model*> models = manager.getModels(context.getModelId());
         for (Project::Model *model : models) {
-            (*model).Draw(context);
+            //(*model).update(context);
+            (*model).draw(context);
         }
-
-        (*m).Draw(context);
 
         // End frame
         glfwSwapBuffers(window);
@@ -87,6 +84,5 @@ int main(int argc, char*argv[])
     
     // Shutdown GLFW
     glfwTerminate();
-    
 	return 0;
 }
