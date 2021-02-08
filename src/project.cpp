@@ -11,16 +11,10 @@ GLFWwindow* setup() {
     // Initialize GLFW and OpenGL version
     glfwInit();
 
-#if defined(PLATFORM_OSX)	
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2); 
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#else
-	// On windows, we set OpenGL version to 2.1, to support more hardware
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-#endif
 
     // Create a 1024x768 window and the rendering context using GLFW.
     GLFWwindow* window = glfwCreateWindow(1024, 768, TITLE, NULL, NULL);
@@ -53,9 +47,15 @@ int main(int argc, char*argv[])
     // Load needed services beforehand.
     auto manager = Project::ModelManager();
     Project::AlphanumbericalModelFactory factory = Project::AlphanumbericalModelFactory();
-    manager.addModel(0, factory.createModelFor('T'));
-    auto m = factory.createModelFor('T');
+   /* manager.addModel(0, factory.createModelFor('T'));
+    auto m = factory.createModelFor('T');*/
     //manager.addModel(0, factory.createModelFor('S'));
+
+    // Kennedy model
+  /*  manager.addModel(0, factory.createModelFor('K'));
+    auto m = factory.createModelFor('K');*/
+    manager.addModel(0, factory.createModelFor('Y'));
+    auto m = factory.createModelFor('Y'); 
 
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -65,7 +65,7 @@ int main(int argc, char*argv[])
     while(!glfwWindowShouldClose(window))
     {
         // Each frame, reset color of each pixel to glClearColor
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
         // Keep track of models to draw.
         std::vector<Project::Model*> models = manager.getModels(0);

@@ -1,6 +1,8 @@
 #include "AlphanumericalModelFactory.h"
 //#include "../models/alphanumericals/ModelS.cpp"
 #include "../models/alphanumericals/ModelT.cpp"
+#include "../models/alphanumericals/ModelK.cpp"
+#include "../models/alphanumericals/ModelY.cpp"
 
 /**
  * This creates models based on input. This currently does not support
@@ -19,6 +21,10 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
             return new ModelS();*/
         case 'T':
             return new ModelT(position, rotation, scale);
+        case 'K':
+            return new ModelK(position, rotation, scale);
+        case 'Y':
+            return new ModelY(position, rotation, scale);
     }
     //return new ModelS();
 
