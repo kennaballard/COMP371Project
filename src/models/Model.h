@@ -47,10 +47,24 @@ namespace Project {
         virtual int getVertexBufferObject()=0;
 
         /**
+         * Add a child to the model
+         **/
+        void addChild(Model* model);
+
+        /**
+         * Get the current position.
+         **/
+        glm::vec3 getPosition();
+
+        /**
          * Sets the scaling for each of its corresponding axis.
          **/
         void SetScaling(glm::vec3 scale);
 
+        /**
+         * Gets the current scale factor
+         **/
+        glm::vec3 getScale();
         private:
         virtual const char* Model::getVertexShaderSource()=0;
         virtual const char* Model::getFragmentShaderSource()=0;

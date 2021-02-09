@@ -16,6 +16,6 @@ namespace Project {
         public:
         AlphanumbericalModelFactory();
         Model* createModelFor(char ch, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
-        Model* createModelFor(std::string chars);
+        Model* createModelFor(std::string chars, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
     };
 }

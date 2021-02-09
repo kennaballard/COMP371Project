@@ -10,6 +10,11 @@
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "../models/alphanumericals/Model0.cpp"
+#include "../models/alphanumericals/Model4.cpp"
+#include "../models/alphanumericals/ModelK.cpp"
+#include "../models/alphanumericals/ModelY.cpp"
+
 /**
  * Models each have their own shader program and vertex buffer object.
  * While that is slower than placing them all together, it facilitates
@@ -18,9 +23,20 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class ModelK : public Project::Model {
+class ModelKennedy : public Project::Model {
 public:
-    ModelK(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) { }
+    ModelKennedy(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+        glm::vec3 posK = glm::vec3(-12.0f, 0, 0);
+        glm::vec3 posY = glm::vec3(-4.0f, 0, 0);
+        glm::vec3 pos4 = glm::vec3(4.0f, 0, 0);
+        glm::vec3 pos0 = glm::vec3(12.0f, 0, 0);
+
+        glm::vec3 quarterScale = glm::vec3(0.25f, 0.25f, 0.25f);
+        addChild(new ModelK(posK, rotation, scale * quarterScale));
+        addChild(new ModelY(position+posY, rotation, scale * quarterScale));
+        addChild(new Model4(position+pos4, rotation, scale * quarterScale));
+        addChild(new Model0(position+pos0, rotation, scale * quarterScale));
+    }
 
 protected:
     /**
@@ -28,42 +44,7 @@ protected:
      * and the model is "standing" (parallel to the Y-axis).
      **/
      // Stretches cube into a rectangle given params
-    void transformCube(int shader, GLfloat posX, GLfloat posY, GLfloat widthScale, GLfloat heightScale, GLfloat depthScale) {
-
-        GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
-
-        glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(widthScale, heightScale, depthScale));
-        glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(posX, posY, 0.0f));
-
-        glm::mat4 worldMatrix = scalingMatrix * translationMatrix;
-
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-    }
-
-    void DrawModel(Project::DrawContext context) {
-        GLfloat defaultSize = 0.125f;
-        int shader = getShaderProgram();
-        glm::vec3 position = getPosition();
-        glm::vec3 scale = getScale();
-
-        // Back
-        transformCube(shader, -2.0f + position.x, position.y, defaultSize*scale.x, 1.0f*scale.y, defaultSize*scale.z);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
-
-        // Bridge
-        transformCube(shader, position.x, position.y, defaultSize*scale.x, defaultSize*scale.y, defaultSize*scale.z);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
-
-        GLfloat tailHeight = (1 - defaultSize) / 2;
-        // Upper tail
-        transformCube(shader, 2.0f + position.x, 1 + (defaultSize / tailHeight) + position.y, defaultSize*scale.x, tailHeight*scale.y, defaultSize*scale.z);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
-
-        // Lower tail
-        transformCube(shader, 2.0f + position.x, -(1 + (defaultSize / tailHeight)) + position.y, defaultSize*scale.x, tailHeight*scale.y, defaultSize*scale.z);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
-    }
-
+    void DrawModel(Project::DrawContext context) {}
 public:
     /**
      * Returns the fully compiled shader program for this model.
@@ -200,15 +181,15 @@ public:
             (void*)sizeof(glm::vec3)      // color is offseted a vec3 (comes after position)
         );
         glEnableVertexAttribArray(1);
-       
-     /*   glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-*/
+
+        /*   glBindBuffer(GL_ARRAY_BUFFER, 0);
+           glBindVertexArray(0);
+   */
 
         return vertexBufferObject;
     }
 
- private:
+private:
     const char* Model::getVertexShaderSource()
     {
         // TODO - Read from a .glsl file instead.

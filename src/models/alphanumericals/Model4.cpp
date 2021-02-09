@@ -18,9 +18,9 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class ModelK : public Project::Model {
+class Model4 : public Project::Model {
 public:
-    ModelK(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) { }
+    Model4(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) { }
 
 protected:
     /**
@@ -47,20 +47,16 @@ protected:
         glm::vec3 scale = getScale();
 
         // Back
-        transformCube(shader, -2.0f + position.x, position.y, defaultSize*scale.x, 1.0f*scale.y, defaultSize*scale.z);
+        transformCube(shader, 2.0f + position.x, position.y, defaultSize*scale.x, 1.0f * scale.y, defaultSize * scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        // Bridge
-        transformCube(shader, position.x, position.y, defaultSize*scale.x, defaultSize*scale.y, defaultSize*scale.z);
+        GLfloat edgeHeight = 0.5f + (defaultSize/2);
+        // Edge
+        transformCube(shader, -2.0f + position.x, 1.0f - (defaultSize / edgeHeight) + position.y, defaultSize * scale.x, edgeHeight * scale.y, defaultSize * scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        GLfloat tailHeight = (1 - defaultSize) / 2;
-        // Upper tail
-        transformCube(shader, 2.0f + position.x, 1 + (defaultSize / tailHeight) + position.y, defaultSize*scale.x, tailHeight*scale.y, defaultSize*scale.z);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
-
-        // Lower tail
-        transformCube(shader, 2.0f + position.x, -(1 + (defaultSize / tailHeight)) + position.y, defaultSize*scale.x, tailHeight*scale.y, defaultSize*scale.z);
+        // Center
+        transformCube(shader, position.x, position.y, defaultSize*scale.x, defaultSize * scale.y, defaultSize * scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }
 
@@ -200,15 +196,15 @@ public:
             (void*)sizeof(glm::vec3)      // color is offseted a vec3 (comes after position)
         );
         glEnableVertexAttribArray(1);
-       
-     /*   glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-*/
+
+        /*   glBindBuffer(GL_ARRAY_BUFFER, 0);
+           glBindVertexArray(0);
+   */
 
         return vertexBufferObject;
     }
 
- private:
+private:
     const char* Model::getVertexShaderSource()
     {
         // TODO - Read from a .glsl file instead.

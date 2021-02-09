@@ -1,8 +1,12 @@
 #include "AlphanumericalModelFactory.h"
 //#include "../models/alphanumericals/ModelS.cpp"
-#include "../models/alphanumericals/ModelT.cpp"
+#include "../models/alphanumericals/Model0.cpp"
+#include "../models/alphanumericals/Model4.cpp"
 #include "../models/alphanumericals/ModelK.cpp"
+#include "../models/alphanumericals/ModelT.cpp"
 #include "../models/alphanumericals/ModelY.cpp"
+
+#include "../models/alphanumericals/ModelKennedy.cpp"
 
 /**
  * This creates models based on input. This currently does not support
@@ -19,10 +23,14 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
     switch (ch) {
         /*case 'S':
             return new ModelS();*/
-        case 'T':
-            return new ModelT(position, rotation, scale);
+        case '0': 
+            return new Model0(position, rotation, scale);
+        case '4':
+            return new Model4(position, rotation, scale);
         case 'K':
             return new ModelK(position, rotation, scale);
+        case 'T':
+            return new ModelT(position, rotation, scale);
         case 'Y':
             return new ModelY(position, rotation, scale);
     }
@@ -31,10 +39,13 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
     return NULL;
 }
 
-Project::Model* Project::AlphanumbericalModelFactory::createModelFor(std::string chars) {
+Project::Model* Project::AlphanumbericalModelFactory::createModelFor(std::string chars, glm::vec3 position = glm::vec3(0, 0, 0), glm::vec3 rotation = glm::vec3(0, 0, 0), glm::vec3 scale = glm::vec3(1, 1, 1)) {
     // TODO: generalize the 2-letter 2-digit model?
     if (chars == "ts47") {
         // return model with TS47
+    }
+    if (chars == "ky40") {
+        return new ModelKennedy(position, rotation, scale);
     }
     return NULL;
 }

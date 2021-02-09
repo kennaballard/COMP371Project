@@ -52,10 +52,14 @@ int main(int argc, char*argv[])
     //manager.addModel(0, factory.createModelFor('S'));
 
     // Kennedy model
-  /*  manager.addModel(0, factory.createModelFor('K'));
-    auto m = factory.createModelFor('K');*/
-    manager.addModel(0, factory.createModelFor('Y'));
-    auto m = factory.createModelFor('Y'); 
+    manager.addModel(0, factory.createModelFor("ky40"));
+    auto a = factory.createModelFor("ky40");
+   /* manager.addModel(0, factory.createModelFor('Y'));
+    auto b = factory.createModelFor('Y');
+    manager.addModel(0, factory.createModelFor('4'));
+    auto c = factory.createModelFor('4'); 
+    manager.addModel(0, factory.createModelFor('0'));
+    auto d = factory.createModelFor('0');*/
 
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -70,10 +74,14 @@ int main(int argc, char*argv[])
         // Keep track of models to draw.
         std::vector<Project::Model*> models = manager.getModels(0);
         for (Project::Model *model : models) {
+            std::cout << "INNNNNNNNNNNNNNNNNNt\n" << std::endl;
             (*model).Draw(context);
         }
 
-        (*m).Draw(context);
+        (*a).Draw(context);
+        /*(*b).Draw(context);
+        (*c).Draw(context);
+        (*d).Draw(context);*/
 
         // End frame
         glfwSwapBuffers(window);

@@ -40,24 +40,25 @@ protected:
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
     }
 
-    GLfloat defaultSize = 0.125f;
     void DrawModel(Project::DrawContext context) {
+        GLfloat defaultSize = 0.125f;
         int shader = getShaderProgram();
-        GLfloat shiftX = 0.0f;
-        GLfloat shiftY = 0.0f;
+        glm::vec3 position = getPosition();
+        glm::vec3 scale = getScale();
+
         // Fork
-        transformCube(shader, -2.0f + shiftX, 1.0f + shiftY, defaultSize, 0.5f, defaultSize);
+        transformCube(shader, -2.0f + position.x, 1.0f + position.y, defaultSize*scale.x, 0.5f*scale.y, defaultSize*scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        transformCube(shader, 2.0f + shiftX, 1.0f + shiftY, defaultSize, 0.5f, defaultSize);
+        transformCube(shader, 2.0f + position.x, 1.0f + position.y, defaultSize*scale.x, 0.5f*scale.y, defaultSize*scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         // Bridge
-        transformCube(shader, shiftX, 1.0f + shiftY, defaultSize, defaultSize, defaultSize);
+        transformCube(shader, position.x, 1.0f + position.y, defaultSize*scale.x, defaultSize*scale.y, defaultSize*scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         // Tail
-        transformCube(shader, shiftX, -1.0f + shiftY, defaultSize, 0.5f, defaultSize);
+        transformCube(shader, position.x, -1.0f + position.y, defaultSize*scale.x, 0.5f*scale.y, defaultSize*scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }
 

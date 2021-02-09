@@ -14,6 +14,7 @@ Project::Model::Model(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
     _position = position;
     _rotation = rotation;
     _scale = scale;
+    _children = std::vector<Model*>();
 }
 
 void Project::Model::Draw(DrawContext context) {
@@ -30,6 +31,18 @@ void Project::Model::Draw(DrawContext context) {
     // TODO: undo scale (+zoom), rotate, translate
 }
 
+void Project::Model::addChild(Project::Model* model) {
+    _children.push_back(model);
+}
+
+glm::vec3 Project::Model::getPosition() {
+    return _position;
+}
+
 void Project::Model::SetScaling(glm::vec3 scale) {
     _scale = scale;
+}
+
+glm::vec3 Project::Model::getScale() {
+    return _scale;
 }
