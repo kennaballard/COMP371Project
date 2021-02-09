@@ -68,7 +68,6 @@ int main(int argc, char*argv[])
         // Keep track of models to draw.
         std::vector<Project::Model*> models = manager.getModels(context.getModelId());
         for (Project::Model *model : models) {
-            //(*model).update(context);
             (*model).draw(context);
         }
 

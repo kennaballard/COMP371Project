@@ -2,6 +2,8 @@
 
 Project::DrawContext::DrawContext(GLFWwindow* window) {
     _window = window;
+    _transformations = std::vector<Project::TransformationContext>();
+    _modelId = 0;
 }
 
 /**
@@ -27,8 +29,7 @@ void Project::DrawContext::push(glm::vec3 translation, glm::vec3 rotation, glm::
 
 Project::TransformationContext Project::DrawContext::pop() {
     if (_transformations.size() > 0) {
-        auto it = _transformations.end()--;
-        auto context = *it;
+        auto context = _transformations.back();
         _transformations.pop_back();
         return context;
     }
@@ -37,8 +38,7 @@ Project::TransformationContext Project::DrawContext::pop() {
 
 Project::TransformationContext Project::DrawContext::peek() {
     if (_transformations.size() > 0) {
-        auto it = _transformations.end()--;
-        return *it;
+        return _transformations.back();
     }
     return Project::TransformationContext(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
 }

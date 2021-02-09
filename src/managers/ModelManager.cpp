@@ -5,14 +5,11 @@ Project::ModelManager::ModelManager() {
     _zoom = glm::vec3(1, 1, 1);
 }
 
-void Project::ModelManager::addModel(int id, Project::Model* model) {
-    auto search = _models.find(id);
-    if (search == _models.end()) {
-        search = _models.insert(std::make_pair(id, std::vector<Project::Model*>())).first;
+void Project::ModelManager::addModel(int id, Project::Model *model) {
+    if (_models.find(id) == _models.end()) {
+        _models.insert(std::make_pair(id, std::vector<Project::Model*>()));
     }
-    
-    auto list = search->second;
-    list.insert(list.begin(), model);
+    _models.at(id).push_back(model);
 }
 
 std::vector<Project::Model*> Project::ModelManager::getModels(int id) {

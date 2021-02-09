@@ -26,7 +26,6 @@ void Project::Model::draw(DrawContext context) {
 
     context.push(_position, _rotation, _scale);
     for (Project::Model* child : _children) {
-        //(*child).update(context);
         (*child).draw(context);
     }
     Project::TransformationContext transformations = context.pop();
