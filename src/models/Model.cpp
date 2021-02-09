@@ -41,6 +41,10 @@ glm::vec3 Project::Model::getPosition() {
 
 void Project::Model::SetScaling(glm::vec3 scale) {
     _scale = scale;
+
+    for (Project::Model* child : _children) {
+        (*child).SetScaling(scale);
+    }
 }
 
 glm::vec3 Project::Model::getScale() {

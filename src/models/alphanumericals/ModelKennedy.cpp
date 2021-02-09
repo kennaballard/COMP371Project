@@ -31,11 +31,10 @@ public:
         glm::vec3 pos4 = glm::vec3(4.0f, 0, 0);
         glm::vec3 pos0 = glm::vec3(12.0f, 0, 0);
 
-        glm::vec3 quarterScale = glm::vec3(0.25f, 0.25f, 0.25f);
-        addChild(new ModelK(posK, rotation, scale * quarterScale));
-        addChild(new ModelY(position+posY, rotation, scale * quarterScale));
-        addChild(new Model4(position+pos4, rotation, scale * quarterScale));
-        addChild(new Model0(position+pos0, rotation, scale * quarterScale));
+        addChild(new ModelK(posK, rotation, scale));
+        addChild(new ModelY(position+posY, rotation, scale));
+        addChild(new Model4(position+pos4, rotation, scale));
+        addChild(new Model0(position+pos0, rotation, scale));
     }
 
 protected:
@@ -181,10 +180,6 @@ public:
             (void*)sizeof(glm::vec3)      // color is offseted a vec3 (comes after position)
         );
         glEnableVertexAttribArray(1);
-
-        /*   glBindBuffer(GL_ARRAY_BUFFER, 0);
-           glBindVertexArray(0);
-   */
 
         return vertexBufferObject;
     }

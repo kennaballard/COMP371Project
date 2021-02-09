@@ -54,6 +54,7 @@ int main(int argc, char*argv[])
     // Kennedy model
     manager.addModel(0, factory.createModelFor("ky40"));
     auto a = factory.createModelFor("ky40");
+    a->SetScaling(glm::vec3(0.25f, 0.25f, 0.25f));
    /* manager.addModel(0, factory.createModelFor('Y'));
     auto b = factory.createModelFor('Y');
     manager.addModel(0, factory.createModelFor('4'));
