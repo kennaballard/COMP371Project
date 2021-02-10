@@ -26,10 +26,10 @@
 class ModelKennedy : public Project::Model {
 public:
     ModelKennedy(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
-        glm::vec3 posK = glm::vec3(-12.0f, 0, 0);
-        glm::vec3 posY = glm::vec3(-4.0f, 0, 0);
-        glm::vec3 pos4 = glm::vec3(4.0f, 0, 0);
-        glm::vec3 pos0 = glm::vec3(12.0f, 0, 0);
+        glm::vec3 posK = glm::vec3(-0.375f, -0.25f, 0);
+        glm::vec3 posY = glm::vec3(-0.125f, -0.25f, 0);
+        glm::vec3 pos4 = glm::vec3(0.125f, -0.25f, 0);
+        glm::vec3 pos0 = glm::vec3(0.375f, -0.25f, 0);
 
         // Add children in parallel to their relative positions
         addChild(new ModelK(position+posK, rotation, scale));

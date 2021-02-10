@@ -28,35 +28,39 @@ protected:
      * and the model is "standing" (parallel to the Y-axis).
      **/
      // Stretches cube into a rectangle given params
-    void transformCube(int shader, GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat widthScale, GLfloat heightScale, GLfloat depthScale) {
+    glm::mat4 partTranslationMatrix(GLfloat posX, GLfloat posY, GLfloat posZ) {
+        return glm::translate(glm::mat4(1.0f), glm::vec3(posX, posY, posZ));
+    }
 
-        GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
-
-        glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(widthScale, heightScale, depthScale));
-        glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(posX, posY, posZ));
-
-        glm::mat4 worldMatrix = scalingMatrix * translationMatrix;
-
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+    glm::mat4 partScalingMatrix(GLfloat widthScale, GLfloat heightScale, GLfloat depthScale) {
+        return glm::scale(glm::mat4(1.0f), glm::vec3(widthScale, heightScale, depthScale));
     }
 
     void DrawModel(Project::DrawContext context) {
         GLfloat defaultSize = 0.125f;
         int shader = getShaderProgram();
-        glm::vec3 position = getPosition();
-        glm::vec3 scale = getScale();
+
+        GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
+        glm::mat4 groupTranslationMatrix = glm::translate(glm::mat4(1.0f), getPosition());
+        glm::mat4 groupScaleMatrix = glm::scale(glm::mat4(1.0f), getScale());
+
+        glm::mat4 groupMatrix = groupTranslationMatrix * groupScaleMatrix;
+        glm::mat4 worldMatrix;
 
         // Back
-        transformCube(shader, 2.0f + position.x, position.y, position.z, defaultSize*scale.x, 1.0f * scale.y, defaultSize * scale.z);
+        worldMatrix = groupMatrix * partTranslationMatrix(0.25f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, 1.0f, defaultSize);
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         GLfloat edgeHeight = 0.5f + (defaultSize/2);
         // Edge
-        transformCube(shader, -2.0f + position.x, 1.0f - (defaultSize / edgeHeight) + position.y, position.z, defaultSize * scale.x, edgeHeight * scale.y, defaultSize * scale.z);
+        worldMatrix = groupMatrix * partTranslationMatrix(-0.25f, 0.5f-(defaultSize/2.0f), 0.0f) * partScalingMatrix(defaultSize, edgeHeight, defaultSize);
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         // Center
-        transformCube(shader, position.x, position.y, position.z, defaultSize*scale.x, defaultSize * scale.y, defaultSize * scale.z);
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }
 
