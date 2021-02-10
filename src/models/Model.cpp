@@ -22,7 +22,7 @@ void Project::Model::draw(DrawContext context) {
     int vbo = getVertexBufferObject();
     glUseProgram(shaderProgram);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    drawModel(context);
+    drawModel(context, shaderProgram, vbo);
 
     context.push(_position, _rotation, _scale);
     for (Project::Model* child : _children) {
@@ -31,6 +31,9 @@ void Project::Model::draw(DrawContext context) {
     Project::TransformationContext transformations = context.pop();
     // TODO: undo scale (+zoom), rotate, translate.
     // Data in variable transformations.
+
+    glDeleteProgram(shaderProgram);
+    //glDeleteBuffers((GLsizei) sizeof(glm::vec3) * 16, (GLuint*) vbo);
 }
 
 void Project::Model::rotate(glm::vec3 rotation) {

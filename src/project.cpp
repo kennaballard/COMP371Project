@@ -60,8 +60,7 @@ int main(int argc, char*argv[])
 
     // Entering Main Loop
     auto context = Project::DrawContext(window);
-    while(!glfwWindowShouldClose(window))
-    {
+    while(!glfwWindowShouldClose(window)) {
         // Each frame, reset color of each pixel to glClearColor
         glClear(GL_COLOR_BUFFER_BIT);
 

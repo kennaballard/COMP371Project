@@ -9,7 +9,7 @@ namespace Project {
      * drawing several objects that have no relation to each other.
      **/
     class Model {
-        private:
+        protected:
         glm::vec3 _position;
         glm::vec3 _rotation;
         glm::vec3 _scale;
@@ -23,7 +23,7 @@ namespace Project {
          * Draws the model with the assumption that the scale is 1:1
          * and the model is "standing" (parallel to the Y-axis).
          **/
-        virtual void drawModel(Project::DrawContext context)=0;
+        virtual void drawModel(Project::DrawContext context, int shaderProgram, int vbo)=0;
         //virtual void updateModel(Project::DrawContext context)=0;
 
         public:
