@@ -20,7 +20,10 @@
  **/
 class ModelY : public Project::Model {
 public:
-    ModelY(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) { }
+    ModelY(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+        setShaderProgram(generateShaderProgram());
+        setVertexBufferObject(generateVertexBufferObject());
+    }
 
 protected:
     /**
@@ -71,7 +74,7 @@ public:
     /**
      * Returns the fully compiled shader program for this model.
      **/
-    int getShaderProgram() {
+    int generateShaderProgram() {
         glEnable(GL_DEPTH_TEST);
 
         unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -122,7 +125,7 @@ public:
     /**
      * Returns the vertex buffer object for this model.
      **/
-    int getVertexBufferObject() {
+    int generateVertexBufferObject() {
         // A vertex is a point on a polygon, it contains positions and other data (eg: colors)
         glm::vec3 vertexArray[] = {
             // Front face

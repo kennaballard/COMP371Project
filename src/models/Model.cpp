@@ -83,3 +83,16 @@ void Project::Model::setRotation(glm::vec3 rotation) {
     }
 }
 
+int Project::Model::getShaderProgram() {
+    return _shaderRef;
+}
+void Project::Model::setShaderProgram(int shader) {
+    _shaderRef = shader;
+}
+
+int Project::Model::getVertexBufferObject() {
+    return _vboRef;
+}
+void Project::Model::setVertexBufferObject(int vbo) {
+    _vboRef = vbo;
+}

@@ -20,7 +20,9 @@ namespace Project {
         std::vector<Model*> _children;
         std::vector<glm::vec3> _relativePositions;
         int _numChildren;
-        
+        int _shaderRef;
+        int _vboRef;
+
         protected:
         /**
          * Draws the model with the assumption that the scale is 1:1
@@ -40,14 +42,15 @@ namespace Project {
         void Draw(Project::DrawContext context);
 
         /**
-         * Returns the fully compiled shader program for this model.
+         * Returns reference int to the generated shader.
          **/
-        virtual int getShaderProgram()=0;
-
+        int getShaderProgram();
+        void setShaderProgram(int shader);
         /**
-         * Returns the vertex buffer object for this model.
-         **/
-        virtual int getVertexBufferObject()=0;
+        * Returns reference int to the generated VBO.
+        **/
+        int getVertexBufferObject();
+        void setVertexBufferObject(int vbo);
 
         /**
          * Add a child to the model
@@ -82,7 +85,17 @@ namespace Project {
          * Changes position by translation factor
         **/
         void setRotation(glm::vec3 rotation);
+
         private:
+        /**
+        * Returns the fully compiled shader program for this model.
+        **/
+        virtual int generateShaderProgram()=0;
+
+        /**
+         * Returns the vertex buffer object for this model.
+         **/
+        virtual int generateVertexBufferObject()=0;
         virtual const char* Model::getVertexShaderSource()=0;
         virtual const char* Model::getFragmentShaderSource()=0;
     };

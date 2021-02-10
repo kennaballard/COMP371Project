@@ -29,8 +29,8 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
             return new Model4(position, rotation, scale);
         case 'K':
             return new ModelK(position, rotation, scale);
-        case 'T':
-            return new ModelT(position, rotation, scale);
+        /*case 'T':
+            return new ModelT(position, rotation, scale);*/
         case 'Y':
             return new ModelY(position, rotation, scale);
     }
