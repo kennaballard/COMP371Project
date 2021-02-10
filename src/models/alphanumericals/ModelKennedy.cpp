@@ -31,18 +31,17 @@ public:
         glm::vec3 pos4 = glm::vec3(4.0f, 0, 0);
         glm::vec3 pos0 = glm::vec3(12.0f, 0, 0);
 
-        addChild(new ModelK(posK, rotation, scale));
+        // Add children in parallel to their relative positions
+        addChild(new ModelK(position+posK, rotation, scale));
         addChild(new ModelY(position+posY, rotation, scale));
         addChild(new Model4(position+pos4, rotation, scale));
-        addChild(new Model0(position+pos0, rotation, scale));
+        addChild(new Model0(position+pos0, rotation, scale));     
     }
-
 protected:
     /**
      * Draws the model with the assumption that the scale is 1:1
      * and the model is "standing" (parallel to the Y-axis).
      **/
-     // Stretches cube into a rectangle given params
     void DrawModel(Project::DrawContext context) {}
 public:
     /**
@@ -185,6 +184,7 @@ public:
     }
 
 private:
+    std::vector<glm::vec3> _relativePositions;
     const char* Model::getVertexShaderSource()
     {
         // TODO - Read from a .glsl file instead.

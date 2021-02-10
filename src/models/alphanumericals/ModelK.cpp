@@ -28,12 +28,12 @@ protected:
      * and the model is "standing" (parallel to the Y-axis).
      **/
      // Stretches cube into a rectangle given params
-    void transformCube(int shader, GLfloat posX, GLfloat posY, GLfloat widthScale, GLfloat heightScale, GLfloat depthScale) {
+    void transformCube(int shader, GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat widthScale, GLfloat heightScale, GLfloat depthScale) {
 
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
 
         glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(widthScale, heightScale, depthScale));
-        glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(posX, posY, 0.0f));
+        glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(posX, posY, posZ));
 
         glm::mat4 worldMatrix = scalingMatrix * translationMatrix;
 
@@ -47,20 +47,20 @@ protected:
         glm::vec3 scale = getScale();
 
         // Back
-        transformCube(shader, -2.0f + position.x, position.y, defaultSize*scale.x, 1.0f*scale.y, defaultSize*scale.z);
+        transformCube(shader, -2.0f + position.x, position.y, position.z, defaultSize*scale.x, 1.0f*scale.y, defaultSize*scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         // Bridge
-        transformCube(shader, position.x, position.y, defaultSize*scale.x, defaultSize*scale.y, defaultSize*scale.z);
+        transformCube(shader, position.x, position.y, position.z, defaultSize*scale.x, defaultSize*scale.y, defaultSize*scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         GLfloat tailHeight = (1 - defaultSize) / 2;
         // Upper tail
-        transformCube(shader, 2.0f + position.x, 1 + (defaultSize / tailHeight) + position.y, defaultSize*scale.x, tailHeight*scale.y, defaultSize*scale.z);
+        transformCube(shader, 2.0f + position.x, 1 + (defaultSize / tailHeight) + position.y, position.z, defaultSize*scale.x, tailHeight*scale.y, defaultSize*scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         // Lower tail
-        transformCube(shader, 2.0f + position.x, -(1 + (defaultSize / tailHeight)) + position.y, defaultSize*scale.x, tailHeight*scale.y, defaultSize*scale.z);
+        transformCube(shader, 2.0f + position.x, -(1 + (defaultSize / tailHeight)) + position.y, position.z, defaultSize*scale.x, tailHeight*scale.y, defaultSize*scale.z);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }
 

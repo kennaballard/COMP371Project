@@ -7,6 +7,7 @@ namespace Project {
      * Models each have their own shader program and buffer object.
      * While that is slower than placing them all together, it facilitates
      * drawing several objects that have no relation to each other.
+     * relative positions stores the children positions relative to parent
      **/
     class Model {
         private:
@@ -17,6 +18,8 @@ namespace Project {
         bool _reflectionY;
         bool _reflectionZ;
         std::vector<Model*> _children;
+        std::vector<glm::vec3> _relativePositions;
+        int _numChildren;
         
         protected:
         /**
@@ -52,6 +55,10 @@ namespace Project {
         void addChild(Model* model);
 
         /**
+        * Set the current position.
+        **/
+       void setPosition(glm::vec3 position);
+        /**
          * Get the current position.
          **/
         glm::vec3 getPosition();
@@ -59,12 +66,22 @@ namespace Project {
         /**
          * Sets the scaling for each of its corresponding axis.
          **/
-        void SetScaling(glm::vec3 scale);
+        void setScaling(glm::vec3 scale);
 
         /**
          * Gets the current scale factor
          **/
         glm::vec3 getScale();
+
+        /**
+        * Changes position by translation factor
+        **/
+        void setTranslation(glm::vec3 translation);
+
+        /**
+         * Changes position by translation factor
+        **/
+        void setRotation(glm::vec3 rotation);
         private:
         virtual const char* Model::getVertexShaderSource()=0;
         virtual const char* Model::getFragmentShaderSource()=0;

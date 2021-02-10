@@ -15,6 +15,8 @@ Project::Model::Model(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
     _rotation = rotation;
     _scale = scale;
     _children = std::vector<Model*>();
+    _relativePositions = std::vector<glm::vec3>();
+    _numChildren = 0;
 }
 
 void Project::Model::Draw(DrawContext context) {
@@ -33,20 +35,51 @@ void Project::Model::Draw(DrawContext context) {
 
 void Project::Model::addChild(Project::Model* model) {
     _children.push_back(model);
+
+    // Relative position calculation
+    _relativePositions.push_back((model->getPosition() - _position));
+    _numChildren++;
 }
 
 glm::vec3 Project::Model::getPosition() {
     return _position;
 }
 
-void Project::Model::SetScaling(glm::vec3 scale) {
+void Project::Model::setPosition(glm::vec3 position) {
+    _position = position;
+
+    // used for loop for simplicity/personal time contraint --> change to iterators?
+    for (int i = 0; i < _numChildren; i++) {
+        // Get relative
+        _children[i]->setPosition(position+_relativePositions[i]);
+    }
+}
+
+void Project::Model::setScaling(glm::vec3 scale) {
     _scale = scale;
 
     for (Project::Model* child : _children) {
-        (*child).SetScaling(scale);
+        (*child).setScaling(scale);
     }
 }
 
 glm::vec3 Project::Model::getScale() {
     return _scale;
 }
+
+void Project::Model::setTranslation(glm::vec3 translation) {
+    _position += translation;
+
+    for (Project::Model* child : _children) {
+        (*child).setTranslation(translation);
+    }
+}
+
+void Project::Model::setRotation(glm::vec3 rotation) {
+    // TODO
+    // Not implemeted
+    for (Project::Model* child : _children) {
+        (*child).setRotation(rotation);
+    }
+}
+
