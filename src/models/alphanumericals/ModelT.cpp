@@ -25,55 +25,6 @@ class ModelT : public Project::Model {
 
     public:
     /**
-     * Returns the fully compiled shader program for this model.
-     **/
-    int getShaderProgram() {
-        const char *vertexShaderSource = getVertexShaderSource();
-        unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-        glCompileShader(vertexShader);
-
-        int success;
-        char log[512];
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-        if (!success) {
-            glGetShaderInfoLog(vertexShader, 512, NULL, log);
-            std::cout << "ERROR - Shader - Vertex - Compiled Failed:\n" << log << std::endl;
-            return -1;
-        }
-
-        const char *fragmentShaderSource = getFragmentShaderSource();
-        unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-        glCompileShader(fragmentShader);
-
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-        if (!success) {
-            glGetShaderInfoLog(fragmentShader, 512, NULL, log);
-            std::cout << "ERROR - Shader - Fragment - Compiled Failed:\n" << log << std::endl;
-            return -1;
-        }
-
-        unsigned int shaderProgram = glCreateProgram();
-        glAttachShader(shaderProgram, vertexShader);
-        glAttachShader(shaderProgram, fragmentShader);
-        glLinkProgram(shaderProgram);
-
-        glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-        if (!success) {
-            glGetProgramInfoLog(shaderProgram, 512, NULL, log);
-            std::cout << "ERROR - Shader - Program - Compiled Failed:\n" << log << std::endl;
-            return -1;
-        }
-
-        glUseProgram(shaderProgram);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-
-        return shaderProgram;
-    }
-
-    /**
      * Returns the vertex buffer object for this model.
      **/
     int getVertexBufferObject() {
@@ -120,35 +71,5 @@ class ModelT : public Project::Model {
         
         
         return vertexBufferObject;
-    }
-
-    private:
-    const char* Model::getVertexShaderSource()
-    {
-        // TODO - Read from a .glsl file instead.
-        return
-        "#version 330 core\n"
-        "layout (location = 0) in vec3 aPos;"
-        "layout (location = 1) in vec3 aColor;"
-        "out vec3 vertexColor;"
-        "void main()"
-        "{"
-        "   vertexColor = aColor;"
-        "   gl_Position = vec4(aPos.x, -aPos.y, aPos.z, 1.0);"
-        "}";
-    }
-
-
-    const char* Model::getFragmentShaderSource()
-    {
-        // TODO - Read from a .glsl file instead.
-        return
-        "#version 330 core\n"
-        "in vec3 vertexColor;"
-        "out vec4 FragColor;"
-        "void main()"
-        "{"
-        "   FragColor = vec4(1.0, 1.0, 1.0, 1.0f);"
-        "}";
     }
 };
