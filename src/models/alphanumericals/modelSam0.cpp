@@ -1,14 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Model.h"
-#define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL
-#include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
 
-#include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
-// initializing OpenGL and binding inputs
-
-#include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
-#include <glm/gtc/matrix_transform.hpp>
 //potato
 /**
  * Models each have their own shader program and vertex buffer object.
@@ -18,9 +11,9 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class Model0 : public Project::Model {
+class modelSam0 : public Project::Model {
 public:
-    Model0(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) { 
+    modelSam0(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
         setShaderProgram(generateShaderProgram());
         setVertexBufferObject(generateVertexBufferObject());
     }

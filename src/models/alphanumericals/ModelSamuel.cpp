@@ -35,7 +35,7 @@ public:
         addChild(new ModelK(position+posK, rotation, scale));
         addChild(new ModelY(position+posY, rotation, scale));
         addChild(new Model4(position+pos4, rotation, scale));
-        addChild(new Model0(position+pos0, rotation, scale));
+        addChild(new Model0(position+pos0, rotation, scale));     
     }
 protected:
     /**
