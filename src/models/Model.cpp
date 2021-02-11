@@ -75,11 +75,18 @@ void Project::Model::setTranslation(glm::vec3 translation) {
     }
 }
 
+
+glm::vec3 Project::Model::getRotation() {
+    return _rotation;
+}
 void Project::Model::setRotation(glm::vec3 rotation) {
-    // TODO
-    // Not implemeted
+    
+    _rotation = rotation +_rotation;
     for (Project::Model* child : _children) {
         (*child).setRotation(rotation);
+        
+        printf("patayo");
+       
     }
 }
 

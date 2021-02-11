@@ -67,6 +67,11 @@ int main(int argc, char*argv[])
     // Kennedy model
     manager.addModel(0, factory.createModelFor("ky40"));
     auto a = factory.createModelFor("ky40");
+    auto c = new ModelY(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f));
+
+    (*c).setRotation(glm::vec3(0.0f, 1.0f, 0.0f));
+
+   // a->setRotation(glm::vec3(-0.75f, -2.0f, 0.0f));
     //a->setScaling(glm::vec3(0.5f, 0.5f, 0.5f));
     //a->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
     //a->setTranslation(glm::vec3(0.5f, 1.0f, 0.0f));
@@ -101,6 +106,10 @@ int main(int argc, char*argv[])
         }*/
         
         (*a).Draw(context);
+        (*c).Draw(context);
+        
+
+        
         
 
         // End frame
@@ -111,6 +120,21 @@ int main(int argc, char*argv[])
         
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
+
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+            c->setRotation(glm::vec3(1.0f, 1.0f, 1.0f));
+            c->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
+            c->rotate(context);
+            (*c).Draw(context);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+            a->setRotation(glm::vec3(1.0f, 1.0f, 1.0f));
+            a->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
+            (*a).Draw(context);
+
+        }
+           
     }
     
     // Shutdown GLFW

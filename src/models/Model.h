@@ -78,6 +78,8 @@ namespace Project {
         /**
          * Changes position by translation factor
         **/
+        glm::vec3 getRotation();
+
         void setRotation(glm::vec3 rotation);
 
         private:

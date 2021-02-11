@@ -46,8 +46,9 @@ protected:
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glm::mat4 groupTranslationMatrix = glm::translate(glm::mat4(1.0f), getPosition());
         glm::mat4 groupScaleMatrix = glm::scale(glm::mat4(1.0f), getScale());
+        glm::mat4 groupRotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(30.0f), getRotation());
 
-        glm::mat4 groupMatrix = groupTranslationMatrix * groupScaleMatrix;
+        glm::mat4 groupMatrix =  groupTranslationMatrix * groupRotationMatrix * groupScaleMatrix ;
         glm::mat4 worldMatrix;
 
         // Fork
@@ -162,5 +163,14 @@ public:
    */
 
         return vertexBufferObject;
+    }
+
+    void rotate(Project::DrawContext context) {
+        int shader = context.getShaderProgram();
+        glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+        GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
+
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &rotationMatrix[0][0]);
     }
 };
