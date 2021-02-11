@@ -70,6 +70,13 @@ int main(int argc, char*argv[])
     //a->setScaling(glm::vec3(0.5f, 0.5f, 0.5f));
     //a->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
     //a->setTranslation(glm::vec3(0.5f, 1.0f, 0.0f));
+
+    //Ana model
+    manager.addModel(0, factory.createModelFor("al48"));
+    auto b = factory.createModelFor("al48");
+    //b->setScaling(glm::vec3(0.5f, 0.5f, 0.5f));
+    //b->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
+    //b->setTranslation(glm::vec3(0.5f, 1.0f, 0.0f));
    
     int shaderProgram = context.getShaderProgram();
     // Black background
@@ -100,8 +107,11 @@ int main(int argc, char*argv[])
             (*model).Draw(context);
         }*/
         
+        //draw ModelKennedy
         (*a).Draw(context);
-        
+
+        //draw ModelAna
+        (*b).Draw(context);
 
         // End frame
         glfwSwapBuffers(window);

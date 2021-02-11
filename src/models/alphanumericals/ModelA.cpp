@@ -18,9 +18,9 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class ModelK : public Project::Model {
+class ModelA : public Project::Model {
 public:
-    ModelK(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+    ModelA(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
         setVertexBufferObject(generateVertexBufferObject());
     }
 
@@ -39,35 +39,55 @@ protected:
     }
 
     void DrawModel(Project::DrawContext context) {
-        GLfloat defaultSize = 0.125f;
+       
         int shader = context.getShaderProgram();
 
+        //////////////////////////////////
+        //                               //
+        //     building cubes for "A"    //
+        //////////////////////////////////
+
+
+       //left cube
+        glm::mat4 scalingMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(0.125f, 1.0f, 0.125f));
+        glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(-0.8f, 0.0f, 0.0f));
+
+        glm::mat4 worldMatrix = translationMatrix * scalingMatrix;
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
-        glm::mat4 groupTranslationMatrix = glm::translate(glm::mat4(1.0f), getPosition());
-        glm::mat4 groupScaleMatrix = glm::scale(glm::mat4(1.0f), getScale());
-
-        glm::mat4 groupMatrix = groupTranslationMatrix * groupScaleMatrix;
-        glm::mat4 worldMatrix;
-
-        // Back
-        worldMatrix = groupMatrix * partTranslationMatrix(-0.25f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, 1.0f, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        // Bridge
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
+
+        //middle cube
+        scalingMatrix = scale(glm::mat4(1.0f), glm::vec3(0.125f, 0.125f, 0.125f));
+        translationMatrix = translate(glm::mat4(1.0f), glm::vec3(-0.65f, 0.0f, 0.0f));
+
+        worldMatrix = translationMatrix * scalingMatrix;
+        worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        GLfloat tailHeight = (1 - defaultSize) / 2;
-        // Upper tail
-        worldMatrix = groupMatrix * partTranslationMatrix(0.25f, 0.28f + (defaultSize / tailHeight), 0.0f) * partScalingMatrix(defaultSize, tailHeight, defaultSize);
+
+        //top cube
+        scalingMatrix = scale(glm::mat4(1.0f), glm::vec3(0.125f, 0.125f, 0.125f));
+        translationMatrix = translate(glm::mat4(1.0f), glm::vec3(-0.65f, 0.44f, 0.0f));
+
+        worldMatrix = translationMatrix * scalingMatrix;
+        worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        // Lower tail
-        worldMatrix = groupMatrix * partTranslationMatrix(0.25f, -(0.28f + (defaultSize / tailHeight)), 0.0f) * partScalingMatrix(defaultSize, tailHeight, defaultSize);
+        //right cube
+        scalingMatrix = scale(glm::mat4(1.0f), glm::vec3(0.125f, 1.0f, 0.125f));
+        translationMatrix = translate(glm::mat4(1.0f), glm::vec3(-0.50f, 0.0f, 0.0f));
+
+        worldMatrix = translationMatrix * scalingMatrix;
+        worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }
 
@@ -78,45 +98,56 @@ public:
     int generateVertexBufferObject() {
         // A vertex is a point on a polygon, it contains positions and other data (eg: colors)
         glm::vec3 vertexArray[] = {
-            // Front face
-            glm::vec3(1.0f,  1.0f, 0.0f),  // top right front
-            glm::vec3(1.0f,  0.0f, 0.0f),  // top right color (red)
-            glm::vec3(1.0f, -1.0f, 0.0f),  // bottom right front
-            glm::vec3(0.0f,  1.0f, 0.0f),  // bottom right color (green)
-            glm::vec3(-1.0f, -1.0f, 0.0f),  // bottom left front
-            glm::vec3(0.0f,  0.0f, 1.0f),  // bottom left color (blue)
-            glm::vec3(-1.0f,  1.0f, 0.0f),  // top left front
-            glm::vec3(0.0f,  0.0f, 1.0f),  // top left color (red)
-            // Back face
-            glm::vec3(1.0f,  1.0f, -1.0f),  // top right back
-            glm::vec3(1.0f,  0.0f, 0.0f),  // top right color (red)
-            glm::vec3(1.0f, -1.0f, -1.0f),  // bottom right back
-            glm::vec3(0.0f,  1.0f, 0.0f),  // bottom right color (green)
-            glm::vec3(-1.0f, -1.0f, -1.0f),  // bottom left back
-            glm::vec3(0.0f,  1.0f, 0.0f),  // bottom left color (blue)
-            glm::vec3(-1.0f,  1.0f, -1.0f),  // top left back
-            glm::vec3(0.0f,  0.0f, 1.0f),  // top left color (red)
+
+
+            //front
+            glm::vec3(-0.5f,-0.5f, 0.5f),
+            glm::vec3(1.0, 0.0, 0.0),
+            glm::vec3(0.5f,-0.5f, 0.5f),
+            glm::vec3(0.0, 1.0, 0.0),
+            glm::vec3(0.5f, 0.5f, 0.5f),
+            glm::vec3(0.0, 0.0, 1.0),
+            glm::vec3(-0.5f, 0.5f, 0.5f),
+            glm::vec3(1.0, 1.0, 1.0),
+
+
+            //back
+            glm::vec3(-0.5f,-0.5f, -0.5f),
+            glm::vec3(1.0, 0.0, 0.0),
+            glm::vec3(0.5f,-0.5f, -0.5f),
+            glm::vec3(0.0, 1.0, 0.0),
+            glm::vec3(0.5f, 0.5f, -0.5f),
+            glm::vec3(0.0, 0.0, 1.0),
+            glm::vec3(-0.5f, 0.5f, -0.5f),
+            glm::vec3(1.0, 1.0, 1.0)
+
         };
 
-        unsigned int indices[] = {
-            // Left Front
-            0, 1, 2,
-            0, 2, 3,
-            // Right Front
-            4, 5, 1,
-            4, 1, 0,
-            // Top
-            4, 0, 3,
-            4, 3, 7,
-            // Bottom
-            5, 1, 2,
-            5, 2, 6,
-            // Left Back
-            3, 2, 6,
-            3, 6, 7,
-            // Right Back
-            7, 6, 5,
-            7, 4, 5
+        GLuint cube_elements[] = {
+
+            //////////////////
+            //  a  cube    //
+            /////////////////
+
+                 //front
+                 0, 1, 2,
+                 2, 3, 0,
+                 // right
+                 1, 5, 6,
+                 6, 2, 1,
+                 // back
+                 7, 6, 5,
+                 5, 4, 7,
+                 // left
+                 4, 0, 3,
+                 3, 7, 4,
+                 // bottom
+                 4, 5, 1,
+                 1, 0, 4,
+                 // top
+                 3, 2, 6,
+                 6, 7, 3,
+
         };
 
         // Create a vertex array
@@ -134,10 +165,9 @@ public:
         GLuint elementBufferObject;
         glGenBuffers(1, &elementBufferObject);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cube_elements), cube_elements, GL_STATIC_DRAW);
 
-        glVertexAttribPointer(
-            0,                   // attribute 0 matches aPos in Vertex Shader
+        glVertexAttribPointer(0,                   // attribute 0 matches aPos in Vertex Shader
             3,                   // size
             GL_FLOAT,            // type
             GL_FALSE,            // normalized?
@@ -147,8 +177,7 @@ public:
         glEnableVertexAttribArray(0);
 
 
-        glVertexAttribPointer(
-            1,                            // attribute 1 matches aColor in Vertex Shader
+        glVertexAttribPointer(1,                            // attribute 1 matches aColor in Vertex Shader
             3,
             GL_FLOAT,
             GL_FALSE,
@@ -156,10 +185,10 @@ public:
             (void*)sizeof(glm::vec3)      // color is offseted a vec3 (comes after position)
         );
         glEnableVertexAttribArray(1);
-
-        /*   glBindBuffer(GL_ARRAY_BUFFER, 0);
-           glBindVertexArray(0);
-   */
+       
+     /*   glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+*/
 
         return vertexBufferObject;
     }
