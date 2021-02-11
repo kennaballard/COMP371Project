@@ -26,10 +26,10 @@
 class ModelKennedy : public Project::Model {
 public:
     ModelKennedy(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
-        glm::vec3 posK = glm::vec3(-0.375f, -0.25f, 0);
-        glm::vec3 posY = glm::vec3(-0.125f, -0.25f, 0);
-        glm::vec3 pos4 = glm::vec3(0.125f, -0.25f, 0);
-        glm::vec3 pos0 = glm::vec3(0.375f, -0.25f, 0);
+        glm::vec3 posK = glm::vec3(-1.5f,  0.0f, 0.0f);
+        glm::vec3 posY = glm::vec3(-0.5f, 0.0f, 0.0f);
+        glm::vec3 pos4 = glm::vec3(0.5f, 0.0f, 0.0f);
+        glm::vec3 pos0 = glm::vec3(1.5f, 0.0f, 0.0f);
 
         // Add children in parallel to their relative positions
         addChild(new ModelK(position+posK, rotation, scale));
@@ -45,48 +45,9 @@ protected:
     void DrawModel(Project::DrawContext context) {}
 public:
     /**
-     * Returns the fully compiled shader program for this model.
-     **/
-    int generateShaderProgram() {
-        return -1;
-    }
-
-    /**
      * Returns the vertex buffer object for this model.
      **/
     int generateVertexBufferObject() {
         return -1;
-    }
-
-private:
-    std::vector<glm::vec3> _relativePositions;
-    const char* Model::getVertexShaderSource()
-    {
-        // TODO - Read from a .glsl file instead.
-        return
-            "#version 330 core\n"
-            "layout (location = 0) in vec3 aPos;"
-            "layout (location = 1) in vec3 aColor;"
-            "uniform mat4 worldMatrix;"
-            "out vec3 vertexColor;"
-            "void main()"
-            "{"
-            "   vertexColor = aColor;"
-            "   gl_Position = worldMatrix * vec4(aPos.x, aPos.y, aPos.z, 1.0);"
-            "}";
-    }
-
-
-    const char* Model::getFragmentShaderSource()
-    {
-        // TODO - Read from a .glsl file instead.
-        return
-            "#version 330 core\n"
-            "in vec3 vertexColor;"
-            "out vec4 FragColor;"
-            "void main()"
-            "{"
-            "   FragColor = vec4(1.0, 1.0, 1.0, 1.0f);"
-            "}";
     }
 };

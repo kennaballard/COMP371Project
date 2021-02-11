@@ -13,6 +13,7 @@ namespace Project {
     class DrawContext {
         private:
         GLFWwindow* _window;
+        int _shaderProgram;
 
         public:
         // TODO: keep track of scaling, rotation, translation in a list for each update.
@@ -24,5 +25,20 @@ namespace Project {
          * Returns the window from which the drawing should be done on.
          **/
         GLFWwindow* getWindow();
+
+        /**
+         * Returns the shader
+         **/
+
+        int generateShaderProgram();
+        
+        /**
+         * Returns the shader
+         **/
+        int getShaderProgram();
+        
+        const char* getVertexShaderSource();
+
+        const char* getFragmentShaderSource();
     };
 }

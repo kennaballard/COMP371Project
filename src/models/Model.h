@@ -20,7 +20,6 @@ namespace Project {
         std::vector<Model*> _children;
         std::vector<glm::vec3> _relativePositions;
         int _numChildren;
-        int _shaderRef;
         int _vboRef;
 
         protected:
@@ -41,11 +40,6 @@ namespace Project {
          **/
         void Draw(Project::DrawContext context);
 
-        /**
-         * Returns reference int to the generated shader.
-         **/
-        int getShaderProgram();
-        void setShaderProgram(int shader);
         /**
         * Returns reference int to the generated VBO.
         **/
@@ -88,15 +82,8 @@ namespace Project {
 
         private:
         /**
-        * Returns the fully compiled shader program for this model.
-        **/
-        virtual int generateShaderProgram()=0;
-
-        /**
          * Returns the vertex buffer object for this model.
          **/
         virtual int generateVertexBufferObject()=0;
-        virtual const char* Model::getVertexShaderSource()=0;
-        virtual const char* Model::getFragmentShaderSource()=0;
     };
 }
