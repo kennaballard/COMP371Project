@@ -5,7 +5,11 @@
 #include "../models/alphanumericals/ModelK.cpp"
 #include "../models/alphanumericals/ModelT.cpp"
 #include "../models/alphanumericals/ModelY.cpp"
-
+#include "../models/alphanumericals/ModelA.cpp"
+#include "../models/alphanumericals/ModelE.cpp"
+#include "../models/alphanumericals/Model2.cpp"
+#include "../models/alphanumericals/Model0.cpp"
+#include "../models/alphanumericals/ModelAntoine.cpp"
 #include "../models/alphanumericals/ModelKennedy.cpp"
 
 /**
@@ -47,5 +51,7 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(std::string
     if (chars == "ky40") {
         return new ModelKennedy(position, rotation, scale);
     }
+    if (chars == "ae20") {
+        return new ModelAntoine(position, rotation, scale);
     return NULL;
 }

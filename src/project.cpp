@@ -5,7 +5,7 @@
 //#include "managers/InputManager.h"
 #include "factories/AlphanumericalModelFactory.cpp"
 #include <string>
-#include "Floor.h"
+//#include "Floor.h"
 
 
 const char* TITLE = "COMP 371 - Project - Team 3";
@@ -75,6 +75,11 @@ int main(int argc, char*argv[])
     //a->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
     //a->setTranslation(glm::vec3(0.5f, 1.0f, 0.0f));
    
+
+    manager.addModel(0, factory.createModelFor("ae20"));
+    auto b = factory.createModelFor("ae20");
+
+
     int shaderProgram = context.getShaderProgram();
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -109,9 +114,10 @@ int main(int argc, char*argv[])
 =======
         }*/
         
->>>>>>> kennedyModels
-        (*a).Draw(context);
+//>>>>>>> kennedyModels
+        //(*a).Draw(context);
         
+        (*b).Draw(context);
 
         // End frame
         glfwSwapBuffers(window);
