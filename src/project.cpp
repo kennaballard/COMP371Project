@@ -4,8 +4,12 @@
 //#include "managers/InputManager.h"
 #include "factories/AlphanumericalModelFactory.cpp"
 #include <string>
+#include "Floor.h"
+
 
 const char* TITLE = "COMP 371 - Project - Team 3";
+
+
 
 GLFWwindow* setup() {
     // Initialize GLFW and OpenGL version
@@ -80,6 +84,7 @@ int main(int argc, char*argv[])
             std::cout << "INNNNNNNNNNNNNNNNNNt\n" << std::endl;
             (*model).Draw(context);
         }
+        Floor::drawFloor();
 
         (*a).Draw(context);
         /*(*b).Draw(context);
