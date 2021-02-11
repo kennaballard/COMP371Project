@@ -21,7 +21,7 @@ Project::Model::Model(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
 
 void Project::Model::Draw(DrawContext context) {
     // TODO: scale (+zoom), translate, rotate
-    int shaderProgram = getShaderProgram();
+    int shaderProgram = context.getShaderProgram();
     int vbo = getVertexBufferObject();
     glUseProgram(shaderProgram);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -42,7 +42,7 @@ void Project::Model::addChild(Project::Model* model) {
 }
 
 glm::vec3 Project::Model::getPosition() {
-    return _position;
+    return _position*_scale;
 }
 
 void Project::Model::setPosition(glm::vec3 position) {
@@ -81,13 +81,6 @@ void Project::Model::setRotation(glm::vec3 rotation) {
     for (Project::Model* child : _children) {
         (*child).setRotation(rotation);
     }
-}
-
-int Project::Model::getShaderProgram() {
-    return _shaderRef;
-}
-void Project::Model::setShaderProgram(int shader) {
-    _shaderRef = shader;
 }
 
 int Project::Model::getVertexBufferObject() {
