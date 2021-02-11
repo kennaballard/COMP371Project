@@ -1,6 +1,7 @@
 #include "contexts/DrawContext.cpp"
 #include "models/Model.cpp"
 #include "managers/ModelManager.cpp"
+#include "inputs/MouseButtonHandler.cpp"
 #include "cameras/Camera.cpp"
 //#include "managers/InputManager.h"
 #include "factories/AlphanumericalModelFactory.cpp"
@@ -36,6 +37,28 @@ GLFWwindow* setup() {
         return NULL;
     }
     return window;
+}
+
+bool lpress = false;
+bool rpress = false;
+bool mpress = false;
+void callbackTest(GLFWwindow* window, int button, int action, int mods) {
+    //MouseButtonHandler handler;
+    //handler.handle(window, button, action, mods);
+}
+
+void cursorCallback(GLFWwindow* window, double xpos, double ypos) {
+    if (lpress) {
+        std::cout << "ZOOMING" << std::endl;
+    }
+
+    if (rpress) {
+        std::cout << "PANNING" << std::endl;
+    }
+
+    if (mpress) {
+        std::cout << "TILTING" << std::endl;
+    }
 }
 
 int main(int argc, char*argv[])
@@ -83,8 +106,11 @@ int main(int argc, char*argv[])
     GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 
-   
-
+    //MouseButtonHandler mouseButtonHandler;
+   // Mouse button Setup
+    glfwSetMouseButtonCallback(window, callbackTest);
+    //glfwSetMouseButtonCallback(window, callbackTest);
+    //glfwSetCursorPosCallback(window, cursorCallback);
     // Entering Main Loop
    
     while(!glfwWindowShouldClose(window))
