@@ -158,6 +158,6 @@ public:
            glBindVertexArray(0);
    */
 
-        return vertexBufferObject;
+        return vertexArrayObject;
     }
 };
