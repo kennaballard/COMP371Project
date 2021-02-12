@@ -121,6 +121,22 @@ int main(int argc, char*argv[])
         
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
+
+        //show line view 
+        if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
+
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+        //show point view 
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
+
+            glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+        }
+        //show triangle view 
+        if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) {
+
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
     }
     
     // Shutdown GLFW

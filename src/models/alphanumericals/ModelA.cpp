@@ -56,7 +56,7 @@ protected:
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
 
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
 
         //middle cube
@@ -67,7 +67,7 @@ protected:
         worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
 
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
 
         //top cube
@@ -78,7 +78,7 @@ protected:
         worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
 
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
         //right cube
         scalingMatrix = scale(glm::mat4(1.0f), glm::vec3(0.125f, 1.0f, 0.125f));
@@ -88,7 +88,7 @@ protected:
         worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
 
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     }
 
 public:
