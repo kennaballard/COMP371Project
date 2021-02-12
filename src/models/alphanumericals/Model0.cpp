@@ -154,10 +154,6 @@ public:
         );
         glEnableVertexAttribArray(1);
 
-        /*   glBindBuffer(GL_ARRAY_BUFFER, 0);
-           glBindVertexArray(0);
-   */
-
-        return vertexBufferObject;
+        return vertexArrayObject;
     }
 };

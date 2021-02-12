@@ -20,7 +20,7 @@ namespace Project {
         std::vector<Model*> _children;
         std::vector<glm::vec3> _relativePositions;
         int _numChildren;
-        int _vboRef;
+        int _vaoRef;
 
         protected:
         /**
