@@ -24,7 +24,7 @@ void Project::Model::Draw(DrawContext context) {
     int shaderProgram = context.getShaderProgram();
     int vbo = getVertexBufferObject();
     glUseProgram(shaderProgram);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBindVertexArray(vbo);
     DrawModel(context);
 
     for (Project::Model* child : _children) {
