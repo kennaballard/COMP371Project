@@ -104,11 +104,10 @@ int main(int argc, char*argv[])
     //initialize view
     glm::mat4 view_matrix;
     view_matrix = glm::lookAt(eye, center, up);
-    glm::vec3 eye(0.0f);
+    glm::vec3 eye(1.0f);
     glm::vec3 center(0.0f, 0.0f, -0.5f);
 
     // Entering Main Loop
-   
     while(!glfwWindowShouldClose(window))
     {
         
@@ -160,8 +159,8 @@ int main(int argc, char*argv[])
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
 
-        //move object to the right 
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        //orientation right 
+        if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
         {
             glm::vec3 direction(-0.5f, 0.0f, 0.0f);
             eye = eye + direction * movementSpeed * dt;
@@ -175,8 +174,8 @@ int main(int argc, char*argv[])
             glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
         }
 
-        //move object to the left
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        //orientation left
+        if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         {
             glm::vec3 direction(0.5f, 0.0f, 0.0f);
             eye = eye + direction * movementSpeed * dt;
@@ -190,8 +189,8 @@ int main(int argc, char*argv[])
             glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
         }
 
-        //move object to the up
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        //orientation down
+        if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
         {
             glm::vec3 direction(0.0f, 0.5f, 0.0f);
             eye = eye + direction * movementSpeed * dt;
@@ -205,8 +204,8 @@ int main(int argc, char*argv[])
             glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
         }
 
-        //move object to the down
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        //orientation up
+        if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         {
             glm::vec3 direction(0.0f, -0.5f, 0.0f);
             eye = eye + direction * movementSpeed * dt;
@@ -218,6 +217,16 @@ int main(int argc, char*argv[])
 
             GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
             glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+        }
+
+        //reset initial world position
+        if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS)
+        {
+            auto camera = Project::Camera(cameraPosition, cameraLookAt, cameraUp);
+            auto cameraMatrix = camera.setupCamera(context);
+
+            GLuint cameraMatrixLocation = glGetUniformLocation(context.getShaderProgram(), "viewMatrix");
+            glUniformMatrix4fv(cameraMatrixLocation, 1, GL_FALSE, &cameraMatrix[0][0]);
         }
     }
     
