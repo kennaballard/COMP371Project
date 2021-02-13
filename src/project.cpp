@@ -152,18 +152,13 @@ int main(int argc, char*argv[])
         //scale up 
         if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
 
-            a->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
-            b->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
-            
-
+            a->setScaling(glm::vec3(dt+0.6f, dt+0.6f, dt+0.6));
         }
 
         //scale down
         if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
 
-            a->setScaling(glm::vec3(0.2f, 0.2f, 0.2f));
-            b->setScaling(glm::vec3(0.2f, 0.2f, 0.2f));
-            
+            a->setScaling(glm::vec3(dt+0.4f, dt+0.4f, dt+0.4f)); 
         }
 
 
