@@ -11,7 +11,7 @@
 #include "../models/alphanumericals/Model0.cpp"
 #include "../models/alphanumericals/ModelAntoine.cpp"
 #include "../models/alphanumericals/ModelKennedy.cpp"
-
+#include "../models/Floor.cpp"
 /**
  * This creates models based on input. This currently does not support
  * every letter and number.
@@ -53,5 +53,10 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(std::string
     }
     if (chars == "ae20") {
         return new ModelAntoine(position, rotation, scale);
-    return NULL;
+        return NULL;
+    }
+    if (chars == "floor") {
+        return new Floor(position, rotation, scale);
+        return NULL;
+    }
 }

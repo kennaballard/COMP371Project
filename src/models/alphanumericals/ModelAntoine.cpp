@@ -14,9 +14,9 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class ModelKennedy : public Project::Model {
+class ModelAntoine : public Project::Model {
 public:
-    ModelKennedy(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+    ModelAntoine(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
         glm::vec3 posA = glm::vec3(-1.5f, 0.0f, 0.0f);
         glm::vec3 posE = glm::vec3(-0.5f, 0.0f, 0.0f);
         glm::vec3 pos2 = glm::vec3(0.5f, 0.0f, 0.0f);

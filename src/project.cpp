@@ -5,7 +5,7 @@
 //#include "managers/InputManager.h"
 #include "factories/AlphanumericalModelFactory.cpp"
 #include <string>
-//#include "Floor.h"
+
 
 
 const char* TITLE = "COMP 371 - Project - Team 3";
@@ -42,7 +42,7 @@ GLFWwindow* setup() {
     return window;
 }
 
-int main(int argc, char*argv[])
+int main(int argc, char* argv[])
 {
     GLFWwindow* window = setup();
     if (window == NULL) {
@@ -66,7 +66,7 @@ int main(int argc, char*argv[])
     // Load needed services beforehand.
     auto manager = Project::ModelManager();
     Project::AlphanumbericalModelFactory factory = Project::AlphanumbericalModelFactory();
-  
+
 
     // Kennedy model
     manager.addModel(0, factory.createModelFor("ky40"));
@@ -74,11 +74,14 @@ int main(int argc, char*argv[])
     //a->setScaling(glm::vec3(0.5f, 0.5f, 0.5f));
     //a->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
     //a->setTranslation(glm::vec3(0.5f, 1.0f, 0.0f));
-   
+
+
 
     manager.addModel(0, factory.createModelFor("ae20"));
     auto b = factory.createModelFor("ae20");
 
+    manager.addModel(0, factory.createModelFor("floor"));
+    auto floor = factory.createModelFor("floor");
 
     int shaderProgram = context.getShaderProgram();
     // Black background
@@ -86,19 +89,19 @@ int main(int argc, char*argv[])
 
     // Set projection matrix for shader, this won't change
     glm::mat4 projectionMatrix = glm::perspective(70.0f,            // field of view in degrees
-                                                  800.0f / 600.0f,  // aspect ratio
-                                                  0.01f, 100.0f);   // near and far (near > 0)
+        800.0f / 600.0f,  // aspect ratio
+        0.01f, 100.0f);   // near and far (near > 0)
 
     GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 
-   
+
 
     // Entering Main Loop
-   
-    while(!glfwWindowShouldClose(window))
+
+    while (!glfwWindowShouldClose(window))
     {
-        
+
         // Each frame, reset color of each pixel to glClearColor
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
@@ -107,30 +110,26 @@ int main(int argc, char*argv[])
         for (Project::Model *model : models) {
             std::cout << "INNNNNNNNNNNNNNNNNNt\n" << std::endl;
             (*model).Draw(context);
-<<<<<<< HEAD
-        }
-        Floor::drawFloor();
 
-=======
         }*/
-        
-//>>>>>>> kennedyModels
-        //(*a).Draw(context);
-        
+        (*floor).Draw(context);
+        //>>>>>>> kennedyModels
+                //(*a).Draw(context);
+
         (*b).Draw(context);
 
         // End frame
         glfwSwapBuffers(window);
-        
+
         // Detect inputs
         glfwPollEvents();
-        
+
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
     }
-    
+
     // Shutdown GLFW
     glfwTerminate();
-    
-	return 0;
-}
+
+    return 0;
+};

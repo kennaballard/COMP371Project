@@ -50,28 +50,28 @@ protected:
         glm::mat4 worldMatrix;
 
         // Top Right Block
-        worldMatrix = groupMatrix * partTranslationMatrix(0.25f, 2*defaultSize, 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
+        worldMatrix = groupMatrix * partTranslationMatrix(0.25f, 3.5f*defaultSize, 0.0f) * partScalingMatrix(defaultSize, 2.5f*defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         //Bottom Left Block
-        worldMatrix = groupMatrix * partTranslationMatrix(-0.25f, -2 * defaultSize, 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
+        worldMatrix = groupMatrix * partTranslationMatrix(-0.25f, -3.5f * defaultSize, 0.0f) * partScalingMatrix(defaultSize, 2.5f * defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         // Middle bar
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, 3* defaultSize, defaultSize);
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.0f, 0.0f) * partScalingMatrix(3*defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
 
         // Top bar
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 1.0f - defaultSize, 0.0f) * partScalingMatrix(defaultSize, 3 * defaultSize, defaultSize);
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 1.0f - defaultSize, 0.0f) * partScalingMatrix(3 * defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         // Bottom bar
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -1.0f + defaultSize, 0.0f) * partScalingMatrix(defaultSize, 3 * defaultSize, defaultSize);
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -1.0f + defaultSize, 0.0f) * partScalingMatrix(3*defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }
