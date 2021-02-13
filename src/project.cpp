@@ -137,11 +137,35 @@ int main(int argc, char*argv[])
         // Detect inputs
         glfwPollEvents();
 
-        //Keyboard Inputs
+        /////////////////////////
+        //                     //
+        //   Keyboard Input    //
+        //                     //
+        ////////////////////////
+
+        //close window
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             
             glfwSetWindowShouldClose(window, true);
         }
+
+        //scale up 
+        if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
+
+            a->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
+            b->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
+            
+
+        }
+
+        //scale down
+        if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
+
+            a->setScaling(glm::vec3(0.2f, 0.2f, 0.2f));
+            b->setScaling(glm::vec3(0.2f, 0.2f, 0.2f));
+            
+        }
+
 
         //show line view 
         if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
