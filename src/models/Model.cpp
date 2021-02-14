@@ -24,7 +24,7 @@ void Project::Model::Draw(DrawContext context) {
     int shaderProgram = context.getShaderProgram();
     int vbo = getVertexBufferObject();
     glUseProgram(shaderProgram);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBindVertexArray(vbo);
     DrawModel(context);
 
     for (Project::Model* child : _children) {
@@ -84,8 +84,8 @@ void Project::Model::setRotation(glm::vec3 rotation) {
 }
 
 int Project::Model::getVertexBufferObject() {
-    return _vboRef;
+    return _vaoRef;
 }
-void Project::Model::setVertexBufferObject(int vbo) {
-    _vboRef = vbo;
+void Project::Model::setVertexBufferObject(int vao) {
+    _vaoRef = vao;
 }

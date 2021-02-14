@@ -1,6 +1,8 @@
 #include "contexts/DrawContext.cpp"
 #include "models/Model.cpp"
 #include "managers/ModelManager.cpp"
+#include "inputs/mouse/MouseCursorHandler.cpp"
+#include "inputs/mouse/MouseButtonHandler.cpp"
 #include "cameras/Camera.cpp"
 //#include "managers/InputManager.h"
 #include "factories/AlphanumericalModelFactory.cpp"
@@ -42,7 +44,18 @@ GLFWwindow* setup() {
     return window;
 }
 
-int main(int argc, char* argv[])
+
+Project::MouseButtonHandler* mouseButtonHandler;
+Project::MouseCursorHandler* mouseCursorHandler;
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+    mouseButtonHandler->handle(window, button, action, mods);
+}
+
+void cursorCallback(GLFWwindow* window, double xpos, double ypos) {
+    mouseCursorHandler->handle(window, xpos, ypos);
+}
+
+int main(int argc, char*argv[])
 {
     GLFWwindow* window = setup();
     if (window == NULL) {
@@ -50,6 +63,8 @@ int main(int argc, char* argv[])
     }
 
     auto context = Project::DrawContext(window);
+
+    // --------- Camera
 
     // Camera parameters for view transform
     glm::vec3 cameraPosition(0.6f, 0.0f, 5.0f);
@@ -66,8 +81,8 @@ int main(int argc, char* argv[])
     // Load needed services beforehand.
     auto manager = Project::ModelManager();
     Project::AlphanumbericalModelFactory factory = Project::AlphanumbericalModelFactory();
-
-
+  
+    // --------- Models
     // Kennedy model
     manager.addModel(0, factory.createModelFor("ky40"));
     auto a = factory.createModelFor("ky40");
@@ -87,7 +102,9 @@ int main(int argc, char* argv[])
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    // Set projection matrix for shader, this won't change
+
+    // --------- Projection Matrix
+    // This won't change
     glm::mat4 projectionMatrix = glm::perspective(70.0f,            // field of view in degrees
         800.0f / 600.0f,  // aspect ratio
         0.01f, 100.0f);   // near and far (near > 0)
@@ -95,8 +112,14 @@ int main(int argc, char* argv[])
     GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 
+    // --------- Input Handling
+    
+    mouseButtonHandler = new Project::MouseButtonHandler();
+    mouseCursorHandler = new Project::MouseCursorHandler(mouseButtonHandler);
 
-
+   
+    glfwSetMouseButtonCallback(window, mouseButtonCallback);
+    glfwSetCursorPosCallback(window, cursorCallback);
     // Entering Main Loop
 
     while (!glfwWindowShouldClose(window))
@@ -104,17 +127,11 @@ int main(int argc, char* argv[])
 
         // Each frame, reset color of each pixel to glClearColor
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
-        // Keep track of models to draw.
-       /* std::vector<Project::Model*> models = manager.getModels(0);
-        for (Project::Model *model : models) {
-            std::cout << "INNNNNNNNNNNNNNNNNNt\n" << std::endl;
-            (*model).Draw(context);
-
-        }*/
         (*floor).Draw(context);
-        //>>>>>>> kennedyModels
-                //(*a).Draw(context);
+        
+        // Draw models
+        (*a).Draw(context);
+        
 
         (*b).Draw(context);
 
