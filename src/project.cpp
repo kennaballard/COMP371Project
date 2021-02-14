@@ -127,6 +127,7 @@ int main(int argc, char*argv[])
 
         // Each frame, reset color of each pixel to glClearColor
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
         (*floor).Draw(context);
         
         // Draw models
