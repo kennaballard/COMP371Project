@@ -39,25 +39,26 @@ private:
         for (int i = 0; i < 516; i += 4) {
             vertexArray[i] = glm::vec3(-64 * coord + (i / 4) * coord-6*coord, -0.01f, -64 * coord+2*coord);
             vertexArray[(i + 1)] = glm::vec3(0.5f, 0.5f, 0.0f);
+            vertexArray[(i + 2)] = glm::vec3(-64 * coord + (i / 4) * coord - 6 * coord, -0.01f, 64 * coord + 2 * coord);
             vertexArray[(i + 3)] = glm::vec3(0.5f, 0.5f, 0.0f);
             vertexArray[(i + 516)] = glm::vec3(-64 * coord - 6 * coord, -0.01f, -64 * coord + (i / 4) * coord + 2 * coord);
             vertexArray[(i + 517)] = glm::vec3(0.5f, 0.5f, 0.0f);
             vertexArray[(i + 518)] = glm::vec3(64 * coord - 6 * coord, -0.01f, -64 * coord + (i / 4) * coord + 2 * coord);
             vertexArray[(i + 519)] = glm::vec3(0.5f, 0.5f, 0.0f);
         }
-        vertexArray[1032] = glm::vec3(0.0f - 6 * coord, 0.0f, 0.0f + 2 * coord);
+        vertexArray[1032] = glm::vec3(0.0f - 6 * coord, 0.0f, 2 * coord);
         vertexArray[1033] = glm::vec3(0.0f, 1.0f, 0.0f);
-        vertexArray[1034] = glm::vec3(0.0f - 6 * coord, 7 * coord, 0.0f + 2 * coord);
+        vertexArray[1034] = glm::vec3(0.0f - 6 * coord, 7 * coord, 2 * coord);
         vertexArray[1035] = glm::vec3(0.0f, 1.0f, 0.0f);
-        vertexArray[1036] = glm::vec3(0.0f - 6 * coord, 0.0f, 0.0f + 2 * coord);
+        vertexArray[1036] = glm::vec3( - 6 * coord, 0.0f, 2 * coord);
         vertexArray[1037] = glm::vec3(1.0f, 0.0f, 0.0f);
-        vertexArray[1038] = glm::vec3(7 * coord - 6 * coord, 0.0f, 0.0f + 2 * coord);
+        vertexArray[1038] = glm::vec3(coord, 0.0f, 2 * coord);
         vertexArray[1039] = glm::vec3(1.0f, 0.0f, 0.0f);
-        vertexArray[1040] = glm::vec3(0.0f - 6 * coord, 0.0f, 0.0f + 2 * coord);
+        vertexArray[1040] = glm::vec3(0.0f - 6 * coord, 0.0f, 2 * coord);
         vertexArray[1041] = glm::vec3(0.0f, 0.0f, 1.0f);
-        vertexArray[1042] = glm::vec3(0.0f - 6 * coord, 0.0f, 7 * coord + 2 * coord);
+        vertexArray[1042] = glm::vec3(0.0f - 6 * coord, 0.0f, 9 * coord);
         vertexArray[1043] = glm::vec3(0.0f, 0.0f, 1.0f);
-        vertexArray[1044] = glm::vec3(64 * coord - 6 * coord, 0.0f, 0.0f + 2 * coord);
+        vertexArray[1044] = glm::vec3(64 * coord - 6 * coord, 0.0f, 2 * coord);
         vertexArray[1045] = glm::vec3(1.0f, 0.0f, 0.0f);
         for (int i = 4; i < 400; i += 4) {
             vertexArray[1042 + i] = glm::vec3(64 * coord * cos(2 * 3.1415f * i / 400) - 6 * coord, 0.0f, 64 * coord * sin(2 * 3.1415f * i / 400) + 2 * coord);
@@ -65,7 +66,7 @@ private:
             vertexArray[1044 + i] = glm::vec3(64 * coord * cos(2 * 3.1415f * i / 400) - 6 * coord, 0.0f, 64 * coord * sin(2 * 3.1415f * i / 400) + 2 * coord);
             vertexArray[1045 + i] = glm::vec3(1.0f, 0.0f, 0.0f);
         }
-        vertexArray[1442] = glm::vec3(64 * coord - 6 * coord, 0.0f, 0.0f + 2 * coord);
+        vertexArray[1442] = glm::vec3(64 * coord -6*coord, 0.0f, 2 * coord);
         vertexArray[1443] = glm::vec3(1.0f, 0.0f, 0.0f);
 
         // Create a vertex array
