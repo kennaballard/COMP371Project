@@ -68,8 +68,8 @@ int main(int argc, char*argv[])
     manager.addModel(0, factory.createModelFor("ky40"));
     auto a = factory.createModelFor("ky40");
     auto c = new ModelY(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f));
-
-    (*c).setRotation(glm::vec3(0.0f, 1.0f, 0.0f));
+    (*a).Draw(context);
+    
 
    // a->setRotation(glm::vec3(-0.75f, -2.0f, 0.0f));
     //a->setScaling(glm::vec3(0.5f, 0.5f, 0.5f));
@@ -88,13 +88,24 @@ int main(int argc, char*argv[])
     GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 
-   
+   //value use for a smooth rotations
+    float angle = 0;
+    float rotationSpeed = 180.0f;  // 180 degrees per second
+    float lastFrameTime = glfwGetTime();
+
+    //Value use to detect a key press only one time
+    int lastKeyAPress = GLFW_RELEASE;
+    int lastKeyDPress = GLFW_RELEASE;
 
     // Entering Main Loop
-   
+    
+
     while(!glfwWindowShouldClose(window))
     {
         
+
+        float dt = glfwGetTime() - lastFrameTime;
+        lastFrameTime += dt;
         // Each frame, reset color of each pixel to glClearColor
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
@@ -106,11 +117,6 @@ int main(int argc, char*argv[])
         }*/
         
         (*a).Draw(context);
-        (*c).Draw(context);
-        
-
-        
-        
 
         // End frame
         glfwSwapBuffers(window);
@@ -121,19 +127,39 @@ int main(int argc, char*argv[])
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
 
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-            c->setRotation(glm::vec3(1.0f, 1.0f, 1.0f));
-            c->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
-            c->rotate(context);
-            (*c).Draw(context);
-        }
+        // Samuel Rotation control 
+        //detect if CTRL is press to change between smooth rotation or only 5 deegres per click 
+        bool autorotations = glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS;
+        if (autorotations) {
+            
+            //Rotation left smooth
+            if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+                a->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
+                
+            }
+            //Rotation Right smooth
+            else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+                a->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), -rotationSpeed, dt);
 
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-            a->setRotation(glm::vec3(1.0f, 1.0f, 1.0f));
-            a->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
-            (*a).Draw(context);
-
+            }
         }
+        else {
+            // Left and right single click rotation
+            if (lastKeyAPress == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            {
+                a->setRotation(glm::vec3(0.0f, 1.0f, 0.0f),5.0f);
+            
+            }
+            else if (lastKeyDPress == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            {
+                a->setRotation(glm::vec3(1.0f, 0.0f, 0.0f), -5.0f);
+
+            }
+            lastKeyAPress = glfwGetKey(window, GLFW_KEY_A);
+            lastKeyDPress = glfwGetKey(window, GLFW_KEY_D);
+        }
+        
+ 
            
     }
     

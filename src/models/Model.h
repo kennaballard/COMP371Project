@@ -13,6 +13,7 @@ namespace Project {
         private:
         glm::vec3 _position;
         glm::vec3 _rotation;
+        float _angle;
         glm::vec3 _scale;
         bool _reflectionX;
         bool _reflectionY;
@@ -80,7 +81,11 @@ namespace Project {
         **/
         glm::vec3 getRotation();
 
-        void setRotation(glm::vec3 rotation);
+        void setRotation(glm::vec3 rotationAxis,float angle);
+
+        void setRotation(glm::vec3 rotationAxis, float rotationalSpeed, float dt);
+
+        float getAngle();
 
         private:
         /**

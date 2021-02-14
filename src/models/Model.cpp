@@ -13,6 +13,7 @@
 Project::Model::Model(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
     _position = position;
     _rotation = rotation;
+    _angle = 1.0f;
     _scale = scale;
     _children = std::vector<Model*>();
     _relativePositions = std::vector<glm::vec3>();
@@ -79,16 +80,37 @@ void Project::Model::setTranslation(glm::vec3 translation) {
 glm::vec3 Project::Model::getRotation() {
     return _rotation;
 }
-void Project::Model::setRotation(glm::vec3 rotation) {
+
+//Rotation of the model by a given deegres (angles) around a specific axis.  
+void Project::Model::setRotation(glm::vec3 rotationAxis, float angle  ) {
     
-    _rotation = rotation +_rotation;
+
+    _rotation = rotationAxis;
+    _angle = _angle + angle;
+
     for (Project::Model* child : _children) {
-        (*child).setRotation(rotation);
-        
-        printf("patayo");
-       
+        (*child).setRotation(rotationAxis, angle);    
     }
 }
+
+//Smooth rotation of the model around a specific axis  
+void Project::Model::setRotation(glm::vec3 rotationAxis, float rotationalSpeed, float dt ) {
+
+    _rotation = rotationAxis;
+    _angle = _angle + rotationalSpeed *dt;
+
+    for (Project::Model* child : _children) {
+        (*child).setRotation(rotationAxis, rotationalSpeed , dt);
+
+    }
+}
+
+float Project::Model::getAngle()
+{
+    return _angle;
+}
+
+
 
 int Project::Model::getVertexBufferObject() {
     return _vboRef;
