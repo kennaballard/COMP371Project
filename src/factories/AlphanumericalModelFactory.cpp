@@ -1,9 +1,9 @@
 #include "AlphanumericalModelFactory.h"
 //#include "../models/alphanumericals/ModelS.cpp"
-#include "../models/alphanumericals/Model0.cpp"
-#include "../models/alphanumericals/Model4.cpp"
+//#include "../models/alphanumericals/ModelT.cpp"
+
+//ModelKennedy
 #include "../models/alphanumericals/ModelK.cpp"
-#include "../models/alphanumericals/ModelT.cpp"
 #include "../models/alphanumericals/ModelY.cpp"
 #include "../models/alphanumericals/ModelA.cpp"
 #include "../models/alphanumericals/ModelE.cpp"
@@ -11,6 +11,9 @@
 #include "../models/alphanumericals/Model0.cpp"
 #include "../models/alphanumericals/ModelAntoine.cpp"
 #include "../models/alphanumericals/ModelKennedy.cpp"
+#include "../models/alphanumericals/ModelL.cpp"
+#include "../models/alphanumericals/Model8.cpp"
+#include "../models/alphanumericals/ModelAna.cpp"
 #include "../models/alphanumericals/ModelThomas.cpp"
 #include "../models/Floor.cpp"
 /**
@@ -28,16 +31,32 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
     switch (ch) {
         /*case 'S':
             return new ModelS();*/
+        /*case 'T':
+            return new ModelT(position, rotation, scale);*/
+
+        //ModelKennedy
         case '0': 
             return new Model0(position, rotation, scale);
-        case '4':
-            return new Model4(position, rotation, scale);
+        case '4K':
+            return new Model4K(position, rotation, scale);
         case 'K':
             return new ModelK(position, rotation, scale);
         case 'T':
             return new ModelT(position, rotation, scale);
         case 'Y':
-            return new ModelY(position, rotation, scale);
+        return new ModelY(position, rotation, scale);
+       
+        
+        //ModelAna
+        case 'A':
+            return new ModelA(position, rotation, scale);
+        case 'L':
+            return new ModelL(position, rotation, scale);
+        case '4':
+            return new Model4(position, rotation, scale);
+        case '8':
+            return new Model8(position, rotation, scale);
+
     }
     //return new ModelS();
 
@@ -59,4 +78,8 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(std::string
         return new Floor(position, rotation, scale);
         return NULL;
     }
+    if (chars == "al48") {
+        return new ModelAna(position, rotation, scale);
+    }
+    return NULL;
 }

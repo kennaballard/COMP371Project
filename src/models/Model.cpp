@@ -22,9 +22,9 @@ Project::Model::Model(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
 void Project::Model::Draw(DrawContext context) {
     // TODO: scale (+zoom), translate, rotate
     int shaderProgram = context.getShaderProgram();
-    int vbo = getVertexBufferObject();
+    int vao = getVertexBufferObject();
     glUseProgram(shaderProgram);
-    glBindVertexArray(vbo);
+    glBindVertexArray(vao);
     DrawModel(context);
 
     for (Project::Model* child : _children) {

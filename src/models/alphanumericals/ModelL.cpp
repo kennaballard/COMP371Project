@@ -18,9 +18,9 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class Model4 : public Project::Model {
+class ModelL : public Project::Model {
 public:
-    Model4(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+    ModelL(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
         setVertexBufferObject(generateVertexBufferObject());
     }
 
@@ -42,14 +42,14 @@ protected:
        
         int shader = context.getShaderProgram();
 
-        ///////////////////////////////////
-      //                               //
-      //     building cubes for "4"    //
-      //////////////////////////////////
+    //////////////////////////////////
+    //                               //
+    //     building cubes for "L"    //
+    //////////////////////////////////
 
-      //right cube
+    //right cube
         glm::mat4 scalingMatrix = scale(glm::mat4(1.0f), glm::vec3(0.125f, 1.0f, 0.125f));
-        glm::mat4 translationMatrix = translate(glm::mat4(1.0f), glm::vec3(0.35f, 0.0f, 0.0f));
+        glm::mat4 translationMatrix = translate(glm::mat4(1.0f), glm::vec3(-0.25f, 0.0f, 0.0f));
 
         glm::mat4 worldMatrix = translationMatrix * scalingMatrix;
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
@@ -57,20 +57,9 @@ protected:
 
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
-        //middle cube
+        //bottom cube
         scalingMatrix = scale(glm::mat4(1.0f), glm::vec3(0.2f, 0.125f, 0.125f));
-        translationMatrix = translate(glm::mat4(1.0f), glm::vec3(0.18f, 0.01f, 0.0f));
-
-        worldMatrix = translationMatrix * scalingMatrix;
-        worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
-        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-
-
-        //left cube
-        scalingMatrix = scale(glm::mat4(1.0f), glm::vec3(0.125f, 0.55f, 0.125f));
-        translationMatrix = translate(glm::mat4(1.0f), glm::vec3(0.01f, 0.22f, 0.0f));
+        translationMatrix = translate(glm::mat4(1.0f), glm::vec3(-0.08f, -0.44f, 0.0f));
 
         worldMatrix = translationMatrix * scalingMatrix;
         worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
