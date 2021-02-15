@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Model.h"
 #include "../models/alphanumericals/Model0.cpp"
-#include "../models/alphanumericals/Model4K.cpp"
+#include "../models/alphanumericals/Model4.cpp"
 #include "../models/alphanumericals/ModelK.cpp"
 #include "../models/alphanumericals/ModelY.cpp"
 
@@ -19,13 +19,13 @@ public:
     ModelKennedy(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
         glm::vec3 posK = glm::vec3(-1.5f,  0.0f, 0.0f);
         glm::vec3 posY = glm::vec3(-0.5f, 0.0f, 0.0f);
-        glm::vec3 pos4K = glm::vec3(0.5f, 0.0f, 0.0f);
+        glm::vec3 pos4 = glm::vec3(0.5f, 0.0f, 0.0f);
         glm::vec3 pos0 = glm::vec3(1.5f, 0.0f, 0.0f);
 
         // Add children in parallel to their relative positions
         addChild(new ModelK(position+posK, rotation, scale));
         addChild(new ModelY(position+posY, rotation, scale));
-        addChild(new Model4K(position+pos4K, rotation, scale));
+        addChild(new Model4(position+pos4, rotation, scale));
         addChild(new Model0(position+pos0, rotation, scale));     
     }
 protected:

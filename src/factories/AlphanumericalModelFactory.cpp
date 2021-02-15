@@ -38,13 +38,13 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
         case '0': 
             return new Model0(position, rotation, scale);
         case '4K':
-            return new Model4K(position, rotation, scale);
+            return new Model4(position, rotation, scale);
         case 'K':
             return new ModelK(position, rotation, scale);
         case 'T':
             return new ModelT(position, rotation, scale);
         case 'Y':
-        return new ModelY(position, rotation, scale);
+            return new ModelY(position, rotation, scale);
        
         
         //ModelAna
@@ -56,6 +56,8 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
             return new Model4(position, rotation, scale);
         case '8':
             return new Model8(position, rotation, scale);
+        case '2':
+            return new Model2(position, rotation, scale);
 
     }
     //return new ModelS();

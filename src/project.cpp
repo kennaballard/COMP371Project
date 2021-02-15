@@ -94,6 +94,7 @@ int main(int argc, char*argv[])
     // --------- Models
     // Kennedy model
     manager.addModel(0, factory.createModelFor("ky40"));
+    auto d = factory.createModelFor("ky40");
     manager.addModel(0, factory.createModelFor("al48"));
     auto b = factory.createModelFor("al48");
     manager.addModel(0, factory.createModelFor("ts47"));
@@ -106,8 +107,8 @@ int main(int argc, char*argv[])
 
 
 
-    manager.addModel(0, factory.createModelFor("ae20"));
-    auto c = factory.createModelFor("ae20");
+    manager.addModel(0, factory.createModelFor('2'));
+    auto c = factory.createModelFor('2');
 
     manager.addModel(0, factory.createModelFor("floor"));
     auto floor = factory.createModelFor("floor");
@@ -169,12 +170,12 @@ int main(int argc, char*argv[])
         
         //draw ModelKennedy
         // Draw models
-        (*a).Draw(context);
-
-        //draw ModelAna
-        (*b).Draw(context);
-
         (*c).Draw(context);
+
+        ////draw ModelAna
+        //(*b).Draw(context);
+
+        //(*c).Draw(context);
 
         // End frame
         glfwSwapBuffers(window);

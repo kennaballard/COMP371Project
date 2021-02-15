@@ -41,7 +41,7 @@ protected:
     void DrawModel(Project::DrawContext context) {
         GLfloat defaultSize = 0.125f;
         int shader = context.getShaderProgram();
-
+        std::cout << "HELOOOOOOOOOOOOOOOOOO" << std::endl;
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glm::mat4 groupTranslationMatrix = glm::translate(glm::mat4(1.0f), getPosition());
         glm::mat4 groupScaleMatrix = glm::scale(glm::mat4(1.0f), getScale());
@@ -52,28 +52,28 @@ protected:
         // Top Right Block
         worldMatrix = groupMatrix * partTranslationMatrix(0.25f, 3.5f*defaultSize, 0.0f) * partScalingMatrix(defaultSize, 2.5f*defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
         //Bottom Left Block
         worldMatrix = groupMatrix * partTranslationMatrix(-0.25f, -3.5f * defaultSize, 0.0f) * partScalingMatrix(defaultSize, 2.5f * defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
         // Middle bar
         worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.0f, 0.0f) * partScalingMatrix(3*defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
 
         // Top bar
         worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 1.0f - defaultSize, 0.0f) * partScalingMatrix(3 * defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
         // Bottom bar
         worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -1.0f + defaultSize, 0.0f) * partScalingMatrix(3*defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     }
 
 public:
