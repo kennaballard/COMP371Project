@@ -10,9 +10,9 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class ModelT : public Project::Model {
+class Model7 : public Project::Model {
 public:
-    ModelT(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+    Model7(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
         setVertexBufferObject(generateVertexBufferObject());
     }
 
@@ -45,7 +45,7 @@ protected:
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
         // Bottom
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -0.125f, 0.0f)  * partScalingMatrix(0.125f, 0.75f, 0.125f);
+        worldMatrix = groupMatrix * partTranslationMatrix(0.375f, -0.125f, 0.0f)  * partScalingMatrix(0.125f, 0.75f, 0.125f);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }

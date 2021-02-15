@@ -89,7 +89,10 @@ int main(int argc, char*argv[])
     // --------- Models
     // Kennedy model
     manager.addModel(0, factory.createModelFor("ky40"));
-    auto a = factory.createModelFor("ky40");
+    manager.addModel(0, factory.createModelFor("ts47"));
+    //auto a = factory.createModelFor("ky40");
+    auto a = factory.createModelFor("ts47");
+    //a->setScaling(glm::vec3(0.25f, 0.25f, 0.25f));
     //a->setScaling(glm::vec3(0.5f, 0.5f, 0.5f));
     //a->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
     //a->setTranslation(glm::vec3(0.5f, 1.0f, 0.0f));
