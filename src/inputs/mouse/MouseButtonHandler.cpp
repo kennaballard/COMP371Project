@@ -27,11 +27,10 @@ void Project::MouseButtonHandler::handle(GLFWwindow* window, int button, int act
 
 bool Project::MouseButtonHandler::setIsPressed(int action) {
     if (action == GLFW_PRESS) {
-        std::cout << "Press" << std::endl;
         return true;
     }
     else if (action == GLFW_RELEASE) {
-        std::cout << "Lift" << std::endl;
+        return false;
     }
 
     return false;

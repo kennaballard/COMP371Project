@@ -1,7 +1,6 @@
 #include "contexts/DrawContext.cpp"
 #include "models/Model.cpp"
 #include "managers/ModelManager.cpp"
-#include "inputs/mouse/MouseCursorHandler.cpp"
 #include "inputs/mouse/MouseButtonHandler.cpp"
 #include "cameras/Camera.cpp"
 //#include "managers/InputManager.h"
@@ -42,17 +41,8 @@ GLFWwindow* setup() {
 
 
 Project::MouseButtonHandler* mouseButtonHandler;
-Project::MouseCursorHandler* mouseCursorHandler;
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
     mouseButtonHandler->handle(window, button, action, mods);
-}
-
-void cursorCallback(GLFWwindow* window, double xpos, double ypos) {
-    mouseCursorHandler->handle(window, xpos, ypos);
-}
-
-void cameraPositioning() {
-
 }
 
 int main(int argc, char*argv[])
