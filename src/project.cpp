@@ -7,7 +7,7 @@
 //#include "managers/InputManager.h"
 #include "factories/AlphanumericalModelFactory.cpp"
 #include <string>
-
+#include <vector>
 
 
 const char* TITLE = "COMP 371 - Project - Team 3";
@@ -55,14 +55,8 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
     mouseButtonHandler->handle(window, button, action, mods);
 }
 
-void cursorCallback(GLFWwindow* window, double xpos, double ypos) {
-    mouseCursorHandler->handle(window, xpos, ypos);
-}
-
-void cameraPositioning() {
-
-}
-
+const float circlePosX = 78.50967;
+const float circlePosZ = 94.50967;
 int main(int argc, char*argv[])
 {
     GLFWwindow* window = setup();
@@ -92,12 +86,26 @@ int main(int argc, char*argv[])
     Project::AlphanumbericalModelFactory factory = Project::AlphanumbericalModelFactory();
   
     // --------- Models
-    // Kennedy model
-    auto kennedModel = factory.createModelFor("ky40");
-    auto annaModel = factory.createModelFor("al48");
+    auto kennedyModel = factory.createModelFor("ky40");
+    auto anaModel = factory.createModelFor("al48");
     auto thomasModel = factory.createModelFor("ts47");
     auto antoineModel = factory.createModelFor("ae20");
-    Project::Model* activeModel;
+
+    //anaModel->setPosition(glm::vec3(circlePosX, circlePosZ, 0.0f));
+    //thomasModel->setPosition(glm::vec3(-circlePosX, circlePosZ, 0.0f));
+    //antoineModel->setPosition(glm::vec3(-circlePosX, -circlePosZ, 0.0f));
+    std::vector<Project::Model*> models = std::vector<Project::Model*>();
+    // Kennedy
+    models.push_back(kennedyModel);
+    // Antoine
+    models.push_back(antoineModel);
+    // Thomas
+    models.push_back(thomasModel);
+    // Ana
+    models.push_back(anaModel);
+
+    // Set the current 
+    Project::Model* activeModel = models.at(0);
 
     auto floor = factory.createModelFor("floor");
 
@@ -127,7 +135,6 @@ int main(int argc, char*argv[])
     glm::vec3 center(0.0f, 0.0f, -0.5f);
 
     // --------- Input Handling
-    
     mouseButtonHandler = new Project::MouseButtonHandler(context);
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
    
@@ -146,7 +153,10 @@ int main(int argc, char*argv[])
 
         // Draw all models
         (*floor).Draw(context);
-        antoineModel->Draw(context);
+
+        for (Project::Model* model : models) {
+            model->Draw(context);
+        }
 
         // End frame
         glfwSwapBuffers(window);
@@ -161,23 +171,20 @@ int main(int argc, char*argv[])
         ////////////////////////
 
         //close window
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            
-
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
-        }
+        
 
         //scale up 
         if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
 
-            //a->setScaling(glm::vec3(dt+0.6f, dt+0.6f, dt+0.6));
+            activeModel->setScaling(glm::vec3(dt+0.6f, dt+0.6f, dt+0.6));
         }
 
         //scale down
         if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
 
-            //a->setScaling(glm::vec3(dt+0.4f, dt+0.4f, dt+0.4f)); 
+            activeModel->setScaling(glm::vec3(dt+0.4f, dt+0.4f, dt+0.4f)); 
         }
 
 
