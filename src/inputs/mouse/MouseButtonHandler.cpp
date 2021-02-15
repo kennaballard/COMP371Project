@@ -4,10 +4,11 @@
 /**
  * This handles all mouse button events
  **/
-Project::MouseButtonHandler::MouseButtonHandler() {
+Project::MouseButtonHandler::MouseButtonHandler(DrawContext context) {
     _rightPressed = false;
     _leftPressed = false;
     _middlePressed = false;
+    _context = context;
 }
 
 void Project::MouseButtonHandler::handle(GLFWwindow* window, int button, int action, int mods) {

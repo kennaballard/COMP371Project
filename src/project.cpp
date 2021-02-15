@@ -55,6 +55,10 @@ void cursorCallback(GLFWwindow* window, double xpos, double ypos) {
     mouseCursorHandler->handle(window, xpos, ypos);
 }
 
+void cameraPositioning() {
+
+}
+
 int main(int argc, char*argv[])
 {
     GLFWwindow* window = setup();
@@ -72,11 +76,11 @@ int main(int argc, char*argv[])
     glm::vec3 cameraUp(0.0f, 1.0f, 0.0f);
 
     // Camera intialization
-    auto camera = Project::Camera(cameraPosition, cameraLookAt, cameraUp);
-    auto cameraMatrix = camera.setupCamera(context);
+    auto camera = Project::Camera(cameraPosition, cameraLookAt, cameraUp, glGetUniformLocation(context.getShaderProgram(), "viewMatrix"));
+    camera.setupCamera(context);
 
-    GLuint cameraMatrixLocation = glGetUniformLocation(context.getShaderProgram(), "viewMatrix");
-    glUniformMatrix4fv(cameraMatrixLocation, 1, GL_FALSE, &cameraMatrix[0][0]);
+    // Set as active camera
+    // TODO
 
     // Load needed services beforehand.
     auto manager = Project::ModelManager();
@@ -114,17 +118,15 @@ int main(int argc, char*argv[])
 
     // --------- Input Handling
     
-    mouseButtonHandler = new Project::MouseButtonHandler();
-    mouseCursorHandler = new Project::MouseCursorHandler(mouseButtonHandler);
-
-   
+    mouseButtonHandler = new Project::MouseButtonHandler(context);
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
-    glfwSetCursorPosCallback(window, cursorCallback);
+   
     // Entering Main Loop
-
-    while (!glfwWindowShouldClose(window))
+    while(!glfwWindowShouldClose(window))
     {
-
+        // Calculate camera pos
+        camera.calculatePosition(context, mouseButtonHandler);
+       
         // Each frame, reset color of each pixel to glClearColor
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 

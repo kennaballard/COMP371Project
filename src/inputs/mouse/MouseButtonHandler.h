@@ -1,15 +1,18 @@
 #pragma once
+#include "../contexts/DrawContext.h"
 
 namespace Project {
     class MouseButtonHandler {
     private:
+        Project::DrawContext _context;
+
         bool _rightPressed;
         bool _leftPressed;
         bool _middlePressed;
 
         bool setIsPressed(int action);
     public:
-        MouseButtonHandler();
+        MouseButtonHandler(Project::DrawContext context);
         /**
          * Handles all mouse button input events.
          **/
