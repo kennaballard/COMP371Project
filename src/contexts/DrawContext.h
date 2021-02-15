@@ -20,7 +20,8 @@ namespace Project {
         // TODO: keep track of scaling, rotation, translation in a list for each update.
         // TODO: add copy() functionality
         // TODO: add support for DrawContext and drawing children models.
-        DrawContext(GLFWwindow* window);
+
+        DrawContext(GLFWwindow* window = 0);
 
         /**
          * Returns the window from which the drawing should be done on.
