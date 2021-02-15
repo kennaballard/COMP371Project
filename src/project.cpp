@@ -107,7 +107,7 @@ int main(int argc, char*argv[])
 
 
     manager.addModel(0, factory.createModelFor("ae20"));
-    auto b = factory.createModelFor("ae20");
+    auto c = factory.createModelFor("ae20");
 
     manager.addModel(0, factory.createModelFor("floor"));
     auto floor = factory.createModelFor("floor");
@@ -174,7 +174,7 @@ int main(int argc, char*argv[])
         //draw ModelAna
         (*b).Draw(context);
 
-        (*b).Draw(context);
+        (*c).Draw(context);
 
         // End frame
         glfwSwapBuffers(window);
@@ -288,11 +288,13 @@ int main(int argc, char*argv[])
         //reset initial world position
         if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS)
         {
-            auto camera = Project::Camera(cameraPosition, cameraLookAt, cameraUp);
-            auto cameraMatrix = camera.setupCamera(context);
+
+            auto camera = Project::Camera(cameraPosition, cameraLookAt, cameraUp, glGetUniformLocation(context.getShaderProgram(), "viewMatrix"));
+          //  auto cameraMatrix = camera.setupCamera(context);
 
             GLuint cameraMatrixLocation = glGetUniformLocation(context.getShaderProgram(), "viewMatrix");
-            glUniformMatrix4fv(cameraMatrixLocation, 1, GL_FALSE, &cameraMatrix[0][0]);
+         //   glUniformMatrix4fv(cameraMatrixLocation, 1, GL_FALSE, &cameraMatrix[0][0]);
+
         }
     }
 
