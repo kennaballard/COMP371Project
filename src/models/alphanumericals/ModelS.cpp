@@ -10,9 +10,9 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class ModelT : public Project::Model {
+class ModelS : public Project::Model {
 public:
-    ModelT(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+    ModelS(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
         setVertexBufferObject(generateVertexBufferObject());
     }
 
@@ -44,8 +44,23 @@ protected:
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
+        // Top-Center Connector
+        worldMatrix = groupMatrix * partTranslationMatrix(-0.375f, 0.375f, 0.0f) * partScalingMatrix(0.125f, 0.25f, 0.125f);
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+
+        // Center
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.0f, 0.0f) * partScalingMatrix(0.5f, 0.125f, 0.125f);
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+
+        // Center-Bottom Connector
+        worldMatrix = groupMatrix * partTranslationMatrix(0.375f, -0.375f, 0.0f) * partScalingMatrix(0.125f, 0.25f, 0.125f);
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+
         // Bottom
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -0.125f, 0.0f)  * partScalingMatrix(0.125f, 0.75f, 0.125f);
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -0.75f, 0.0f) * partScalingMatrix(0.5f, 0.125f, 0.125f);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }

@@ -14,9 +14,6 @@ namespace Project {
         glm::vec3 _position;
         glm::vec3 _rotation;
         glm::vec3 _scale;
-        bool _reflectionX;
-        bool _reflectionY;
-        bool _reflectionZ;
         std::vector<Model*> _children;
         std::vector<glm::vec3> _relativePositions;
         int _numChildren;
