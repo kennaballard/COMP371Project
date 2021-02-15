@@ -74,11 +74,9 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(std::string
     }
     if (chars == "ae20") {
         return new ModelAntoine(position, rotation, scale);
-        return NULL;
     }
     if (chars == "floor") {
         return new Floor(position, rotation, scale);
-        return NULL;
     }
     if (chars == "al48") {
         return new ModelAna(position, rotation, scale);

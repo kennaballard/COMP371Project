@@ -71,7 +71,7 @@ int main(int argc, char*argv[])
     }
 
     auto context = Project::DrawContext(window);
-
+    int shaderProgram = context.getShaderProgram();
     // --------- Camera
 
     // Camera parameters for view transform
@@ -93,30 +93,14 @@ int main(int argc, char*argv[])
   
     // --------- Models
     // Kennedy model
-    manager.addModel(0, factory.createModelFor("ky40"));
-    auto d = factory.createModelFor("ky40");
-    manager.addModel(0, factory.createModelFor("al48"));
-    auto b = factory.createModelFor("al48");
-    manager.addModel(0, factory.createModelFor("ts47"));
-    //auto a = factory.createModelFor("ky40");
-    auto a = factory.createModelFor("ts47");
-    //a->setScaling(glm::vec3(0.25f, 0.25f, 0.25f));
-    //a->setScaling(glm::vec3(0.5f, 0.5f, 0.5f));
-    //a->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
-    //a->setTranslation(glm::vec3(0.5f, 1.0f, 0.0f));
+    auto kennedModel = factory.createModelFor("ky40");
+    auto annaModel = factory.createModelFor("al48");
+    auto thomasModel = factory.createModelFor("ts47");
+    auto antoineModel = factory.createModelFor("ae20");
+    Project::Model* activeModel;
 
-
-
-    manager.addModel(0, factory.createModelFor('2'));
-    auto c = factory.createModelFor('2');
-
-    manager.addModel(0, factory.createModelFor("floor"));
     auto floor = factory.createModelFor("floor");
 
-    b->setScaling(glm::vec3(0.5f, 0.5f, 0.5f));
-    b->setTranslation(glm::vec3(0.5f, 1.0f, 0.0f));
-    b->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
-    int shaderProgram = context.getShaderProgram();
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -149,10 +133,7 @@ int main(int argc, char*argv[])
    
     // Entering Main Loop
     while(!glfwWindowShouldClose(window))
-    {
-        // Calculate camera pos
-        camera.calculatePosition(context, mouseButtonHandler);
-       
+    {  
         // Each frame, reset color of each pixel to glClearColor
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
@@ -160,22 +141,12 @@ int main(int argc, char*argv[])
         float dt = glfwGetTime() - lastFrameTime;
         lastFrameTime += dt;
 
-        // Keep track of models to draw.
-       /* std::vector<Project::Model*> models = manager.getModels(0);
-        for (Project::Model *model : models) {
-            std::cout << "INNNNNNNNNNNNNNNNNNt\n" << std::endl;
-            (*model).Draw(context);
-        }*/
+        // Calculate camera pos
+        camera.calculatePosition(context, mouseButtonHandler);
+
+        // Draw all models
         (*floor).Draw(context);
-        
-        //draw ModelKennedy
-        // Draw models
-        (*c).Draw(context);
-
-        ////draw ModelAna
-        //(*b).Draw(context);
-
-        //(*c).Draw(context);
+        antoineModel->Draw(context);
 
         // End frame
         glfwSwapBuffers(window);
@@ -200,13 +171,13 @@ int main(int argc, char*argv[])
         //scale up 
         if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
 
-            a->setScaling(glm::vec3(dt+0.6f, dt+0.6f, dt+0.6));
+            //a->setScaling(glm::vec3(dt+0.6f, dt+0.6f, dt+0.6));
         }
 
         //scale down
         if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
 
-            a->setScaling(glm::vec3(dt+0.4f, dt+0.4f, dt+0.4f)); 
+            //a->setScaling(glm::vec3(dt+0.4f, dt+0.4f, dt+0.4f)); 
         }
 
 

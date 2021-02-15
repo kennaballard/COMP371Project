@@ -41,7 +41,7 @@ protected:
     void DrawModel(Project::DrawContext context) {
         GLfloat defaultSize = 0.125f;
         int shader = context.getShaderProgram();
-        std::cout << "HELOOOOOOOOOOOOOOOOOO" << std::endl;
+       
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glm::mat4 groupTranslationMatrix = glm::translate(glm::mat4(1.0f), getPosition());
         glm::mat4 groupScaleMatrix = glm::scale(glm::mat4(1.0f), getScale());
@@ -166,6 +166,6 @@ public:
            glBindVertexArray(0);
    */
 
-        return vertexBufferObject;
+        return vertexArrayObject;
     }
 };
