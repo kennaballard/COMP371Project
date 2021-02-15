@@ -18,9 +18,9 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class Model4 : public Project::Model {
+class ModelY : public Project::Model {
 public:
-    Model4(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+    ModelY(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
         setVertexBufferObject(generateVertexBufferObject());
     }
 
@@ -42,28 +42,32 @@ protected:
         GLfloat defaultSize = 0.125f;
         int shader = context.getShaderProgram();
 
+        // Get 
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glm::mat4 groupTranslationMatrix = glm::translate(glm::mat4(1.0f), getPosition());
         glm::mat4 groupScaleMatrix = glm::scale(glm::mat4(1.0f), getScale());
+        glm::mat4 groupRotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(getAngle()), getRotation());
 
-        glm::mat4 groupRotationMatrix =  glm::rotate(glm::mat4(1.0f), glm::radians(getAngle()), getRotation());
-
-        glm::mat4 groupMatrix = groupRotationMatrix * groupTranslationMatrix * groupScaleMatrix;
+        glm::mat4 groupMatrix = groupRotationMatrix * groupTranslationMatrix *  groupScaleMatrix ;
         glm::mat4 worldMatrix;
 
-        // Back
-        worldMatrix = groupMatrix * partTranslationMatrix(0.25f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, 1.0f, defaultSize);
+        // Fork
+        worldMatrix = groupMatrix * partTranslationMatrix(-0.25f, 0.5f, 0.0f) * partScalingMatrix(defaultSize, 0.5f, defaultSize);
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+        
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+
+        worldMatrix = groupMatrix * partTranslationMatrix(0.25f, 0.5f, 0.0f) * partScalingMatrix(defaultSize, 0.5f, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        GLfloat edgeHeight = 0.5f + (defaultSize/2);
-        // Edge
-        worldMatrix = groupMatrix * partTranslationMatrix(-0.25f, 0.5f-(defaultSize/2.0f), 0.0f) * partScalingMatrix(defaultSize, edgeHeight, defaultSize);
+        // Bridge
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.125f, 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        // Center
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
+        // Tail
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -0.5f , 0.0f) * partScalingMatrix(defaultSize, 0.5f, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }
@@ -159,5 +163,14 @@ public:
    */
 
         return vertexBufferObject;
+    }
+
+    void rotate(Project::DrawContext context) {
+        int shader = context.getShaderProgram();
+        glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+        GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
+
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &rotationMatrix[0][0]);
     }
 };

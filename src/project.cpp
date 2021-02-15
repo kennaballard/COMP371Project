@@ -67,8 +67,10 @@ int main(int argc, char*argv[])
     // Kennedy model
     manager.addModel(0, factory.createModelFor("ky40"));
     auto a = factory.createModelFor("ky40");
+    auto s = new ModelSamuel(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f));
     auto c = new ModelY(glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(0.5f, 0.5f, 0.5f));
     (*a).Draw(context);
+    (*s).Draw(context);
     
 
    // a->setRotation(glm::vec3(-0.75f, -2.0f, 0.0f));
@@ -116,7 +118,7 @@ int main(int argc, char*argv[])
             (*model).Draw(context);
         }*/
         
-        (*a).Draw(context);
+        (*s).Draw(context);
 
         // End frame
         glfwSwapBuffers(window);
@@ -134,12 +136,12 @@ int main(int argc, char*argv[])
             
             //Rotation left smooth
             if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-                a->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
+                s->setRotation(glm::vec3(1.0f, 0.0f, 0.0f), rotationSpeed, dt);
                 
             }
             //Rotation Right smooth
             else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-                a->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), -rotationSpeed, dt);
+                s->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), -rotationSpeed, dt);
 
             }
         }
@@ -147,12 +149,12 @@ int main(int argc, char*argv[])
             // Left and right single click rotation
             if (lastKeyAPress == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
             {
-                a->setRotation(glm::vec3(0.0f, 1.0f, 0.0f),5.0f);
+                s->setRotation(glm::vec3(0.0f, 1.0f, 0.0f),5.0f);
             
             }
             else if (lastKeyDPress == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
             {
-                a->setRotation(glm::vec3(1.0f, 0.0f, 0.0f), -5.0f);
+                s->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), -5.0f);
 
             }
             lastKeyAPress = glfwGetKey(window, GLFW_KEY_A);

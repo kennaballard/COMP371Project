@@ -7,7 +7,7 @@
 #include "../models/alphanumericals/ModelY.cpp"
 
 #include "../models/alphanumericals/ModelKennedy.cpp"
-
+#include "../models/alphanumericals/ModelSamuel.cpp"
 /**
  * This creates models based on input. This currently does not support
  * every letter and number.
