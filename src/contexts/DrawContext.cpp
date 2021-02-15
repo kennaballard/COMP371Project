@@ -96,6 +96,6 @@ const char* Project::DrawContext::getFragmentShaderSource() {
         "out vec4 FragColor;"
         "void main()"
         "{"
-        "   FragColor = vec4(1.0, 1.0, 1.0, 1.0f);"
+        "   FragColor = vec4(vertexColor.r, vertexColor.g, vertexColor.b, 1.0f);"
         "}";
 }

@@ -9,7 +9,7 @@
 
 #include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
 #include <glm/gtc/matrix_transform.hpp>
-//potato
+
 /**
  * Models each have their own shader program and vertex buffer object.
  * While that is slower than placing them all together, it facilitates
@@ -18,9 +18,9 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class Model0 : public Project::Model {
+class Model2 : public Project::Model {
 public:
-    Model0(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) { 
+    Model2(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
         setVertexBufferObject(generateVertexBufferObject());
     }
 
@@ -49,23 +49,31 @@ protected:
         glm::mat4 groupMatrix = groupTranslationMatrix * groupScaleMatrix;
         glm::mat4 worldMatrix;
 
-        // Sides
-        worldMatrix = groupMatrix * partTranslationMatrix(-0.25f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, 1.0f, defaultSize);
+        // Top Right Block
+        worldMatrix = groupMatrix * partTranslationMatrix(0.25f, 3.5f*defaultSize, 0.0f) * partScalingMatrix(defaultSize, 2.5f*defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        worldMatrix = groupMatrix * partTranslationMatrix(0.25f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, 1.0f, defaultSize);
+        //Bottom Left Block
+        worldMatrix = groupMatrix * partTranslationMatrix(-0.25f, -3.5f * defaultSize, 0.0f) * partScalingMatrix(defaultSize, 2.5f * defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        // Top & bottom
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 1.0f-defaultSize, 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
+        // Middle bar
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.0f, 0.0f) * partScalingMatrix(3*defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -(1.0f-defaultSize), 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
+
+        // Top bar
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 1.0f - defaultSize, 0.0f) * partScalingMatrix(3 * defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+
+        // Bottom bar
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -1.0f + defaultSize, 0.0f) * partScalingMatrix(3*defaultSize, defaultSize, defaultSize);
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }
 
 public:
@@ -158,6 +166,6 @@ public:
            glBindVertexArray(0);
    */
 
-        return vertexArrayObject;
+        return vertexBufferObject;
     }
 };

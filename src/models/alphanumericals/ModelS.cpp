@@ -1,15 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Model.h"
-#define GLEW_STATIC 1   // This allows linking with Static Library on Windows, without DLL
-#include <GL/glew.h>    // Include GLEW - OpenGL Extension Wrangler
 
-#include <GLFW/glfw3.h> // GLFW provides a cross-platform interface for creating a graphical context,
-// initializing OpenGL and binding inputs
-
-#include <glm/glm.hpp>  // GLM is an optimized math library with syntax to similar to OpenGL Shading Language
-#include <glm/gtc/matrix_transform.hpp>
-//potato
 /**
  * Models each have their own shader program and vertex buffer object.
  * While that is slower than placing them all together, it facilitates
@@ -18,18 +10,13 @@
  * Models have child models that will be drawn after the parent model
  * is drawn. Children will keep the .. of the parent model.
  **/
-class Model0 : public Project::Model {
+class ModelS : public Project::Model {
 public:
-    Model0(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) { 
+    ModelS(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
         setVertexBufferObject(generateVertexBufferObject());
     }
 
 protected:
-    /**
-     * Draws the model with the assumption that the scale is 1:1
-     * and the model is "standing" (parallel to the Y-axis).
-     **/
-     // Stretches cube into a rectangle given params
     glm::mat4 partTranslationMatrix(GLfloat posX, GLfloat posY, GLfloat posZ) {
         return glm::translate(glm::mat4(1.0f), glm::vec3(posX, posY, posZ));
     }
@@ -38,8 +25,11 @@ protected:
         return glm::scale(glm::mat4(1.0f), glm::vec3(widthScale, heightScale, depthScale));
     }
 
+    /**
+     * Draws the model with the assumption that the scale is 1:1
+     * and the model is "standing" (parallel to the Y-axis).
+     **/
     void DrawModel(Project::DrawContext context) {
-        GLfloat defaultSize = 0.125f;
         int shader = context.getShaderProgram();
 
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
@@ -49,23 +39,30 @@ protected:
         glm::mat4 groupMatrix = groupTranslationMatrix * groupScaleMatrix;
         glm::mat4 worldMatrix;
 
-        // Sides
-        worldMatrix = groupMatrix * partTranslationMatrix(-0.25f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, 1.0f, defaultSize);
+        // Top
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.75f, 0.0f) * partScalingMatrix(0.5f, 0.125f, 0.125f);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        worldMatrix = groupMatrix * partTranslationMatrix(0.25f, 0.0f, 0.0f) * partScalingMatrix(defaultSize, 1.0f, defaultSize);
+        // Top-Center Connector
+        worldMatrix = groupMatrix * partTranslationMatrix(-0.375f, 0.375f, 0.0f) * partScalingMatrix(0.125f, 0.25f, 0.125f);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        // Top & bottom
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 1.0f-defaultSize, 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
+        // Center
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.0f, 0.0f) * partScalingMatrix(0.5f, 0.125f, 0.125f);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
 
-        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -(1.0f-defaultSize), 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
+        // Center-Bottom Connector
+        worldMatrix = groupMatrix * partTranslationMatrix(0.375f, -0.375f, 0.0f) * partScalingMatrix(0.125f, 0.25f, 0.125f);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+
+        // Bottom
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -0.75f, 0.0f) * partScalingMatrix(0.5f, 0.125f, 0.125f);
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
     }
 
 public:
@@ -153,11 +150,7 @@ public:
             (void*)sizeof(glm::vec3)      // color is offseted a vec3 (comes after position)
         );
         glEnableVertexAttribArray(1);
-
-        /*   glBindBuffer(GL_ARRAY_BUFFER, 0);
-           glBindVertexArray(0);
-   */
-
+       
         return vertexArrayObject;
     }
 };

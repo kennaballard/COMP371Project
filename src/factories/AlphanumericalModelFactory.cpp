@@ -5,19 +5,17 @@
 //ModelKennedy
 #include "../models/alphanumericals/ModelK.cpp"
 #include "../models/alphanumericals/ModelY.cpp"
-#include "../models/alphanumericals/Model0.cpp"
-#include "../models/alphanumericals/Model4K.cpp"
-
-#include "../models/alphanumericals/ModelKennedy.cpp"
-
-//ModelAna
 #include "../models/alphanumericals/ModelA.cpp"
+#include "../models/alphanumericals/ModelE.cpp"
+#include "../models/alphanumericals/Model2.cpp"
+#include "../models/alphanumericals/Model0.cpp"
+#include "../models/alphanumericals/ModelAntoine.cpp"
+#include "../models/alphanumericals/ModelKennedy.cpp"
 #include "../models/alphanumericals/ModelL.cpp"
-#include "../models/alphanumericals/Model4.cpp"
 #include "../models/alphanumericals/Model8.cpp"
-
 #include "../models/alphanumericals/ModelAna.cpp"
-
+#include "../models/alphanumericals/ModelThomas.cpp"
+#include "../models/Floor.cpp"
 /**
  * This creates models based on input. This currently does not support
  * every letter and number.
@@ -43,6 +41,8 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
             return new Model4K(position, rotation, scale);
         case 'K':
             return new ModelK(position, rotation, scale);
+        case 'T':
+            return new ModelT(position, rotation, scale);
         case 'Y':
         return new ModelY(position, rotation, scale);
        
@@ -66,10 +66,17 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
 Project::Model* Project::AlphanumbericalModelFactory::createModelFor(std::string chars, glm::vec3 position = glm::vec3(0, 0, 0), glm::vec3 rotation = glm::vec3(0, 0, 0), glm::vec3 scale = glm::vec3(1, 1, 1)) {
     // TODO: generalize the 2-letter 2-digit model?
     if (chars == "ts47") {
-        // return model with TS47
-    }
-    if (chars == "ky40") {
+        return new ModelThomas(position, rotation, scale);
+    } else if (chars == "ky40") {
         return new ModelKennedy(position, rotation, scale);
+    }
+    if (chars == "ae20") {
+        return new ModelAntoine(position, rotation, scale);
+        return NULL;
+    }
+    if (chars == "floor") {
+        return new Floor(position, rotation, scale);
+        return NULL;
     }
     if (chars == "al48") {
         return new ModelAna(position, rotation, scale);
