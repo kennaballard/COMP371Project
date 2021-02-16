@@ -199,25 +199,18 @@ int main(int argc, char*argv[])
             activeCamera = cameras.at(1);
         }
 
-            glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
-            if (scale_vec.x >= 0.5 && scale_vec.y >= 0.5 && scale_vec.z >= 0.5) {
-                scale_vec.x += scale.x;
-                scale_vec.y += scale.y;
-                scale_vec.z += scale.z;
-                a->setScaling(glm::vec3(scale_vec.x, scale_vec.y, scale_vec.z));
-            }
-            else {
-                scale_vec.x = 0.5f;
-                scale_vec.y = 0.5f;
-                scale_vec.z = 0.5f;
-            }
-        }
-
         if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
             // Select the fourth model (Pos 3)
             activeModel = models.at(3);
             activeCamera = cameras.at(3);
         }
+
+        if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+            // Select the fourth model (Pos 3)
+            activeModel = models.at(2);
+            activeCamera = cameras.at(2);
+        }
+
         //if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
         //    // Select the fifth model (Pos 3)
         //    activeModel = models.at(3);
@@ -225,12 +218,14 @@ int main(int argc, char*argv[])
         //}
 
 
+        if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
+            // scale up
             glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
             if (scale_vec.x >= 0.5 && scale_vec.y >= 0.5 && scale_vec.z >= 0.5) {
-                scale_vec.x -= scale.x;
-                scale_vec.y -= scale.y;
-                scale_vec.z -= scale.z;
-                a->setScaling(glm::vec3(scale_vec.x, scale_vec.y, scale_vec.z));
+                scale_vec.x += scale.x;
+                scale_vec.y += scale.y;
+                scale_vec.z += scale.z;
+                activeModel->setScaling(glm::vec3(scale_vec.x, scale_vec.y, scale_vec.z));
             }
             else {
                 scale_vec.x = 0.5f;
@@ -239,9 +234,20 @@ int main(int argc, char*argv[])
             }
         }
 
-        if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
+        if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
             // scale up
-            activeModel->setScaling(glm::vec3(dt+0.4f, dt+0.4f, dt+0.4f)); 
+            glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
+            if (scale_vec.x >= 0.5 && scale_vec.y >= 0.5 && scale_vec.z >= 0.5) {
+                scale_vec.x -= scale.x;
+                scale_vec.y -= scale.y;
+                scale_vec.z -= scale.z;
+                activeModel->setScaling(glm::vec3(scale_vec.x, scale_vec.y, scale_vec.z));
+            }
+            else {
+                scale_vec.x = 0.5f;
+                scale_vec.y = 0.5f;
+                scale_vec.z = 0.5f;
+            }
         }
 
         // --------- Draw format
