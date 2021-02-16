@@ -40,22 +40,6 @@ void Project::Camera::setCameraMatrixLocation(GLuint location) {
     _cameraMatrixLocation = location;
 }
 
-//void Project::Camera::zoomCamera(Project::DrawContext context, Project::MouseButtonHandler *handler)
-//{
-//    float zoom;
-//    if (handler->getLeftPressed()) {
-//        if (fieldOfViewAngle >= MIN_ZOOM && fieldOfViewAngle <= MAX_ZOOM)
-//        {
-//            fieldOfViewAngle -= zoom * 0.1;
-//        }
-//
-//        // Limit zoom values to prevent irregular behavior
-//        fieldOfViewAngle <= MIN_ZOOM ? fieldOfViewAngle = MIN_ZOOM : NULL;
-//        fieldOfViewAngle >= MAX_ZOOM ? fieldOfViewAngle = MAX_ZOOM : NULL;
-//    }
-//    
-//}
-
 void Project::Camera::calculatePosition(Project::DrawContext context, Project::MouseButtonHandler* handler) {
     float dt = glfwGetTime() - _prevFrameTime;
     _prevFrameTime += dt;

@@ -12,17 +12,14 @@
 
 const char* TITLE = "COMP 371 - Project - Team 3";
 
-float xScale = 0.01f;
-float yScale = 0.01f;
-float zScale = 0.01f;
+const float circlePosX = 20;
+const float circlePosZ = 20;
+float deltaTime = 0.0f;
 
 glm::vec3 scale_vec = glm::vec3(0.0f, 0.0f, 0.0f);
 
-// Constant vectors
-const glm::vec3 center(0.0f, 0.0f, -0.5f);
-const glm::vec3 up(0.0f, 0.5f, 0.0f);
-glm::vec3 eye(0.0f, 0.0f, -0.5f);
-
+Project::MouseButtonHandler* mouseButtonHandler;
+Project::MouseCursorHandler* mouseCursorHandler;
 
 GLFWwindow* setup() {
     // Initialize GLFW and OpenGL version
@@ -55,8 +52,6 @@ GLFWwindow* setup() {
 }
 
 
-Project::MouseButtonHandler* mouseButtonHandler;
-Project::MouseCursorHandler* mouseCursorHandler;
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
     mouseButtonHandler->handle(window, button, action, mods);
 }
@@ -79,8 +74,8 @@ std::vector<Project::Camera*> setupCameras(std::vector<Project::Model*> models, 
     return cameras;
 }
 
-const float circlePosX = 20;
-const float circlePosZ = 20;
+
+
 int main(int argc, char*argv[])
 {
     GLFWwindow* window = setup();
@@ -128,6 +123,7 @@ int main(int argc, char*argv[])
 
     // Current camera
     auto activeCamera = cameras.at(0);
+
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -145,11 +141,7 @@ int main(int argc, char*argv[])
     //variables for frame movement 
     float lastFrameTime = glfwGetTime();
     float movementSpeed = 0.5f;
-
-    //initialize view
-    glm::mat4 view_matrix = glm::lookAt(eye, center, up);
-    glm::vec3 eye(1.0f);
-    glm::vec3 center(0.0f, 0.0f, -0.5f);
+    
 
     // --------- Input Handling
     mouseButtonHandler = new Project::MouseButtonHandler(context);
@@ -158,6 +150,8 @@ int main(int argc, char*argv[])
     // Entering Main Loop
     while(!glfwWindowShouldClose(window))
     {  
+        float cameraSpeed = 1.0 * deltaTime;
+
         // Each frame, reset color of each pixel to glClearColor
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
@@ -186,7 +180,7 @@ int main(int argc, char*argv[])
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
         
-        // --------- Focus Model/Camera
+        // --------- Model Selection/Camera
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
             // Select the first model (Pos 0)
             activeModel = models.at(0);
@@ -199,25 +193,28 @@ int main(int argc, char*argv[])
             activeCamera = cameras.at(1);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
-            // Select the fourth model (Pos 3)
-            activeModel = models.at(3);
-            activeCamera = cameras.at(3);
-        }
-
         if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
             // Select the fourth model (Pos 3)
             activeModel = models.at(2);
             activeCamera = cameras.at(2);
         }
 
-        //if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
-        //    // Select the fifth model (Pos 3)
-        //    activeModel = models.at(3);
-        //    activeCamera = cameras.at(3);
+
+        if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
+            // Select the fourth model (Pos 3)
+            activeModel = models.at(3);
+            activeCamera = cameras.at(3);
+        }
+
+      
+        //if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
+        //   // Select the fifth model (Pos 3)
+        //   activeModel = models.at(3);
+        //   activeCamera = cameras.at(3);
         //}
 
 
+        //----------Scaling Selected Model
         if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
             // scale up
             glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
@@ -235,7 +232,7 @@ int main(int argc, char*argv[])
         }
 
         if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
-            // scale up
+            // scale down
             glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
             if (scale_vec.x >= 0.5 && scale_vec.y >= 0.5 && scale_vec.z >= 0.5) {
                 scale_vec.x -= scale.x;
@@ -250,7 +247,7 @@ int main(int argc, char*argv[])
             }
         }
 
-        // --------- Draw format
+        // --------- Render Mode
         if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
             // Lines
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -269,64 +266,54 @@ int main(int argc, char*argv[])
         // --------- Camera Orientation
         if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
         {
-            //glm::vec3 direction(-0.5f, 0.0f, 0.0f);
-            //eye = eye + direction * movementSpeed * dt;
-            //center = center + direction * movementSpeed * dt;
-
-            //glm::mat4 viewMatrix = glm::lookAt(eye,  // eye
-            //    center,  // center
-            //    glm::vec3(0.0f, 0.5f, 0.0f));// up
-
-            //GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-            //glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+            //rotation about positive x axis 
+            //activeCamera->moveRight(cameraSpeed);
         }
 
         if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         {
-            //glm::vec3 direction(0.5f, 0.0f, 0.0f);
-            //eye = eye + direction * movementSpeed * dt;
-            //center = center + direction * movementSpeed * dt;
-
-            //glm::mat4 viewMatrix = glm::lookAt(eye,  // eye
-            //    center,  // center
-            //   glm::vec3(0.0f, 0.5f, 0.0f));// up
-
-            //GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-            //glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+            //rotation about about negative x axis 
+            //activeCamera->moveLeft(cameraSpeed);
         }
 
         if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
         {
-            //glm::vec3 direction(0.0f, 0.5f, 0.0f);
-            //eye = eye + direction * movementSpeed * dt;
-            //center = center + direction * movementSpeed * dt;
-
-            //glm::mat4 viewMatrix = glm::lookAt(eye,  // eye
-            //    center,  // center
-            //    glm::vec3(0.0f, 0.5f, 0.0f));// up
-
-            //GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-            //glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
+            //rotation about positive y axis 
+           // camera.moveUp(cameraSpeed);  
         }
 
         if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         {
-            //glm::vec3 direction(0.0f, -0.5f, 0.0f);
-            //eye = eye + direction * movementSpeed * dt;
-            //center = center + direction * movementSpeed * dt;
-
-            //glm::mat4 viewMatrix = glm::lookAt(eye,  // eye
-            //    center,  // center
-            //    glm::vec3(0.0f, 0.5f, 0.0f));// up
-
-            /*GLuint viewMatrixLocation = glGetUniformLocation(shaderProgram, "viewMatrix");
-            glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);*/
+            //rotation about negative y axis 
+            //camera.moveDown(cameraSpeed);
         }
 
-        // --------- reset initial world position
         if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS)
         {
-            //TODO: reset camera position
+           //reset initial world position
+            //camera.resetCamera();
+        }
+
+        //---------Model position and orientation
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
+        {
+            //move left
+           
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
+        {
+           //move right 
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
+        {
+            //move up   
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
+        {
+           //move dow 
 
         }
     }

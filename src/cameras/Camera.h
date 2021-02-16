@@ -34,18 +34,17 @@ namespace Project {
 
         void setCameraMatrixLocation(GLuint location);
 
-       // void zoomCamera(DrawContext context, MouseButtonHandler* handler);
         /**
         * Adds pan transformation to camera matrix
         * Horitzontal movement in XZ space
         **/
-      /*  void panCamera(double dx);*/
+        /*  void panCamera(double dx);*/
 
-        /**
-        * Adds tilt transformation to camera matrix
-        * Vertical movement in YZ space
-        **/
-        //void tiltCamera(double dy);
+          /**
+          * Adds tilt transformation to camera matrix
+          * Vertical movement in YZ space
+          **/
+          //void tiltCamera(double dy);
 
         void calculatePosition(DrawContext context, MouseButtonHandler* handler);
     };
