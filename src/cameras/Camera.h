@@ -21,6 +21,10 @@ namespace Project {
         double _prevMousePosX;
         double _prevMousePosY;
 
+        float MAX_ZOOM;
+        float MIN_ZOOM;
+        float fieldOfViewAngle;
+
     public:
         Camera(glm::vec3 position, glm::vec3 lookAt, glm::vec3 up, GLuint location);
         /**
@@ -29,6 +33,8 @@ namespace Project {
         void setupCamera(Project::DrawContext context);
 
         void setCameraMatrixLocation(GLuint location);
+
+       // void zoomCamera(DrawContext context, MouseButtonHandler* handler);
         /**
         * Adds pan transformation to camera matrix
         * Horitzontal movement in XZ space

@@ -23,6 +23,10 @@ Project::Camera::Camera(glm::vec3 position, glm::vec3 lookAt, glm::vec3 up, GLui
     _prevFrameTime = glfwGetTime();
     _prevMousePosX = 0;
     _prevMousePosY = 0;
+
+    MAX_ZOOM = 45.0f;
+    MIN_ZOOM = 1.0f;
+    fieldOfViewAngle = 45.0f;
 }
 
 
@@ -35,6 +39,22 @@ void Project::Camera::setupCamera(DrawContext context) {
 void Project::Camera::setCameraMatrixLocation(GLuint location) {
     _cameraMatrixLocation = location;
 }
+
+//void Project::Camera::zoomCamera(Project::DrawContext context, Project::MouseButtonHandler *handler)
+//{
+//    float zoom;
+//    if (handler->getLeftPressed()) {
+//        if (fieldOfViewAngle >= MIN_ZOOM && fieldOfViewAngle <= MAX_ZOOM)
+//        {
+//            fieldOfViewAngle -= zoom * 0.1;
+//        }
+//
+//        // Limit zoom values to prevent irregular behavior
+//        fieldOfViewAngle <= MIN_ZOOM ? fieldOfViewAngle = MIN_ZOOM : NULL;
+//        fieldOfViewAngle >= MAX_ZOOM ? fieldOfViewAngle = MAX_ZOOM : NULL;
+//    }
+//    
+//}
 
 void Project::Camera::calculatePosition(Project::DrawContext context, Project::MouseButtonHandler* handler) {
     float dt = glfwGetTime() - _prevFrameTime;
