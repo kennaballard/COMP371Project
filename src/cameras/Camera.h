@@ -8,10 +8,15 @@ namespace Project {
     class Camera {
     private:
         GLuint _cameraMatrixLocation;
+
         glm::mat4 _cameraMatrix;
         glm::vec3 _position;
         glm::vec3 _lookAt;
         glm::vec3 _up;
+
+        glm::vec3 _defaultPosition;
+        glm::vec3 _defaultLookAt;
+        glm::vec3 _defaultUp;
 
         float _cameraSpeed;
         float _cameraAngularSpeed;
@@ -21,6 +26,10 @@ namespace Project {
         double _prevMousePosX;
         double _prevMousePosY;
 
+        float MAX_ZOOM;
+        float MIN_ZOOM;
+        float fieldOfViewAngle;
+
     public:
         Camera(glm::vec3 position, glm::vec3 lookAt, glm::vec3 up, GLuint location);
         /**
@@ -29,17 +38,8 @@ namespace Project {
         void setupCamera(Project::DrawContext context);
 
         void setCameraMatrixLocation(GLuint location);
-        /**
-        * Adds pan transformation to camera matrix
-        * Horitzontal movement in XZ space
-        **/
-      /*  void panCamera(double dx);*/
 
-        /**
-        * Adds tilt transformation to camera matrix
-        * Vertical movement in YZ space
-        **/
-        //void tiltCamera(double dy);
+        void resetPosition();
 
         void calculatePosition(DrawContext context, MouseButtonHandler* handler);
     };
