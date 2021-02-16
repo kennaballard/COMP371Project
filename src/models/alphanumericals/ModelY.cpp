@@ -44,10 +44,15 @@ protected:
 
         // Get 
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
+
+        glm::mat4 centerMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+        glm::mat4 modelHireachicalPlacment = glm::translate(glm::mat4(1.0f), getHireachicalPosition());
+
+        glm::mat4 groupRotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(getAngle()), getRotation());
         glm::mat4 groupTranslationMatrix = glm::translate(glm::mat4(1.0f), getPosition());
         glm::mat4 groupScaleMatrix = glm::scale(glm::mat4(1.0f), getScale());
 
-        glm::mat4 groupMatrix = groupTranslationMatrix * groupScaleMatrix;
+        glm::mat4 groupMatrix = groupTranslationMatrix * groupScaleMatrix * groupRotationMatrix * centerMatrix;
         glm::mat4 worldMatrix;
 
         // Fork

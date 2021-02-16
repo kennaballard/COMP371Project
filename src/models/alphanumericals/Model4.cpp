@@ -49,7 +49,7 @@ protected:
         glm::mat4 groupScaleMatrix = glm::scale(glm::mat4(1.0f), getScale());
         glm::mat4 groupRotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(getAngle()), getRotation());
 
-        glm::mat4 groupMatrix = groupTranslationMatrix * groupRotationMatrix * modelHireachicalPlacment * centerMatrix * groupScaleMatrix ;
+        glm::mat4 groupMatrix = groupTranslationMatrix * groupScaleMatrix  * groupRotationMatrix*centerMatrix;
         glm::mat4 worldMatrix;
 
         // Back
@@ -160,5 +160,5 @@ public:
    */
 
         return vertexArrayObject;
-    }
+    };
 };
