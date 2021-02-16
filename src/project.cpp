@@ -283,39 +283,38 @@ int main(int argc, char*argv[])
         // --------- Camera Orientation
         if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
         {
-            //rotation about positive x axis 
-           // activeCamera->moveRight(cameraSpeed);
+            //moveRight
+            activeCamera->moveRight();
         }
 
         if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         {
-            //rotation about about negative x axis 
-            //activeCamera->rotateLeft(cameraSpeed);
+            //moveLeft
+            activeCamera->moveLeft();
         }
 
         if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
         {
-            //rotation about positive y axis 
-           // camera.rotateUp(cameraSpeed);  
+            //moveDown 
+            activeCamera -> moveDown();  
         }
 
         if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         {
-            //rotation about negative y axis 
-            //camera.rotateDown(cameraSpeed);
+            //moveUp
+            activeCamera->moveUp();
         }
 
         if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS)
         {
            //reset initial world position
-            //camera.resetCamera();
+            activeCamera->resetPosition();
         }
 
         //---------Model position and orientation
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
         {
-            activeModel->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
-       
+           // activeModel->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
            
         }
 

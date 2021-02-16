@@ -7,6 +7,7 @@
  * Rotate the camera's normal to acheive this
  **/
 
+
 Project::Camera::Camera(glm::vec3 position, glm::vec3 lookAt, glm::vec3 up, GLuint location) {
 	_position = _defaultPosition = position;
 	_lookAt = _defaultLookAt = lookAt;
@@ -27,6 +28,7 @@ Project::Camera::Camera(glm::vec3 position, glm::vec3 lookAt, glm::vec3 up, GLui
     MAX_ZOOM = 100.0f;
     MIN_ZOOM = 1.0f;
     _fieldOfViewAngle = 45.0f;
+
 }
 
 
@@ -40,7 +42,32 @@ void Project::Camera::setCameraMatrixLocation(GLuint location) {
     _cameraMatrixLocation = location;
 }
 
+void Project::Camera::moveRight() {
+    float dt = glfwGetTime() - _prevFrameTime;
+    _prevFrameTime += dt;
+    _position.x += _cameraSpeed * dt;
+}
+
+void Project::Camera::moveLeft() {
+    float dt = glfwGetTime() - _prevFrameTime;
+    _prevFrameTime += dt;
+    _position.x -= _cameraSpeed * dt;
+}
+
+void Project::Camera::moveUp() {
+    float dt = glfwGetTime() - _prevFrameTime;
+    _prevFrameTime += dt;
+    _position.y += _cameraSpeed * dt;
+}
+
+void Project::Camera::moveDown() {
+    float dt = glfwGetTime() - _prevFrameTime;
+    _prevFrameTime += dt;
+    _position.y -= _cameraSpeed * dt;
+}
+
 void Project::Camera::resetPosition() {
+
     _position = _defaultPosition;
     _lookAt = _defaultLookAt;
     _up = _defaultUp;
@@ -52,6 +79,7 @@ void Project::Camera::resetPosition() {
 float Project::Camera::getFieldOfView() {
     return _fieldOfViewAngle;
 }
+
 void Project::Camera::calculatePosition(Project::DrawContext context, Project::MouseButtonHandler* handler) {
     float dt = glfwGetTime() - _prevFrameTime;
     _prevFrameTime += dt;
