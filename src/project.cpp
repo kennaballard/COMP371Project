@@ -352,21 +352,25 @@ int main(int argc, char*argv[])
             
             activeModel->setPosition(currentPos);
         }
-
-        // Lowercase --> rotates ad
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
+        else
         {
-           //rotateLeft
-           // activeModel->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
-           
-        }
-          
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
-        {
-           //rotateRight
+
+            // Lowercase --> rotates ad
+            if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            {
+                //rotateLeft
+                 activeModel->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
+
+            }
+
+            if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            {
+                //rotateRight
+
+            }
 
         }
-        
+
     }
 
     // Shutdown GLFW
