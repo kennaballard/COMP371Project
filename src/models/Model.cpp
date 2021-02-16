@@ -12,8 +12,10 @@
 
 Project::Model::Model(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
     _position = position;
-    _rotation = rotation;
+    _hirachicalPosition = position;
+    _rotation = glm::vec3(1.0f);
     _scale = scale;
+    _angle = 1.0f;
     _children = std::vector<Model*>();
     _relativePositions = std::vector<glm::vec3>();
     _numChildren = 0;
@@ -44,6 +46,11 @@ void Project::Model::addChild(Project::Model* model) {
 glm::vec3 Project::Model::getPosition() {
     return _position;
 }
+
+glm::vec3 Project::Model::getHireachicalPosition(){
+    return _hirachicalPosition;
+}
+
 
 void Project::Model::setPosition(glm::vec3 position) {
     _position = position;
@@ -78,12 +85,37 @@ void Project::Model::setTranslation(glm::vec3 translation) {
     }
 }
 
-void Project::Model::setRotation(glm::vec3 rotation) {
-    // TODO
-    // Not implemeted
+glm::vec3 Project::Model::getRotation() {
+    return _rotation;
+}
+
+//Rotation of the model by a given deegres (angles) around a specific axis.  
+void Project::Model::setRotation(glm::vec3 rotationAxis, float angle) {
+
+
+    _rotation = rotationAxis;
+    _angle = _angle + angle;
+
     for (Project::Model* child : _children) {
-        (*child).setRotation(rotation);
+        (*child).setRotation(rotationAxis, angle);
     }
+}
+
+//Smooth rotation of the model around a specific axis  
+void Project::Model::setRotation(glm::vec3 rotationAxis, float rotationalSpeed, float dt) {
+
+    _rotation = rotationAxis;
+    _angle = _angle + rotationalSpeed * dt;
+
+    for (Project::Model* child : _children) {
+        (*child).setRotation(rotationAxis, rotationalSpeed, dt);
+
+    }
+}
+
+float Project::Model::getAngle()
+{
+    return _angle;
 }
 
 int Project::Model::getVertexBufferObject() {

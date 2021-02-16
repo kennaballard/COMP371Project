@@ -102,6 +102,8 @@ int main(int argc, char*argv[])
     anaModel->setPosition(glm::vec3(circlePosX, 0.0f, circlePosZ));
     antoineModel->setPosition(glm::vec3(-circlePosX, 0.0f, -circlePosZ));
 
+    glm::vec3 prePosition = thomasModel->getPosition();
+
     std::vector<Project::Model*> models = std::vector<Project::Model*>();
     // Kennedy
     models.push_back(kennedyModel);
@@ -145,6 +147,8 @@ int main(int argc, char*argv[])
     //variables for frame movement 
     float lastFrameTime = glfwGetTime();
     float movementSpeed = 0.5f;
+    float rotationSpeed = 180.0f;  // 180 degrees per second
+    float angle = 0;
     
 
     // --------- Input Handling
@@ -310,18 +314,21 @@ int main(int argc, char*argv[])
         //---------Model position and orientation
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
         {
-            //move left
+            activeModel->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
+       
            
         }
 
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
         {
-           //move right 
+         
+
         }
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
         {
-            //move up   
+            
+
         }
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 

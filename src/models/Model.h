@@ -12,8 +12,10 @@ namespace Project {
     class Model {
         private:
         glm::vec3 _position;
+        glm::vec3 _hirachicalPosition;
         glm::vec3 _rotation;
         glm::vec3 _scale;
+        float _angle;
         std::vector<Model*> _children;
         std::vector<glm::vec3> _relativePositions;
         int _numChildren;
@@ -57,6 +59,8 @@ namespace Project {
          **/
         glm::vec3 getPosition();
 
+        glm::vec3 getHireachicalPosition();
+
         /**
          * Sets the scaling for each of its corresponding axis.
          **/
@@ -73,9 +77,15 @@ namespace Project {
         void setTranslation(glm::vec3 translation);
 
         /**
-         * Changes position by translation factor
+         * Changes rotation by a pre-defin angle  factor
         **/
-        void setRotation(glm::vec3 rotation);
+        glm::vec3 getRotation();
+
+        void setRotation(glm::vec3 rotationAxis, float angle);
+
+        void setRotation(glm::vec3 rotationAxis, float rotationalSpeed, float dt);
+
+        float getAngle();
 
         private:
         /**
