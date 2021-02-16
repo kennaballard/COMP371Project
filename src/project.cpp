@@ -146,7 +146,7 @@ int main(int argc, char*argv[])
 
     //variables for frame movement 
     float lastFrameTime = glfwGetTime();
-    float movementSpeed = 0.5f;
+    float movementSpeed = 1.0f;
     float rotationSpeed = 180.0f;  // 180 degrees per second
     float angle = 0;
     
@@ -225,9 +225,9 @@ int main(int argc, char*argv[])
       
         //if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
        // activeCamera->resetPosition();
-        //   // Select the fifth model (Pos 3)
-        //   activeModel = models.at(3);
-        //   activeCamera = cameras.at(3);
+        //   // Select the fifth model (Pos 4)
+        //   activeModel = models.at(4);
+        //   activeCamera = cameras.at(4);
         //}
 
 
@@ -312,6 +312,29 @@ int main(int argc, char*argv[])
         }
 
         //---------Model position and orientation
+        // Uppercase WASD translates
+        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS) {
+            glm::vec3 currentPos = activeModel->getPosition();
+            // Move Left
+            if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)                      
+                currentPos.x -= movementSpeed * dt;
+            
+            // Move Right              
+            if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   
+                currentPos.x += movementSpeed * dt;   
+
+            // Move Down
+            if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)           
+                currentPos.y -= movementSpeed * dt;       
+            
+            // Move Up
+            if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+                currentPos.y += movementSpeed * dt;
+            
+            activeModel->setPosition(currentPos);
+        }
+
+        // Lowercase --> rotates ad
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
         {
            // activeModel->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
@@ -324,17 +347,7 @@ int main(int argc, char*argv[])
 
         }
 
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
-        {
-            
-
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
-        {
-           //move dow 
-
-        }
+        
     }
 
     // Shutdown GLFW
