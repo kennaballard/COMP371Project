@@ -42,12 +42,12 @@ protected:
         // Top
         worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 0.75f, 0.0f) * partScalingMatrix(0.5f, 0.125f, 0.125f);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
         // Bottom
         worldMatrix = groupMatrix * partTranslationMatrix(0.375f, -0.125f, 0.0f)  * partScalingMatrix(0.125f, 0.75f, 0.125f);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
-        glDrawElements(GL_LINE_LOOP, 36, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     }
 
 public:

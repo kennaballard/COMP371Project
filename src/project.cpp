@@ -7,7 +7,7 @@
 //#include "managers/InputManager.h"
 #include "factories/AlphanumericalModelFactory.cpp"
 #include <string>
-
+#include <vector>
 
 
 const char* TITLE = "COMP 371 - Project - Team 3";
@@ -61,14 +61,26 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
     mouseButtonHandler->handle(window, button, action, mods);
 }
 
-void cursorCallback(GLFWwindow* window, double xpos, double ypos) {
-    mouseCursorHandler->handle(window, xpos, ypos);
+std::vector<Project::Camera*> setupCameras(std::vector<Project::Model*> models, Project::DrawContext context) {
+    std::vector<Project::Camera*> cameras = std::vector<Project::Camera*>();
+    
+    glm::vec3 defaultPosition(0.6f, 0.0f, 5.0f);
+    glm::vec3 defaultLookAt(0.0f, 0.0f, -1.0f);
+    glm::vec3 defaultUp(0.0f, 1.0f, 0.0f);
+
+    // For each model, setup a camera
+    for (Project::Model* model : models) {
+        glm::vec3 modelPos = model->getPosition();
+        auto newCamera = new Project::Camera(defaultPosition + modelPos, defaultLookAt, defaultUp, glGetUniformLocation(context.getShaderProgram(), "viewMatrix"));
+        newCamera->setupCamera(context);
+        cameras.push_back(newCamera);
+    }
+
+    return cameras;
 }
 
-void cameraPositioning() {
-
-}
-
+const float circlePosX = 20;
+const float circlePosZ = 20;
 int main(int argc, char*argv[])
 {
     GLFWwindow* window = setup();
@@ -77,51 +89,45 @@ int main(int argc, char*argv[])
     }
 
     auto context = Project::DrawContext(window);
+    int shaderProgram = context.getShaderProgram();
 
-    // --------- Camera
-
-    // Camera parameters for view transform
-    glm::vec3 cameraPosition(0.6f, 0.0f, 5.0f);
-    glm::vec3 cameraLookAt(0.0f, 0.0f, -1.0f);
-    glm::vec3 cameraUp(0.0f, 1.0f, 0.0f);
-
-
-    // Camera intialization
-    auto camera = Project::Camera(cameraPosition, cameraLookAt, cameraUp, glGetUniformLocation(context.getShaderProgram(), "viewMatrix"));
-    camera.setupCamera(context);
-
-    // Set as active camera
-    // TODO
-
+   
     // Load needed services beforehand.
     auto manager = Project::ModelManager();
     Project::AlphanumbericalModelFactory factory = Project::AlphanumbericalModelFactory();
   
     // --------- Models
-    // Kennedy model
-    manager.addModel(0, factory.createModelFor("ky40"));
-    manager.addModel(0, factory.createModelFor("al48"));
-    auto b = factory.createModelFor("al48");
-    manager.addModel(0, factory.createModelFor("ts47"));
-    //auto a = factory.createModelFor("ky40");
-    auto a = factory.createModelFor("ts47");
-    //a->setScaling(glm::vec3(0.25f, 0.25f, 0.25f));
-    //a->setScaling(glm::vec3(0.5f, 0.5f, 0.5f));
-    //a->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
-    //a->setTranslation(glm::vec3(0.5f, 1.0f, 0.0f));
+    auto kennedyModel = factory.createModelFor("ky40");
+    auto anaModel = factory.createModelFor("al48");
+    auto thomasModel = factory.createModelFor("ts47");
+    auto antoineModel = factory.createModelFor("ae20");
 
+    // Displace models and create their own cameras
+    thomasModel->setPosition(glm::vec3(-circlePosX, 0.0f, circlePosZ));
+    anaModel->setPosition(glm::vec3(circlePosX, 0.0f, circlePosZ));
+    antoineModel->setPosition(glm::vec3(-circlePosX, 0.0f, -circlePosZ));
 
+    std::vector<Project::Model*> models = std::vector<Project::Model*>();
+    // Kennedy
+    models.push_back(kennedyModel);
+    // Antoine
+    models.push_back(antoineModel);
+    // Thomas
+    models.push_back(thomasModel);
+    // Ana
+    models.push_back(anaModel);
 
-    manager.addModel(0, factory.createModelFor("ae20"));
-    auto c = factory.createModelFor("ae20");
+    // Set the current 
+    Project::Model* activeModel = models.at(0);
 
-    manager.addModel(0, factory.createModelFor("floor"));
     auto floor = factory.createModelFor("floor");
 
-    b->setScaling(glm::vec3(0.5f, 0.5f, 0.5f));
-    b->setTranslation(glm::vec3(0.5f, 1.0f, 0.0f));
-    b->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
-    int shaderProgram = context.getShaderProgram();
+    // --------- Camera
+    // Setup for each model
+    std::vector<Project::Camera*> cameras = setupCameras(models, context);
+
+    // Current camera
+    auto activeCamera = cameras.at(0);
     // Black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -146,16 +152,12 @@ int main(int argc, char*argv[])
     glm::vec3 center(0.0f, 0.0f, -0.5f);
 
     // --------- Input Handling
-    
     mouseButtonHandler = new Project::MouseButtonHandler(context);
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
    
     // Entering Main Loop
     while(!glfwWindowShouldClose(window))
-    {
-        // Calculate camera pos
-        camera.calculatePosition(context, mouseButtonHandler);
-       
+    {  
         // Each frame, reset color of each pixel to glClearColor
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
@@ -163,22 +165,15 @@ int main(int argc, char*argv[])
         float dt = glfwGetTime() - lastFrameTime;
         lastFrameTime += dt;
 
-        // Keep track of models to draw.
-       /* std::vector<Project::Model*> models = manager.getModels(0);
-        for (Project::Model *model : models) {
-            std::cout << "INNNNNNNNNNNNNNNNNNt\n" << std::endl;
-            (*model).Draw(context);
-        }*/
-        (*floor).Draw(context);
-        
-        //draw ModelKennedy
-        // Draw models
-        (*a).Draw(context);
+        // Calculate camera pos
+        activeCamera->calculatePosition(context, mouseButtonHandler);
 
-        //draw ModelAna
-        (*b).Draw(context);
+        // Draw all models
+        floor->Draw(context);
 
-        (*c).Draw(context);
+        for (Project::Model* model : models) {
+            model->Draw(context);
+        }
 
         // End frame
         glfwSwapBuffers(window);
@@ -187,14 +182,22 @@ int main(int argc, char*argv[])
         glfwPollEvents();
 
 
-        //close window
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            
+        // --------- close window
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
+        
+        // --------- Focus Model/Camera
+        if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+            // Select the first model (Pos 0)
+            activeModel = models.at(0);
+            activeCamera = cameras.at(0);
         }
 
-        //scale up 
-        if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
+        if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+            // Select the second model (Pos 1)
+            activeModel = models.at(1);
+            activeCamera = cameras.at(1);
+        }
 
             glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
             if (scale_vec.x >= 0.5 && scale_vec.y >= 0.5 && scale_vec.z >= 0.5) {
@@ -210,8 +213,16 @@ int main(int argc, char*argv[])
             }
         }
 
-        //scale down
-        if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
+        if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
+            // Select the fourth model (Pos 3)
+            activeModel = models.at(3);
+            activeCamera = cameras.at(3);
+        }
+        //if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+        //    // Select the fifth model (Pos 3)
+        //    activeModel = models.at(3);
+        //    activeCamera = cameras.at(3);
+        //}
 
 
             glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
@@ -228,24 +239,28 @@ int main(int argc, char*argv[])
             }
         }
 
+        if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
+            // scale up
+            activeModel->setScaling(glm::vec3(dt+0.4f, dt+0.4f, dt+0.4f)); 
+        }
 
-        //show line view 
+        // --------- Draw format
         if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
-
+            // Lines
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         }
-        //show point view 
+       
         if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
-
+            // Points
             glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
         }
-        //show triangle view 
+        
         if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS) {
-
+            // Filled 
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
 
-        //orientation right 
+        // --------- Camera Orientation
         if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
         {
             //glm::vec3 direction(-0.5f, 0.0f, 0.0f);
@@ -260,7 +275,6 @@ int main(int argc, char*argv[])
             //glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
         }
 
-        //orientation left
         if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         {
             //glm::vec3 direction(0.5f, 0.0f, 0.0f);
@@ -275,7 +289,6 @@ int main(int argc, char*argv[])
             //glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
         }
 
-        //orientation down
         if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
         {
             //glm::vec3 direction(0.0f, 0.5f, 0.0f);
@@ -290,7 +303,6 @@ int main(int argc, char*argv[])
             //glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
         }
 
-        //orientation up
         if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         {
             //glm::vec3 direction(0.0f, -0.5f, 0.0f);
@@ -305,7 +317,7 @@ int main(int argc, char*argv[])
             glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);*/
         }
 
-        //reset initial world position
+        // --------- reset initial world position
         if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS)
         {
             //TODO: reset camera position

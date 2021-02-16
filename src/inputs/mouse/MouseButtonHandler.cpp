@@ -13,25 +13,21 @@ Project::MouseButtonHandler::MouseButtonHandler(DrawContext context) {
 
 void Project::MouseButtonHandler::handle(GLFWwindow* window, int button, int action, int mods) {
      switch (button) {
-    case GLFW_MOUSE_BUTTON_RIGHT:
-        _rightPressed = setIsPressed(action);
-        break;
-    case GLFW_MOUSE_BUTTON_MIDDLE:
-        _middlePressed = setIsPressed(action);
-        break;
-    case GLFW_MOUSE_BUTTON_LEFT:
-        _leftPressed = setIsPressed(action);
-        break;
+        case GLFW_MOUSE_BUTTON_RIGHT:
+            _rightPressed = setIsPressed(action);
+            break;
+        case GLFW_MOUSE_BUTTON_MIDDLE:
+            _middlePressed = setIsPressed(action);
+            break;
+        case GLFW_MOUSE_BUTTON_LEFT:
+            _leftPressed = setIsPressed(action);
+            break;
     }
 }
 
 bool Project::MouseButtonHandler::setIsPressed(int action) {
     if (action == GLFW_PRESS) {
-        std::cout << "Press" << std::endl;
         return true;
-    }
-    else if (action == GLFW_RELEASE) {
-        std::cout << "Lift" << std::endl;
     }
 
     return false;
