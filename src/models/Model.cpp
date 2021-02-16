@@ -42,7 +42,7 @@ void Project::Model::addChild(Project::Model* model) {
 }
 
 glm::vec3 Project::Model::getPosition() {
-    return _position*_scale;
+    return _position;
 }
 
 void Project::Model::setPosition(glm::vec3 position) {
@@ -51,16 +51,19 @@ void Project::Model::setPosition(glm::vec3 position) {
     // used for loop for simplicity/personal time contraint --> change to iterators?
     for (int i = 0; i < _numChildren; i++) {
         // Get relative
-        _children[i]->setPosition(position+_relativePositions[i]);
+        _children[i]->setPosition(position+(_relativePositions[i]*_scale));
     }
 }
 
 void Project::Model::setScaling(glm::vec3 scale) {
     _scale = scale;
-
-    for (Project::Model* child : _children) {
-        (*child).setScaling(scale);
+   
+    for (int i = 0; i < _numChildren; i++) {
+        // Update the relative
+        _children[i]->setScaling(scale);
     }
+
+    setPosition(_position);
 }
 
 glm::vec3 Project::Model::getScale() {

@@ -182,25 +182,29 @@ int main(int argc, char*argv[])
         
         // --------- Model Selection/Camera
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+            activeCamera->resetPosition();
             // Select the first model (Pos 0)
             activeModel = models.at(0);
             activeCamera = cameras.at(0);
         }
 
         if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+            activeCamera->resetPosition();
             // Select the second model (Pos 1)
             activeModel = models.at(1);
             activeCamera = cameras.at(1);
         }
 
         if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
-            // Select the fourth model (Pos 3)
+            activeCamera->resetPosition();
+            // Select the fourth model (Pos 2)
             activeModel = models.at(2);
             activeCamera = cameras.at(2);
         }
 
 
         if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
+            activeCamera->resetPosition();
             // Select the fourth model (Pos 3)
             activeModel = models.at(3);
             activeCamera = cameras.at(3);
@@ -208,6 +212,7 @@ int main(int argc, char*argv[])
 
       
         //if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
+       // activeCamera->resetPosition();
         //   // Select the fifth model (Pos 3)
         //   activeModel = models.at(3);
         //   activeCamera = cameras.at(3);
