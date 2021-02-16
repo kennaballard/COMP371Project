@@ -24,9 +24,9 @@ Project::Camera::Camera(glm::vec3 position, glm::vec3 lookAt, glm::vec3 up, GLui
     _prevMousePosX = 0;
     _prevMousePosY = 0;
 
-    MAX_ZOOM = 45.0f;
+    MAX_ZOOM = 100.0f;
     MIN_ZOOM = 1.0f;
-    fieldOfViewAngle = 45.0f;
+    _fieldOfViewAngle = 45.0f;
 }
 
 
@@ -49,6 +49,9 @@ void Project::Camera::resetPosition() {
     _cameraVerticalAngle = 0.0f;
 }
 
+float Project::Camera::getFieldOfView() {
+    return _fieldOfViewAngle;
+}
 void Project::Camera::calculatePosition(Project::DrawContext context, Project::MouseButtonHandler* handler) {
     float dt = glfwGetTime() - _prevFrameTime;
     _prevFrameTime += dt;
@@ -68,7 +71,7 @@ void Project::Camera::calculatePosition(Project::DrawContext context, Project::M
     // Convert to spherical coordinates
     const float cameraAngularSpeed = 60.0f;
     
-    // Only pan and tilt on button press
+    // Only pan/tilt/zoom on button press
     if (handler->getMiddlePressed()) {
         // Tilt
         _cameraVerticalAngle -= dy * cameraAngularSpeed * dt;
@@ -76,6 +79,14 @@ void Project::Camera::calculatePosition(Project::DrawContext context, Project::M
     if (handler->getRightPressed()) {
         // Pan
         _cameraHorizontalAngle -= dx * cameraAngularSpeed * dt;
+    }
+    if (handler->getLeftPressed()) {
+        // Zoom
+        _fieldOfViewAngle -= dy * cameraAngularSpeed * dt;
+        if (_fieldOfViewAngle < MIN_ZOOM)
+            _fieldOfViewAngle = MIN_ZOOM;
+        if (_fieldOfViewAngle > MAX_ZOOM)
+            _fieldOfViewAngle = MAX_ZOOM;
     }
 
     // Clamp vertical angle to [-85, 85] degrees

@@ -28,7 +28,7 @@ namespace Project {
 
         float MAX_ZOOM;
         float MIN_ZOOM;
-        float fieldOfViewAngle;
+        float _fieldOfViewAngle;
 
     public:
         Camera(glm::vec3 position, glm::vec3 lookAt, glm::vec3 up, GLuint location);
@@ -40,6 +40,8 @@ namespace Project {
         void setCameraMatrixLocation(GLuint location);
 
         void resetPosition();
+
+        float getFieldOfView();
 
         void calculatePosition(DrawContext context, MouseButtonHandler* handler);
     };

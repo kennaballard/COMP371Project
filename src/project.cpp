@@ -130,9 +130,13 @@ int main(int argc, char*argv[])
 
     // --------- Projection Matrix
     // This won't change
-    glm::mat4 projectionMatrix = glm::perspective(70.0f,            // field of view in degrees
-        800.0f / 600.0f,  // aspect ratio
-        0.01f, 100.0f);   // near and far (near > 0)
+    float defaultFieldOfView = 70.0f;
+    float aspectRatio = 800.0f / 600.0f;
+    float near = 0.01f;
+    float far = 100.0f;
+    glm::mat4 projectionMatrix = glm::perspective(glm::radians(defaultFieldOfView),            // field of view in degrees
+        aspectRatio,  // aspect ratio
+       near, far);   // near and far (near > 0)
 
     GLuint projectionMatrixLocation = glGetUniformLocation(shaderProgram, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
@@ -161,6 +165,10 @@ int main(int argc, char*argv[])
 
         // Calculate camera pos
         activeCamera->calculatePosition(context, mouseButtonHandler);
+        float newFieldOfView = activeCamera->getFieldOfView();
+
+        projectionMatrix = glm::perspective(glm::radians(newFieldOfView), aspectRatio, near, far);
+        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 
         // Draw all models
         floor->Draw(context);
