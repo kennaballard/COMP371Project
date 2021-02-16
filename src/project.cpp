@@ -12,8 +12,8 @@
 
 const char* TITLE = "COMP 371 - Project - Team 3";
 
-const float circlePosX = 20;
-const float circlePosZ = 20;
+const float circlePosX = 0.35 * 64 * cos(glm::radians(45.0f));
+const float circlePosZ = 0.35 * 64 * sin(glm::radians(45.0f));
 float deltaTime = 0.0f;
 
 glm::vec3 scale_vec = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -228,12 +228,12 @@ int main(int argc, char*argv[])
         }
 
       
-        //if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
-       // activeCamera->resetPosition();
-        //   // Select the fifth model (Pos 4)
-        //   activeModel = models.at(4);
-        //   activeCamera = cameras.at(4);
-        //}
+        if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
+            activeCamera->resetPosition();
+            // Select the fifth model (Pos 4)
+            activeModel = models.at(4);
+            activeCamera = cameras.at(4);
+        }
 
 
         //----------Scaling Selected Model
@@ -312,8 +312,19 @@ int main(int argc, char*argv[])
 
         if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS)
         {
-           //reset initial world position
+            // TODO: change Samuel's model. use first Kennedy.
+            kennedyModel->setPosition(glm::vec3(circlePosX, 0.0f, -circlePosZ));
+            kennedyModel->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+            thomasModel->setPosition(glm::vec3(-circlePosX, 0.0f, circlePosZ));
+            anaModel->setPosition(glm::vec3(circlePosX, 0.0f, circlePosZ));
+            antoineModel->setPosition(glm::vec3(-circlePosX, 0.0f, -circlePosZ));
+            for (auto model : models) {
+                model->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), 45);
+                model->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
+            }
+            //reset initial world position
             activeCamera->resetPosition();
+            activeCamera = cameras.at(0);
         }
 
         //---------Model position and orientation
