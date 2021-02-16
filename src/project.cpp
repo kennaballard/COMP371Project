@@ -136,6 +136,7 @@ int main(int argc, char*argv[])
     float aspectRatio = 800.0f / 600.0f;
     float near = 0.01f;
     float far = 100.0f;
+
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(defaultFieldOfView),            // field of view in degrees
         aspectRatio,  // aspect ratio
        near, far);   // near and far (near > 0)
@@ -175,6 +176,8 @@ int main(int argc, char*argv[])
         // Calculate camera pos
         activeCamera->calculatePosition(context, mouseButtonHandler);
         float newFieldOfView = activeCamera->getFieldOfView();
+
+   
 
         projectionMatrix = glm::perspective(glm::radians(newFieldOfView), aspectRatio, near, far);
         glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
@@ -301,7 +304,7 @@ int main(int argc, char*argv[])
         if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
         {
             //moveDown 
-            activeCamera -> moveDown();  
+            activeCamera->moveDown();  
         }
 
         if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
@@ -322,6 +325,7 @@ int main(int argc, char*argv[])
                 model->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), 45);
                 model->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
             }
+            kennedyModel->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), 0);
             //reset initial world position
             activeCamera->resetPosition();
             activeCamera = cameras.at(0);
@@ -331,6 +335,7 @@ int main(int argc, char*argv[])
         // Uppercase WASD translates
         if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS) {
             glm::vec3 currentPos = activeModel->getPosition();
+
             // Move Left
             if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)                      
                 currentPos.x -= movementSpeed * dt;
@@ -353,16 +358,16 @@ int main(int argc, char*argv[])
         // Lowercase --> rotates ad
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
         {
+           //rotateLeft
            // activeModel->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
            
         }
-
+          
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
         {
-         
+           //rotateRight
 
         }
-
         
     }
 
