@@ -78,3 +78,16 @@ https://www.glfw.org/
 Good place for advanced graphics theory
 https://www.scratchapixel.com/
 
+### Features and Functionality
+### Cameras
+Model views:
+Use keys 1, 2, 3, 4, 5 to toggle between different cameras (one for each model). This also toggles which model is in focus for transformations.
+
+Camera Movement:
+Arrow up and arrow down keys shift the camera position in the y direction
+Arrow left and arrow right keys shift the camera position in the x direction
+Left mouse button and cursor movement in y direction zooms in (cursor up) and out(cursor down)
+Right mouse button and cursor movement in x direction pans camera left (cursor left) amd right (cursor right)
+Middle mouse button and cursor movement in y direction tilts camera up (cursor up) and doen (cursor down)
+
+Model transformations:
