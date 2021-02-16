@@ -54,6 +54,7 @@ namespace Project {
         * Set the current position.
         **/
        void setPosition(glm::vec3 position);
+
         /**
          * Get the current position.
          **/

@@ -59,7 +59,7 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 std::vector<Project::Camera*> setupCameras(std::vector<Project::Model*> models, Project::DrawContext context) {
     std::vector<Project::Camera*> cameras = std::vector<Project::Camera*>();
     
-    glm::vec3 defaultPosition(0.6f, 0.0f, 5.0f);
+    glm::vec3 defaultPosition(0.6f, 1.0f, 5.0f);
     glm::vec3 defaultLookAt(0.0f, 0.0f, -1.0f);
     glm::vec3 defaultUp(0.0f, 1.0f, 0.0f);
 
@@ -136,6 +136,7 @@ int main(int argc, char*argv[])
     float aspectRatio = 800.0f / 600.0f;
     float near = 0.01f;
     float far = 100.0f;
+
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(defaultFieldOfView),            // field of view in degrees
         aspectRatio,  // aspect ratio
        near, far);   // near and far (near > 0)
@@ -146,7 +147,7 @@ int main(int argc, char*argv[])
 
     //variables for frame movement 
     float lastFrameTime = glfwGetTime();
-    float movementSpeed = 0.5f;
+    float movementSpeed = 1.0f;
     float rotationSpeed = 180.0f;  // 180 degrees per second
     float angle = 0;
     
@@ -155,6 +156,11 @@ int main(int argc, char*argv[])
     mouseButtonHandler = new Project::MouseButtonHandler(context);
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
    
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    // Accept fragment if it closer to the camera than the former one
+    glDepthFunc(GL_LESS);
+
     // Entering Main Loop
     while(!glfwWindowShouldClose(window))
     {  
@@ -170,6 +176,8 @@ int main(int argc, char*argv[])
         // Calculate camera pos
         activeCamera->calculatePosition(context, mouseButtonHandler);
         float newFieldOfView = activeCamera->getFieldOfView();
+
+   
 
         projectionMatrix = glm::perspective(glm::radians(newFieldOfView), aspectRatio, near, far);
         glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
@@ -225,9 +233,9 @@ int main(int argc, char*argv[])
       
         //if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
        // activeCamera->resetPosition();
-        //   // Select the fifth model (Pos 3)
-        //   activeModel = models.at(3);
-        //   activeCamera = cameras.at(3);
+        //   // Select the fifth model (Pos 4)
+        //   activeModel = models.at(4);
+        //   activeCamera = cameras.at(4);
         //}
 
 
@@ -283,59 +291,82 @@ int main(int argc, char*argv[])
         // --------- Camera Orientation
         if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
         {
-            //rotation about positive x axis 
-           // activeCamera->moveRight(cameraSpeed);
+            //moveRight
+            activeCamera->moveRight();
         }
 
         if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         {
-            //rotation about about negative x axis 
-            //activeCamera->rotateLeft(cameraSpeed);
+            //moveLeft
+            activeCamera->moveLeft();
         }
 
         if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
         {
-            //rotation about positive y axis 
-           // camera.rotateUp(cameraSpeed);  
+            //moveDown 
+            activeCamera->moveDown();  
         }
 
         if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         {
-            //rotation about negative y axis 
-            //camera.rotateDown(cameraSpeed);
+            //moveUp
+            activeCamera->moveUp();
         }
 
         if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS)
         {
-           //reset initial world position
-            //camera.resetCamera();
+           //reset initial world and model position
+            kennedyModel->setPosition(glm::vec3(circlePosX, 0.0f, -circlePosZ));
+            kennedyModel->setPosition(glm::vec3(0.0f, 0.0f, 0.0f)); //samuel model 
+            anaModel->setPosition(glm::vec3(circlePosX, 0.0f, -circlePosZ));
+            antoineModel->setPosition(glm::vec3(circlePosX, 0.0f, -circlePosZ));
+            thomasModel->setPosition(glm::vec3(circlePosX, 0.0f, -circlePosZ));
+            for (auto model : models) {
+                model->setRotation(glm::vec3(0.0f, 0.0f, 0.0f), 0);
+                model->setScaling(glm::vec3(1.0f, 1.0f, 1.0f));
+            }
+            activeCamera->resetPosition();
+            activeCamera = cameras.at(0);
         }
 
         //---------Model position and orientation
+        // Uppercase WASD translates
+        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS) {
+            glm::vec3 currentPos = activeModel->getPosition();
+
+            // Move Left
+            if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)                      
+                currentPos.x -= movementSpeed * dt;
+            
+            // Move Right              
+            if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   
+                currentPos.x += movementSpeed * dt;   
+
+            // Move Down
+            if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)           
+                currentPos.y -= movementSpeed * dt;       
+            
+            // Move Up
+            if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+                currentPos.y += movementSpeed * dt;
+            
+            activeModel->setPosition(currentPos);
+        }
+
+        // Lowercase --> rotates ad
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
         {
-            activeModel->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
-       
+           //rotateLeft
+           // activeModel->setRotation(glm::vec3(0.0f, 1.0f, 0.0f), rotationSpeed, dt);
            
         }
-
+          
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
         {
-         
+           //rotateRight
 
         }
-
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
-        {
-            
-
-        }
-
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
-        {
-           //move dow 
-
-        }
+        
     }
 
     // Shutdown GLFW
