@@ -59,7 +59,7 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 std::vector<Project::Camera*> setupCameras(std::vector<Project::Model*> models, Project::DrawContext context) {
     std::vector<Project::Camera*> cameras = std::vector<Project::Camera*>();
     
-    glm::vec3 defaultPosition(0.6f, 0.0f, 5.0f);
+    glm::vec3 defaultPosition(0.6f, 1.0f, 5.0f);
     glm::vec3 defaultLookAt(0.0f, 0.0f, -1.0f);
     glm::vec3 defaultUp(0.0f, 1.0f, 0.0f);
 
@@ -155,6 +155,11 @@ int main(int argc, char*argv[])
     mouseButtonHandler = new Project::MouseButtonHandler(context);
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
    
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    // Accept fragment if it closer to the camera than the former one
+    glDepthFunc(GL_LESS);
+
     // Entering Main Loop
     while(!glfwWindowShouldClose(window))
     {  

@@ -17,10 +17,10 @@
 class ModelThomas : public Project::Model {
 public:
     ModelThomas(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
-        glm::vec3 posT = glm::vec3(-1.5f,  0.0f, 0.0f);
-        glm::vec3 posS = glm::vec3(-0.5f, 0.0f, 0.0f);
-        glm::vec3 pos4 = glm::vec3(0.5f, 0.0f, 0.0f);
-        glm::vec3 pos7 = glm::vec3(1.5f, 0.0f, 0.0f);
+        glm::vec3 posT = glm::vec3(-1.5f,  1.0f, 0.0f);
+        glm::vec3 posS = glm::vec3(-0.5f, 1.0f, 0.0f);
+        glm::vec3 pos4 = glm::vec3(0.5f, 1.0f, 0.0f);
+        glm::vec3 pos7 = glm::vec3(1.5f, 1.0f, 0.0f);
 
         // Add children in parallel to their relative positions
         addChild(new ModelT(position+posT, rotation, scale));
