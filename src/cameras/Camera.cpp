@@ -8,9 +8,9 @@
  **/
 
 Project::Camera::Camera(glm::vec3 position, glm::vec3 lookAt, glm::vec3 up, GLuint location) {
-	_position = position;
-	_lookAt = lookAt;
-	_up = up;
+	_position = _defaultPosition = position;
+	_lookAt = _defaultLookAt = lookAt;
+	_up = _defaultUp = up;
     _cameraMatrixLocation = location;
     _cameraMatrix = glm::lookAt(_position,  // eye
         _position + _lookAt,  // center
@@ -38,6 +38,15 @@ void Project::Camera::setupCamera(DrawContext context) {
 
 void Project::Camera::setCameraMatrixLocation(GLuint location) {
     _cameraMatrixLocation = location;
+}
+
+void Project::Camera::resetPosition() {
+    _position = _defaultPosition;
+    _lookAt = _defaultLookAt;
+    _up = _defaultUp;
+
+    _cameraHorizontalAngle = 90.0f;
+    _cameraVerticalAngle = 0.0f;
 }
 
 void Project::Camera::calculatePosition(Project::DrawContext context, Project::MouseButtonHandler* handler) {
