@@ -29,7 +29,7 @@ public:
         // Add children in parallel to their relative positions
         //ModelAna
         addChild(new ModelA(position + posA, rotation, scale));
-        addChild(new ModelL(position + posL, rotation, scale));
+        addChild(new ModelA(position + posL, rotation, scale));
         addChild(new Model4(position + pos4, rotation, scale));
         addChild(new Model8(position + pos8, rotation, scale));
 

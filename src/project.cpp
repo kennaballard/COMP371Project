@@ -267,25 +267,25 @@ int main(int argc, char*argv[])
         if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
         {
             //rotation about positive x axis 
-            //activeCamera->moveRight(cameraSpeed);
+           // activeCamera->moveRight(cameraSpeed);
         }
 
         if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         {
             //rotation about about negative x axis 
-            //activeCamera->moveLeft(cameraSpeed);
+            //activeCamera->rotateLeft(cameraSpeed);
         }
 
         if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
         {
             //rotation about positive y axis 
-           // camera.moveUp(cameraSpeed);  
+           // camera.rotateUp(cameraSpeed);  
         }
 
         if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         {
             //rotation about negative y axis 
-            //camera.moveDown(cameraSpeed);
+            //camera.rotateDown(cameraSpeed);
         }
 
         if (glfwGetKey(window, GLFW_KEY_HOME) == GLFW_PRESS)

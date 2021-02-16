@@ -58,11 +58,17 @@ protected:
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
-        // Top & bottom
+        // top
         worldMatrix = groupMatrix * partTranslationMatrix(0.0f, 1.0f - defaultSize, 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
+        //middle
+        worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -(0.0f - defaultSize), 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
+        glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
+        //bottom
         worldMatrix = groupMatrix * partTranslationMatrix(0.0f, -(1.0f - defaultSize), 0.0f) * partScalingMatrix(defaultSize, defaultSize, defaultSize);
         glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
