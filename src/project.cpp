@@ -150,6 +150,8 @@ int main(int argc, char*argv[])
     // --------- Input Handling
     mouseButtonHandler = new Project::MouseButtonHandler(context);
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
+    int aState = GLFW_RELEASE;
+    int dState = GLFW_RELEASE;
    
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
@@ -264,6 +266,30 @@ int main(int argc, char*argv[])
                 scale_vec.z = 0.5f;
             }
         }
+
+        if (aState == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        {
+            glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
+            if (activeModel->getRotation() + 0.0873 < 3.1416)
+                activeModel->setRotation(activeModel->getRotation() + 0.0873);
+            else
+                activeModel->setRotation(activeModel->getRotation() + 0.0873 - 3.1416);
+            
+        }
+        aState = glfwGetKey(window, GLFW_KEY_A);
+
+        if (dState == GLFW_RELEASE && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        {
+            glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
+            if (activeModel->getRotation() - 0.0873 > -3.1416)
+                activeModel->setRotation(activeModel->getRotation() - 0.0873);
+            else
+                activeModel->setRotation(activeModel->getRotation() - 0.0873 + 3.1416);
+
+        }
+        dState = glfwGetKey(window, GLFW_KEY_D);
+
+       /*
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
             // rotate left
             glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
@@ -273,7 +299,7 @@ int main(int argc, char*argv[])
                 activeModel->setRotation(activeModel->getRotation() + 0.0873 - 3.1416);
 
         }
-
+       
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
             // rotate right
             glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
@@ -283,6 +309,7 @@ int main(int argc, char*argv[])
                 activeModel->setRotation(activeModel->getRotation() - 0.0873 + 3.1416);
 
         }
+         */
         // --------- Render Mode
         if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
             // Lines
