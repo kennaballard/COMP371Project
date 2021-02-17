@@ -68,18 +68,18 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
 Project::Model* Project::AlphanumbericalModelFactory::createModelFor(std::string chars, glm::vec3 position = glm::vec3(0, 0, 0), float rotation = 0.0f, glm::vec3 scale = glm::vec3(1, 1, 1)) {
     // TODO: generalize the 2-letter 2-digit model?
     if (chars == "ts47") {
-        return new ModelThomas(glm::mat4(1.0f), position, rotation, scale);
+        return new ModelThomas(glm::mat4(1.0f), position, 2.3562f, scale);
     } else if (chars == "ky40") {
         return new ModelKennedy(glm::mat4(1.0f),  position, rotation, scale);
     }
     if (chars == "ae20") {
-        return new ModelAntoine(glm::mat4(1.0f), position, rotation, scale);
+        return new ModelAntoine(glm::mat4(1.0f), position, 0.7854f, scale);
     }
     if (chars == "floor") {
         return new Floor(glm::mat4(1.0f), position, rotation, scale);
     }
     if (chars == "al48") {
-        return new ModelAna(glm::mat4(1.0f), position, rotation, scale);
+        return new ModelAna(glm::mat4(1.0f), position, -2.3562f, scale);
     }
     return NULL;
 }

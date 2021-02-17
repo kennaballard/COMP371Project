@@ -12,8 +12,8 @@
 
 const char* TITLE = "COMP 371 - Project - Team 3";
 
-const float circlePosX = 16.0f;
-const float circlePosZ = 16.0f;
+const float circlePosX = 15.8392f;
+const float circlePosZ = 15.8392f;
 float deltaTime = 0.0f;
 
 glm::vec3 scale_vec = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -264,7 +264,25 @@ int main(int argc, char*argv[])
                 scale_vec.z = 0.5f;
             }
         }
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+            // rotate left
+            glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
+            if (activeModel->getRotation() + 0.0873 < 3.1416)
+                activeModel->setRotation(activeModel->getRotation() + 0.0873);
+            else
+                activeModel->setRotation(activeModel->getRotation() + 0.0873 - 3.1416);
 
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+            // rotate right
+            glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
+            if (activeModel->getRotation() -0.0873 > -3.1416)
+                activeModel->setRotation(activeModel->getRotation() - 0.0873);
+            else
+                activeModel->setRotation(activeModel->getRotation() - 0.0873 + 3.1416);
+
+        }
         // --------- Render Mode
         if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
             // Lines
