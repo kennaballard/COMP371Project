@@ -11,8 +11,9 @@ namespace Project {
      **/
     class Model {
         private:
+        glm::mat4 _parentMatrix;
         glm::vec3 _position;
-        glm::vec3 _rotation;
+        float _rotation;
         glm::vec3 _scale;
         std::vector<Model*> _children;
         std::vector<glm::vec3> _relativePositions;
@@ -27,7 +28,7 @@ namespace Project {
         virtual void DrawModel(Project::DrawContext context)=0;
 
         public:
-        Model(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+        Model(glm::mat4 parentMatrix, glm::vec3 position, float rotation, glm::vec3 scale);
 
         /**
          * Draws the model and takes translation, rotation and scaling
@@ -75,8 +76,13 @@ namespace Project {
         /**
          * Changes position by translation factor
         **/
-        void setRotation(glm::vec3 rotation);
+        void setRotation(float rotation);
 
+        float getRotation();
+
+
+        glm::mat4 getParentMatrix();
+        void setParentMatrix(glm::mat4 parentMatrix);
         private:
         /**
          * Returns the vertex buffer object for this model.

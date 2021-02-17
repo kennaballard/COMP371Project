@@ -27,7 +27,7 @@ Project::AlphanumbericalModelFactory::AlphanumbericalModelFactory() {
 
 }
 
-Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, glm::vec3 position = glm::vec3(0, 0, 0), glm::vec3 rotation = glm::vec3(0, 0, 0), glm::vec3 scale = glm::vec3(1, 1, 1)) {
+Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, glm::vec3 position = glm::vec3(0, 0, 0), float rotation = 0.0f, glm::vec3 scale = glm::vec3(1, 1, 1)) {
     switch (ch) {
         /*case 'S':
             return new ModelS();*/
@@ -36,28 +36,28 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
 
         //ModelKennedy
         case '0': 
-            return new Model0(position, rotation, scale);
+            return new Model0(glm::mat4(1.0f), position, rotation, scale);
         case '4K':
-            return new Model4(position, rotation, scale);
+            return new Model4(glm::mat4(1.0f), position, rotation, scale);
         case 'K':
-            return new ModelK(position, rotation, scale);
+            return new ModelK(glm::mat4(1.0f), position, rotation, scale);
         case 'T':
-            return new ModelT(position, rotation, scale);
+            return new ModelT(glm::mat4(1.0f), position, rotation, scale);
         case 'Y':
-            return new ModelY(position, rotation, scale);
+            return new ModelY(glm::mat4(1.0f), position, rotation, scale);
        
         
         //ModelAna
         case 'A':
-            return new ModelA(position, rotation, scale);
+            return new ModelA(glm::mat4(1.0f), position, rotation, scale);
         case 'L':
-            return new ModelL(position, rotation, scale);
+            return new ModelL(glm::mat4(1.0f), position, rotation, scale);
         case '4':
-            return new Model4(position, rotation, scale);
+            return new Model4(glm::mat4(1.0f), position, rotation, scale);
         case '8':
-            return new Model8(position, rotation, scale);
+            return new Model8(glm::mat4(1.0f), position, rotation, scale);
         case '2':
-            return new Model2(position, rotation, scale);
+            return new Model2(glm::mat4(1.0f), position, rotation, scale);
 
     }
     //return new ModelS();
@@ -65,21 +65,21 @@ Project::Model* Project::AlphanumbericalModelFactory::createModelFor(char ch, gl
     return NULL;
 }
 
-Project::Model* Project::AlphanumbericalModelFactory::createModelFor(std::string chars, glm::vec3 position = glm::vec3(0, 0, 0), glm::vec3 rotation = glm::vec3(0, 0, 0), glm::vec3 scale = glm::vec3(1, 1, 1)) {
+Project::Model* Project::AlphanumbericalModelFactory::createModelFor(std::string chars, glm::vec3 position = glm::vec3(0, 0, 0), float rotation = 0.0f, glm::vec3 scale = glm::vec3(1, 1, 1)) {
     // TODO: generalize the 2-letter 2-digit model?
     if (chars == "ts47") {
-        return new ModelThomas(position, rotation, scale);
+        return new ModelThomas(glm::mat4(1.0f), position, rotation, scale);
     } else if (chars == "ky40") {
-        return new ModelKennedy(position, rotation, scale);
+        return new ModelKennedy(glm::mat4(1.0f),  position, rotation, scale);
     }
     if (chars == "ae20") {
-        return new ModelAntoine(position, rotation, scale);
+        return new ModelAntoine(glm::mat4(1.0f), position, rotation, scale);
     }
     if (chars == "floor") {
-        return new Floor(position, rotation, scale);
+        return new Floor(glm::mat4(1.0f), position, rotation, scale);
     }
     if (chars == "al48") {
-        return new ModelAna(position, rotation, scale);
+        return new ModelAna(glm::mat4(1.0f), position, rotation, scale);
     }
     return NULL;
 }

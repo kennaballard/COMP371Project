@@ -18,7 +18,7 @@ public:
     
     //Creates floor object for model manager, takes float input as a size for the grid in x/y/z coordinates
 
-    Floor(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+    Floor(glm::mat4 parentMatrix, glm::vec3 position, float rotation, glm::vec3 scale) : Project::Model::Model(parentMatrix, position, rotation, scale) {
         setVertexBufferObject(createFloorArrayObject(0.35f));
 
     }

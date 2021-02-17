@@ -12,8 +12,8 @@
 
 const char* TITLE = "COMP 371 - Project - Team 3";
 
-const float circlePosX = 20;
-const float circlePosZ = 20;
+const float circlePosX = 16.0f;
+const float circlePosZ = 16.0f;
 float deltaTime = 0.0f;
 
 glm::vec3 scale_vec = glm::vec3(0.0f, 0.0f, 0.0f);

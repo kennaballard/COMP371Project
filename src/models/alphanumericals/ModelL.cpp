@@ -20,7 +20,7 @@
  **/
 class ModelL : public Project::Model {
 public:
-    ModelL(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+    ModelL(glm::mat4 parentMatrix, glm::vec3 position, float rotation, glm::vec3 scale) : Project::Model::Model(parentMatrix, position, rotation, scale) {
         setVertexBufferObject(generateVertexBufferObject());
     }
 
@@ -39,13 +39,16 @@ protected:
     }
 
     void DrawModel(Project::DrawContext context) {
-       
+        GLfloat defaultSize = 0.125f;
         int shader = context.getShaderProgram();
+
         GLuint worldMatrixLocation = glGetUniformLocation(shader, "worldMatrix");
         glm::mat4 groupTranslationMatrix = glm::translate(glm::mat4(1.0f), getPosition());
         glm::mat4 groupScaleMatrix = glm::scale(glm::mat4(1.0f), getScale());
-
-        glm::mat4 groupMatrix = groupTranslationMatrix * groupScaleMatrix;
+        glm::mat4 groupRotationMatrix = glm::rotate(glm::mat4(1.0f), getRotation(), glm::vec3(0.0f, 1.0f, 0.0f));
+        glm::mat4 parentMatrix = getParentMatrix();
+        glm::mat4 groupMatrix = groupTranslationMatrix * groupRotationMatrix * groupScaleMatrix;
+        groupMatrix = parentMatrix * groupMatrix;
         glm::mat4 worldMatrix;
     //////////////////////////////////
     //                               //

@@ -16,17 +16,20 @@
  **/
 class ModelKennedy : public Project::Model {
 public:
-    ModelKennedy(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : Project::Model::Model(position, rotation, scale) {
+    ModelKennedy(glm::mat4 parentMatrix, glm::vec3 position, float rotation, glm::vec3 scale) : Project::Model::Model(parentMatrix, position, rotation, scale) {
+        glm::mat4 newMatrix = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0.0f, 1.0f, 0.0f)) *
+            glm::scale(glm::mat4(1.0f), scale);
+
         glm::vec3 posK = glm::vec3(-1.5f, 1.0f, 0.0f);
         glm::vec3 posY = glm::vec3(-0.5f, 1.0f, 0.0f);
         glm::vec3 pos4 = glm::vec3(0.5f, 1.0f, 0.0f);
         glm::vec3 pos0 = glm::vec3(1.5f, 1.0f, 0.0f);
 
         // Add children in parallel to their relative positions
-        addChild(new ModelK(position+posK, rotation, scale));
-        addChild(new ModelY(position+posY, rotation, scale));
-        addChild(new Model4(position+pos4, rotation, scale));
-        addChild(new Model0(position+pos0, rotation, scale));     
+        addChild(new ModelK(newMatrix, posK, 0.0f, glm::vec3(1.0f)));
+        addChild(new ModelY(newMatrix, posY, 0.0f, glm::vec3(1.0f)));
+        addChild(new Model4(newMatrix, pos4, 0.0f, glm::vec3(1.0f)));
+        addChild(new Model0(newMatrix, pos0, 0.0f, glm::vec3(1.0f)));
     }
 protected:
     /**
